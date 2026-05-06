@@ -4,6 +4,12 @@
   flex-direction: column;
 }
 
+.hero {
+  position: relative;
+
+
+  }
+
 .navbar {
   background: var(--color-dark);
   color: var(--color-light);
