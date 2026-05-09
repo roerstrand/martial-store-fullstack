@@ -26,8 +26,3 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
-
-# Claude dev tools — ska aldrig pushas
-.claude-dev-helper/
-.claude/
-.claude-*
