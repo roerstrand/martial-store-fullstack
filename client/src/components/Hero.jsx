@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import logo from "../assets/images/logo.png";
-import heroImg from "../assets/images/Miscellaneous/muaythai_fight.jpg";
+import heroImg from "../assets/images/Miscellaneous/woman_headkick.jpg";
 
 function Hero() {
   return (

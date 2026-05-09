@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import useFetch from "../hooks/useFetch.jsx";
-import "./Pages.css";
-import ProductDetail from "./ProductDetail.jsx";
+import useFetch from "../../hooks/useFetch.jsx";
+import "../Pages.css";
 
 /**
  * Products.js - Produktlistsidan

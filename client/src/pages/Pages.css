@@ -20,8 +20,121 @@
    ============================================ */
 
 .home-page {
-  text-align: center;
-  padding: 3rem 0;
+  background: var(--color-light, #f7f3e3);
+  text-align: left;
+}
+
+/* Produktgrid */
+.home-products {
+  padding: 1.25rem;
+  background: var(--color-light, #f7f3e3);
+}
+
+.home-products__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.75rem;
+}
+
+.home-product-card {
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  color: #000;
+}
+
+.home-product-card__img-wrap {
+  position: relative;
+}
+
+.home-product-card__img-wrap img {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  display: block;
+}
+
+.home-product-card__fav {
+  position: absolute;
+  bottom: 0.4rem;
+  right: 0.4rem;
+  font-size: 1rem;
+  color: var(--color-dark, #3f2a2b);
+  line-height: 1;
+}
+
+.home-product-card__label {
+  font-family: 'Sekuya', sans-serif;
+  font-size: 0.65rem;
+  padding: 0.3rem 0.1rem;
+  text-transform: uppercase;
+}
+
+/* Artikelsektion */
+.home-articles {
+  background: var(--color-primary, #4b4139);
+  padding: 1rem 1.25rem 1.5rem;
+}
+
+.home-articles__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  font-family: 'Sekuya', sans-serif;
+  font-size: 0.75rem;
+  color: #000;
+  letter-spacing: 0.05em;
+}
+
+.home-articles__btn {
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid white;
+  color: #000;
+  padding: 0.2rem 0.6rem;
+  border-radius: 3px;
+  font-size: 0.9rem;
+  text-decoration: none;
+  backdrop-filter: blur(3px);
+}
+
+.home-articles__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+}
+
+.home-article-card {
+  color: var(--color-light, #f7f3e3);
+}
+
+.home-article-card img {
+  width: 100%;
+  aspect-ratio: 3/4;
+  object-fit: cover;
+  display: block;
+}
+
+.home-article-card__title {
+  font-family: 'Sekuya', sans-serif;
+  font-size: 0.6rem;
+  margin: 0.3rem 0 0.1rem;
+}
+
+.home-article-card__author {
+  font-size: 0.55rem;
+  margin: 0;
+  opacity: 0.7;
+}
+
+@media (max-width: 600px) {
+  .home-products__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .home-articles__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 .home-content h1 {

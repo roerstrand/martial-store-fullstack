@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './Pages.css';
-import useInput from '../hooks/useInput.jsx';
+import '../Pages.css';
+import useInput from '../../hooks/useInput.jsx';
 
 /**
  * Login.js - Inloggningssidan

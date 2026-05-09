@@ -4,7 +4,7 @@ function Navbar() {
   return (
     <nav className="apex-navbar">
       <div className="apex-navbar__items">
-        <Link to="/products/ProductList" className="apex-nav-btn">
+        <Link to="/products" className="apex-nav-btn">
           all Products <span className="apex-nav-chevron">›</span>
         </Link>
         <Link to="/sale" className="apex-nav-btn">

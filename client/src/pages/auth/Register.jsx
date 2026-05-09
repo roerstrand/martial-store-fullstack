@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import UserCard from "./UserCard";
-import "./Pages.css";
-import useInput from "../hooks/useInput.jsx";
+import "../Pages.css";
+import useInput from "../../hooks/useInput.jsx";
 
 function RegisterForm() {
   // useInput hanterar value + onChange automatiskt per fält

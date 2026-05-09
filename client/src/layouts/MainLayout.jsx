@@ -11,10 +11,11 @@ function MainLayout() {
         <Outlet />
       </main>
       <footer className="footer">
-        <p>&copy; 2026 Robin Erik Strandberg. All rights reserved</p>
+        <p>&copy; 2026 Robin Erik Strandberg. All rights reserved.</p>
       </footer>
     </div>
   );
 }
 
 export default MainLayout;
+
