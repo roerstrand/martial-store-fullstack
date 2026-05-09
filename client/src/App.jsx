@@ -3,8 +3,8 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import MainLayout from "./layouts/MainLayout";
 
 import Home from "./pages/Home";
-import ProductList from "./products/ProductList";
-import ProductDetail from "./products/ProductDetail";
+import ProductList from "./pages/ProductList";
+import ProductDetail from "./pages/ProductDetail";
 import NotFound from "./pages/NotFound";
 
 function App() {

@@ -1,21 +1,15 @@
-import { Outlet, Link } from "react-router-dom";
+import { Outlet } from "react-router-dom";
+import Hero from "../components/Hero";
+import Navbar from "../components/Navbar";
 
 function MainLayout() {
   return (
     <div className="app">
-      <nav className="navbar">
-        <h2>Apex Core</h2>
-
-        <div className="nav-links">
-          <Link to="/">Hem</Link>
-          <Link to="/products/ProductList">Products</Link>
-        </div>
-      </nav>
-
+      <Hero />
+      <Navbar />
       <main className="content">
         <Outlet />
       </main>
-
       <footer className="footer">
         <p>&copy; 2026 Robin Erik Strandberg. All rights reserved</p>
       </footer>

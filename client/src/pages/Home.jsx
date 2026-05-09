@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Section from "./Section";
+import "./Pages.css";
 
 function Home() {
   const [product, setProducts] = useState([]);
@@ -19,11 +20,13 @@ function Home() {
   }
   return (
     <>
-      <h1>Welcome to Apex Core</h1>
-      {products.map((product) => (
-        <ProductDetails key={product.id} product={product} />
-      ))}
+      <div className="home-page container-text-center py-5">
+        {products.map((product) => (
+          <ProductDetails key={product.id} product={product} />
+        ))}
+      </div>
     </>
   );
 }
+
 export default Home;

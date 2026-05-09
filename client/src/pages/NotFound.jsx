@@ -16,7 +16,7 @@ import "./Pages.css";
 
 function NotFound() {
   return (
-    <div className="not-found">
+    <div className="not-found container-text-center py-5">
       <h1>404</h1>
       <h2>Sidan hittades inte</h2>
       <p>Vi kunde inte hitta sidan du letar efter.</p>

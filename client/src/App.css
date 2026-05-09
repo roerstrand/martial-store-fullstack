@@ -1,34 +1,195 @@
+/* === LAYOUT === */
 .app {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
 }
 
-.hero {
-  position: relative;
-
-
-  }
-
-.navbar {
-  background: var(--color-dark);
-  color: var(--color-light);
-  padding: 1rem;
-}
-
-.main {
+.content {
   flex: 1;
   padding: 2rem;
 }
 
+.footer {
+  background: #1e1e1e;
+  color: var(--color-light);
+  text-align: center;
+  padding: 1.5rem;
+  font-size: 0.875rem;
+}
+
+/* === HERO === */
+.apex-hero {
+  position: relative;
+  height: 384px;
+  background-size: cover;
+  background-position: center;
+  overflow: hidden;
+}
+
+/* gradient overlay: transparent top (for brand) → dark bottom (for tagline) */
+.apex-hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.55) 0%, transparent 55%);
+  pointer-events: none;
+}
+
+.apex-hero__brand {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  z-index: 1;
+}
+
+.apex-hero__logo {
+  width: 130px;
+  height: 130px;
+  object-fit: contain;
+}
+
+.apex-hero__brand-name {
+  color: var(--color-light);
+  font-family: 'Sekuya', sans-serif;
+  font-size: 3rem;
+  font-weight: 400;
+  margin-left: 0.75rem;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+}
+
+.apex-hero__tagline {
+  position: absolute;
+  bottom: 2.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  color: var(--color-light);
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 3.5rem;
+  font-weight: 100;
+  font-style: italic;
+  white-space: nowrap;
+  z-index: 1;
+  margin: 0;
+}
+
+.apex-hero__cart {
+  position: absolute;
+  top: 1.25rem;
+  right: 1.25rem;
+  width: 2.25rem;
+  height: 2.25rem;
+  color: var(--color-light);
+  z-index: 1;
+}
+
+.apex-hero__cart svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* === NAVBAR === */
+.apex-navbar {
+  background: #1e1e1e;
+  padding: 1.25rem 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.apex-navbar__items {
+  display: flex;
+  gap: 4rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.apex-nav-btn {
+  background: #4b4139;
+  color: var(--color-accent) !important;
+  font-family: 'Sekuya', sans-serif;
+  font-size: 1.1rem;
+  padding: 0.5rem 1.25rem;
+  border-radius: 0.5rem;
+  text-decoration: none !important;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  transition: background 0.2s, transform 0.15s;
+}
+
+.apex-nav-btn:hover {
+  background: #5a4d43;
+  transform: translateY(-1px);
+}
+
+.apex-nav-chevron {
+  opacity: 0.6;
+  font-size: 1rem;
+}
+
+/* === BUTTONS === */
 .button {
   background: var(--color-primary);
   color: var(--color-light);
   padding: 0.75rem 1.5rem;
   border: none;
   cursor: pointer;
+  border-radius: 0.25rem;
 }
 
 .button-accent {
   background: var(--color-accent);
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 768px) {
+  .apex-hero {
+    height: 184px;
+  }
+
+  .apex-hero__logo {
+    width: 73px;
+    height: 73px;
+  }
+
+  .apex-hero__brand-name {
+    font-size: 1.25rem;
+  }
+
+  .apex-hero__tagline {
+    font-size: 1.1rem;
+    bottom: 1rem;
+    white-space: normal;
+    text-align: center;
+    width: 90%;
+    left: 5%;
+    transform: none;
+  }
+
+  .apex-hero__cart {
+    width: 1.75rem;
+    height: 1.75rem;
+  }
+
+  .apex-navbar {
+    padding: 0.5rem 0.75rem;
+  }
+
+  .apex-navbar__items {
+    gap: 0.75rem;
+    justify-content: center;
+  }
+
+  .apex-nav-btn {
+    font-size: 0.6rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.2rem;
+    gap: 0.2rem;
+  }
 }
