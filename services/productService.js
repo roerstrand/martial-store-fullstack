@@ -1,31 +1,29 @@
-const Product = require("../models/productModel");
+const {
+  getAllProducts,
+  getProduct,
+  createProduct,
+  updateProduct,
+  deleteProduct,
+} = require("../repositories/productRepository");
 
 const getProductsService = async () => {
-  const products = await Product.find();
-
-  return products;
+  return await getAllProducts();
 };
 
 const getProductService = async (id) => {
-  const product = await Product.findById(id);
-
-  return product;
+  return await getProduct(id);
 };
 
 const createProductService = async (body) => {
-  const product = await Product.create(body);
-  return product;
+  return await createProduct(body);
 };
 
 const updateProductService = async (id, body) => {
-  const product = await Product.findByIdAndUpdate(id, body, {
-    new: true,
-  });
-  return product;
+  return await updateProduct(id, body);
 };
 
 const deleteProductService = async (id) => {
-  const product = await Product.findByIdAndDelete(id);
+  return await deleteProduct(id);
 };
 
 module.exports = {
