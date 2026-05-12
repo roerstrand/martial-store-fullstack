@@ -1,28 +1,27 @@
-// Express - Webbramverk för att bygga backend server (ROUTES)
-// dotenv - läsa vad som står i .env-filen
-// Nodemon - startar om servern när du ändrar koden (dev only)
-
-const express = require('express');
-const dotenv = require('dotenv').config();
-const contactRoutes = require("./routes/contactRoutes");
-const {connect} = require("mongoose");
+const express = require("express");
+const dotenv = require("dotenv").config();
+const productRoutes = require("./routes/productRoutes");
 const connectDB = require("./config/dbConnection");
+const { errorHandler } = require("./middleware/errorMiddleware");
 
 connectDB();
 
 const app = express();
 
-// GET route för test
-// localhost:3000/api/contacts
-// app.get("/api/contacts", (req, res) => {
-//     res.status(200).json({message: "Hej från min första server"});
-// });
-app.use(express.json()); // Middleware som kan hantera json object
-app.use("/api/contacts", contactRoutes);
+app.use(express.json()); // middleware så express kan läsa json
 
-// STARTA servern
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-    console.log("Servern är igång");
+app.use("/api/products", productRoutes);
+
+app.use(errorHandler);
+
+//Test route
+app.get("/", (req, res) => {
+  res.status(200).json({ message: "Martial store api running" });
 });
 
+const PORT = process.env.PORT || 3000;
+
+//Starta serverm
+app.listen(PORT, () => {
+  console.log(`Server running on port http://localhost:${PORT}`);
+});

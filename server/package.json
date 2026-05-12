@@ -1,7 +1,7 @@
 {
   "name": "server",
   "version": "1.0.0",
-  "description": "Node",
+  "description": "",
   "main": "index.js",
   "scripts": {
     "start": "node server.js",
@@ -15,8 +15,7 @@
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
     "express-async-handler": "^1.2.0",
-    "mongodb": "^7.2.0",
-    "mongoose": "^9.6.1"
+    "mongoose": "^9.6.2"
   },
   "devDependencies": {
     "nodemon": "^3.1.14"
