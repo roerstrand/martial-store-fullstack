@@ -12,7 +12,8 @@ const {
 // @route GET /api/contacts
 // @access private
 const getProducts = asyncHandler(async (req, res) => {
-  const products = await getProductsService();
+  //ÄNDRA SERVICE OCH REPO F HÄMTA PRODUCTER BASERAT PÅ USER ID
+  const products = await getProductsService({ user_id: req.user.id });
 
   if (!products) {
     res.status(404);
@@ -43,8 +44,12 @@ const createProduct = asyncHandler(async (req, res) => {
     res.status(400);
     throw new Error("Title and price are required for this request");
   }
-
-  const product = await createProductService(req.body);
+  //ÄNDRA SERVICE OCH REPO SÅ USER SKAPAS M USER ID
+  const product = await createProductService({
+    title,
+    price,
+    user_id: req.user.id,
+  });
 
   res.status(201).json(product);
 });
@@ -60,7 +65,13 @@ const updateProduct = asyncHandler(async (req, res) => {
     throw new Error("Product could not be created");
   }
 
-  res.status(200).json(product);
+  if (product.user_id.toString() !== req.product.user.id) {
+    return res
+      .status(403)
+      .jon({ message: "Product does not belong to this user" });
+  }
+
+  res.status(200).json({ message: "Product deleted", data: product });
 });
 
 // @desc delete one contact
@@ -72,6 +83,12 @@ const deleteProduct = asyncHandler(async (req, res) => {
   if (!product) {
     res.status(404);
     throw new Error("Could not find product to be deleted");
+  }
+
+  if (product.user_id.toString() !== req.product.user.id) {
+    return res
+      .status(403)
+      .jon({ message: "Product does not belong to this user" });
   }
 
   res.status(200).json(product);

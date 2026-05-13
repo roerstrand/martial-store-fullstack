@@ -45,12 +45,51 @@ const registerUser = asyncHandler(async (req, res) => {
 // @desc Login a user
 // @route POST /api/users/login
 // @access public
-const loginUser = (req, res) => {
-  return res.status(200).json({ message: "Du är nu inloggad" });
-};
+const loginUser = asyncHandler(async (req, res) => {
+  //HÄMTA DATA
+  const { email, password } = req.body;
+  // VALIDERA INPUT
+  if (!email || !password) {
+    res.status(400);
+    throw new Error("Please fill in all the fields");
+  }
 
-const getCurrentUser = (req, res) => {
-  return res.status(200).json({ message: "Current user" });
-};
+  // CHECK MED DATABASEN
+  const userAvailable = await User.findOne({ email });
+
+  // JÄMFÖRA INPUT MED DATABASEN
+  //Vi hashar input-lösenordet på nytt och jämför med lagrade hashed password
+  if (
+    userAvailable &&
+    (await bcrypt.compare(password, userAvailable.password))
+  ) {
+    const accessToken = jwt.sign(
+      {
+        user: {
+          name: userAvailable.name,
+          email: userAvailable.email,
+          id: userAvailable.id,
+        },
+      },
+      process.env.ACCESS_TOKEN_SECRET,
+      { expiresIn: "15m" },
+    );
+    res.status(200).json(accessToken); // VIKTIGT för att kunna använda vid framtida requests
+  } else {
+    res.status(401);
+    throw new Error("Invalid credentials");
+  }
+
+  // OM KORREKT => LOG IN (JTW-token med user info)
+
+  // RESPONSE token
+});
+
+// @desc Get a user
+// @route GET /api/users/:id
+// @access private
+const getCurrentUser = asyncHandler(async (req, res) => {
+  return res.status(200).json(req.user);
+});
 
 module.exports = { registerUser, loginUser, getCurrentUser };
