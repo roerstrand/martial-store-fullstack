@@ -8,6 +8,9 @@ const {
   deleteProductService,
 } = require("../services/productService");
 
+// @desc GET all contacts
+// @route GET /api/contacts
+// @access private
 const getProducts = asyncHandler(async (req, res) => {
   const products = await getProductsService();
 
@@ -18,6 +21,9 @@ const getProducts = asyncHandler(async (req, res) => {
   res.status(200).json(products);
 });
 
+// @desc GET one contact by id
+// @route GET /api/contacts/:id
+// @access private
 const getProduct = asyncHandler(async (req, res) => {
   const product = await getProductService(req.params.id);
 
@@ -28,6 +34,9 @@ const getProduct = asyncHandler(async (req, res) => {
   res.status(200).json(product);
 });
 
+// @desc create one contact
+// @route POST /api/contacts
+// @access private
 const createProduct = asyncHandler(async (req, res) => {
   const { title, price } = req.body;
   if (!title || !price) {
@@ -40,6 +49,9 @@ const createProduct = asyncHandler(async (req, res) => {
   res.status(201).json(product);
 });
 
+// @desc update one contact
+// @route PUT /api/contacts/:id
+// @access private
 const updateProduct = asyncHandler(async (req, res) => {
   const product = await updateProductService(req.params.id, req.body);
 
@@ -51,6 +63,9 @@ const updateProduct = asyncHandler(async (req, res) => {
   res.status(200).json(product);
 });
 
+// @desc delete one contact
+// @route DELETE /api/contacts/:id
+// @access private
 const deleteProduct = asyncHandler(async (req, res) => {
   const product = await deleteProductService(req.params.id);
 

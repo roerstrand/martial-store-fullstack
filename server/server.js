@@ -1,6 +1,8 @@
 const express = require("express");
 const dotenv = require("dotenv").config();
 const productRoutes = require("./routes/productRoutes");
+const userRoutes = require("./routes/userRoutes");
+
 const connectDB = require("./config/dbConnection");
 const { errorHandler } = require("./middleware/errorMiddleware");
 
@@ -11,6 +13,9 @@ const app = express();
 app.use(express.json()); // middleware så express kan läsa json
 
 app.use("/api/products", productRoutes);
+
+// api/users definiera routes anropa här
+app.use("/api/users", userRoutes);
 
 app.use(errorHandler);
 
@@ -25,3 +30,8 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server running on port http://localhost:${PORT}`);
 });
+
+// localhost:3000/contacts
+// localhost:3000/users
+// localhost:3000/categories
+// etc
