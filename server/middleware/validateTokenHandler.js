@@ -13,7 +13,7 @@ const validateToken = asyncHandler(async (req, res, next) => {
     //OM token finns
     if (!token) {
       res.status(401);
-      throw new Eror("Not authorized, no token");
+      throw new Eror("No token");
     }
     // OM token giltig
     jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
@@ -25,13 +25,10 @@ const validateToken = asyncHandler(async (req, res, next) => {
       req.user = decoded.user;
       next();
     });
+  } else {
+    res.status(401);
+    throw new Error("Not authorized, no token");
   }
 });
 
 module.exports = validateToken;
-
-// VERIFIERA token med ACCESS_TOKEN_SECRET som vi har i .env
-
-// OM GILTIIGT: sätter req.user och kör next();
-
-// OM OGILTIGT: skickar 401 och stoppar kedjan

@@ -4,6 +4,7 @@ const {
   createProduct,
   updateProduct,
   deleteProduct,
+  getCurrentUserProducts,
 } = require("../repositories/productRepository");
 
 const getProductsService = async () => {
@@ -12,6 +13,10 @@ const getProductsService = async () => {
 
 const getProductService = async (id) => {
   return await getProduct(id);
+};
+
+const getCurrentUserProductsService = async (userId) => {
+  return await getCurrentUserProducts(userId);
 };
 
 const createProductService = async (body) => {
@@ -32,4 +37,5 @@ module.exports = {
   createProductService,
   updateProductService,
   deleteProductService,
+  getCurrentUserProductsService,
 };

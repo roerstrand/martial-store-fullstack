@@ -1,5 +1,7 @@
 const express = require("express");
 
+const tokenValidator = require("../middleware/validateTokenHandler");
+
 const router = express.Router();
 
 const {
@@ -10,8 +12,12 @@ const {
   deleteProduct,
 } = require("../controllers/productController");
 
-router.route("/").get(getProducts).post(createProduct);
+router.route("/").get(getProducts).post(createProduct, tokenValidator);
 
-router.route("/:id").get(getProduct).put(updateProduct).delete(deleteProduct);
+router
+  .route("/:id")
+  .get(getProduct)
+  .put(updateProduct, tokenValidator)
+  .delete(deleteProduct, tokenValidator);
 
 module.exports = router;

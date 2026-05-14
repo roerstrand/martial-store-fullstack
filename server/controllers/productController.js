@@ -6,14 +6,15 @@ const {
   createProductService,
   updateProductService,
   deleteProductService,
+  getCurrentUserProductsService,
 } = require("../services/productService");
 
 // @desc GET all contacts
 // @route GET /api/contacts
-// @access private
+// @access public
 const getProducts = asyncHandler(async (req, res) => {
   //ÄNDRA SERVICE OCH REPO F HÄMTA PRODUCTER BASERAT PÅ USER ID
-  const products = await getProductsService({ user_id: req.user.id });
+  const products = await getProductsService();
 
   if (!products) {
     res.status(404);
@@ -35,8 +36,19 @@ const getProduct = asyncHandler(async (req, res) => {
   res.status(200).json(product);
 });
 
+const getCurrentUserProducts = asyncHandler(async (req, res) => {
+  //ÄNDRA SERVICE OCH REPO F HÄMTA PRODUCTER BASERAT PÅ USER ID
+  const products = await getProductsService(req.user.id);
+
+  if (!products) {
+    res.status(404);
+    throw new Error("No products found for current user");
+  }
+  res.status(200).json(products);
+});
+
 // @desc create one contact
-// @route POST /api/contacts
+// @route POST /api/contactsW
 // @access private
 const createProduct = asyncHandler(async (req, res) => {
   const { title, price } = req.body;
@@ -62,10 +74,10 @@ const updateProduct = asyncHandler(async (req, res) => {
 
   if (!product) {
     res.status(404);
-    throw new Error("Product could not be created");
+    throw new Error("Product to be updated could not be found");
   }
 
-  if (product.user_id.toString() !== req.product.user.id) {
+  if (product.user_id.toString() !== req.user.id) {
     return res
       .status(403)
       .jon({ message: "Product does not belong to this user" });
@@ -82,10 +94,10 @@ const deleteProduct = asyncHandler(async (req, res) => {
 
   if (!product) {
     res.status(404);
-    throw new Error("Could not find product to be deleted");
+    throw new Error("Product to be deleted could not be found");
   }
 
-  if (product.user_id.toString() !== req.product.user.id) {
+  if (product.user_id.toString() !== req.user.id) {
     return res
       .status(403)
       .jon({ message: "Product does not belong to this user" });
@@ -100,4 +112,5 @@ module.exports = {
   createProduct,
   updateProduct,
   deleteProduct,
+  getCurrentUserProducts,
 };

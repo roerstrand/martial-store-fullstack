@@ -38,8 +38,6 @@ const registerUser = asyncHandler(async (req, res) => {
     res.status(400);
     throw new Error("User data is not valid");
   }
-  // RESPONSE (nya usern)
-  res.status(201).json(user);
 });
 
 // @desc Login a user
