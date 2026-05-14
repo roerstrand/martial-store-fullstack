@@ -12,8 +12,8 @@ const getCurrentUserProducts = async (userId) => {
   return await Product.find({ user_id: userId }).populate("user_id");
 };
 
-const createProduct = async (body) => {
-  const product = await Product.create(body);
+const createProduct = async (productData) => {
+  const product = await Product.create(productData);
 
   return product;
 };

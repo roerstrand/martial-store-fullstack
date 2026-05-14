@@ -19,8 +19,8 @@ const getCurrentUserProductsService = async (userId) => {
   return await getCurrentUserProducts(userId);
 };
 
-const createProductService = async (body) => {
-  return await createProduct(body);
+const createProductService = async (productData) => {
+  return await createProduct(productData);
 };
 
 const updateProductService = async (id, body) => {

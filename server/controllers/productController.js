@@ -9,8 +9,8 @@ const {
   getCurrentUserProductsService,
 } = require("../services/productService");
 
-// @desc GET all contacts
-// @route GET /api/contacts
+// @desc GET all products
+// @route GET /api/products
 // @access public
 const getProducts = asyncHandler(async (req, res) => {
   //ÄNDRA SERVICE OCH REPO F HÄMTA PRODUCTER BASERAT PÅ USER ID
@@ -23,9 +23,9 @@ const getProducts = asyncHandler(async (req, res) => {
   res.status(200).json(products);
 });
 
-// @desc GET one contact by id
-// @route GET /api/contacts/:id
-// @access private
+// @desc GET one product by id
+// @route GET /api/products/:id
+// @access public
 const getProduct = asyncHandler(async (req, res) => {
   const product = await getProductService(req.params.id);
 
@@ -36,6 +36,9 @@ const getProduct = asyncHandler(async (req, res) => {
   res.status(200).json(product);
 });
 
+// @desc GET all products for current user
+// @route GET /api/products
+// @access private
 const getCurrentUserProducts = asyncHandler(async (req, res) => {
   //ÄNDRA SERVICE OCH REPO F HÄMTA PRODUCTER BASERAT PÅ USER ID
   const products = await getProductsService(req.user.id);
@@ -47,27 +50,30 @@ const getCurrentUserProducts = asyncHandler(async (req, res) => {
   res.status(200).json(products);
 });
 
-// @desc create one contact
-// @route POST /api/contactsW
+// @desc create one product
+// @route POST /api/products
 // @access private
 const createProduct = asyncHandler(async (req, res) => {
-  const { title, price } = req.body;
-  if (!title || !price) {
+  const { title, price, description } = req.body;
+  if (!title || !price || !description) {
     res.status(400);
-    throw new Error("Title and price are required for this request");
+    throw new Error(
+      "Title, price and description are required for this request",
+    );
   }
   //ÄNDRA SERVICE OCH REPO SÅ USER SKAPAS M USER ID
   const product = await createProductService({
     title,
     price,
+    description,
     user_id: req.user.id,
   });
 
   res.status(201).json(product);
 });
 
-// @desc update one contact
-// @route PUT /api/contacts/:id
+// @desc update one product
+// @route PUT /api/products/:id
 // @access private
 const updateProduct = asyncHandler(async (req, res) => {
   const product = await updateProductService(req.params.id, req.body);
@@ -86,8 +92,8 @@ const updateProduct = asyncHandler(async (req, res) => {
   res.status(200).json({ message: "Product deleted", data: product });
 });
 
-// @desc delete one contact
-// @route DELETE /api/contacts/:id
+// @desc delete one product
+// @route DELETE /api/products/:id
 // @access private
 const deleteProduct = asyncHandler(async (req, res) => {
   const product = await deleteProductService(req.params.id);

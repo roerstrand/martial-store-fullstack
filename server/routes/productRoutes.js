@@ -12,12 +12,12 @@ const {
   deleteProduct,
 } = require("../controllers/productController");
 
-router.route("/").get(getProducts).post(createProduct, tokenValidator);
+router.route("/").get(getProducts).post(tokenValidator, createProduct);
 
 router
   .route("/:id")
   .get(getProduct)
-  .put(updateProduct, tokenValidator)
-  .delete(deleteProduct, tokenValidator);
+  .put(tokenValidator, updateProduct)
+  .delete(tokenValidator, deleteProduct);
 
 module.exports = router;
