@@ -1,5 +1,8 @@
 const asyncHandler = require("express-async-handler");
-const { registerUserService, loginUserService } = require("../services/userService");
+const {
+  registerUserService,
+  loginUserService,
+} = require("../services/userService");
 
 // @desc Register a user
 // @route POST /api/users/register
