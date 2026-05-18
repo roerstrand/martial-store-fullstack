@@ -2,112 +2,82 @@ import React, { useState } from "react";
 import UserCard from "./UserCard";
 import "../Pages.css";
 import useInput from "../../hooks/useInput.jsx";
+import { register } from "../../services/authService";
 
 function RegisterForm() {
   // useInput hanterar value + onChange automatiskt per fält
-  const firstName = useInput("");
-  const lastName = useInput("");
+  const username = useInput("");
   const email = useInput("");
-  const [users, setUsers] = useState([]);
-  const [display, setDisplay] = useState("");
-  const [disabled, isDisabled] = useState(true);
+  const password = useInput("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const nagivate = useNagivate();
 
-  const error = "red";
-  const alert = "yellow";
-  const success = "green";
-
-  let firstNamestyle;
-  let lastNamestyle;
-  let emailstyle;
-
-  const re = /^\S+@\S+\.\S+$/;
-x<
-  function handleSubmit(e) {
+  const handleRegister = async () => {
     e.preventDefault();
-    setUsers([...users, { firstName: firstName.value, lastName: lastName.value, email: email.value }]);
-    console.log(`New user added to users.`);
-    firstName.reset();
-    lastName.reset();
-    email.reset();
-    setDisplay("");
-  }
+    setError("");
+    setLoading(true);
 
-  function handleValidate() {
-    if (!firstName.value || !lastName.value || !email.value) {
-      firstNamestyle = error;
-      setDisplay("Fill in all fields");
-      isDisabled(true);
-      return;
+    try {
+      await register({
+        username: username.value,
+        email: email.value,
+        password: password.value,
+      });
+      navigate("/login");
+    } catch (err) {
+      setError(err.response?.data?.message || "Something went wrong");
+      setLoading(false);
     }
-    if (!firstName.value.length > 2 || !lastName.value.length > 2 || !email.value.length > 2) {
-      setDisplay("All fields must be at least 3 characters");
-      lastNamestyle = alert;
-      isDisabled(true);
-
-      return;
-    }
-    if (!re.test(email.value)) {
-      setDisplay("Email not valid");
-      emailstyle = alert;
-      isDisabled(true);
-
-      return;
-    }
-    setDisplay("Registration ok to submit!");
-    isDisabled(false);
-    firstNamestyle = success;
-    lastNamestyle = success;
-    emailstyle = success;
-  }
+  };
 
   return (
-    <div className="RegisterForm">
-      <div className="FormWrapper">
-        <form onChange={handleValidate} onSubmit={handleSubmit}>
-          <input
-            type="text"
-            placeholder="First name"
-            value={firstName.value}
-            onChange={firstName.onChange}
-            background={firstNamestyle}
-          ></input>
-          <input
-            type="text"
-            placeholder="Last name"
-            value={lastName.value}
-            onChange={lastName.onChange}
-            background={lastNamestyle}
-          ></input>
-          <input
-            type="text"
-            placeholder="Email"
-            value={email.value}
-            onChange={email.onChange}
-            background={emailstyle}
-          ></input>
-          <button type="submit" disabled={disabled}>
-            Sign Up!
-          </button>
+    <div className="page-container">
+      <div className="login-box">
+        <h1>Register</h1>
+
+        {error && <div className="error-message">{error}</div>}
+
+        <form onSubmit={handleRegister}>
+          <div className="form-group">
+            <label htmlFor="username">Username:</label>
+            <input
+              id="usernamem"
+              type="text"
+              value={username.value}
+              onChange={username.onChange}
+              placeholder="Enter username"
+              disabled={loading}
+            />
+
+            <label htmlFor="email">Email:</label>
+            <input
+              id="email"
+              type="text"
+              value={email.value}
+              onChange={email.onChange}
+              placeholder="your@email.com"
+              disabled={loading}
+            />
+
+            <label htmlFor="password">Password:</label>
+            <input
+              id="password"
+              type="text"
+              value={email.value}
+              onChange={email.onChange}
+              placeholder="Enter password"
+              disabled={loading}
+            />
+
+            <button type="submit" className="btn" disabled={loading}>
+              {loading ? "Registering..." : "Register"}
+            </button>
+          </div>
         </form>
-      </div>
-      <div className="InputDisplay">
-        <p>First name: {firstName.value}</p>
-        <p>Last name: {lastName.value}</p>
-        <p>Email: {email.value}</p>
-      </div>
-      <div className="RegisteredUsers">
-        
-        {users.map((user) => {
-          return <UserCard
-            key={user.email}
-            firstName={user.firstName}
-            lastName={user.lastName}
-            email={user.email}
-          />;
-        })}
       </div>
     </div>
   );
 }
 
-export default RegisterForm;
+export default Register;
