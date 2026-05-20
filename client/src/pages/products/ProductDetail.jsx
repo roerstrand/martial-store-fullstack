@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import "../Pages.css";
 import useFetch from "../../hooks/useFetch.jsx";
+import { getProduct } from "../../services/productService";
 
 /**
  * ProductDetail.js - Produktdetaljer-sidan
@@ -22,25 +23,27 @@ function ProductDetail() {
   // I App.js skapade vi roueten: path="/products/:productId"
   // Så productId är namnet på vår parameter
   const { productId } = useParams(); // Läs productId från URL
-  
+  const [quantity, setQuantity] = useState(1);
 
-  const url = "https://dummyjson.com/products/${productId}";
+  const {
+    data: product,
+    loading,
+    error,
+  } = useFetch(() => getProduct(productId));
 
-  const { data, loading, error } = useFetch(url);
-
-//Bryr sig inte om HUR data hämtas
-//Bryr sig bara om => har jag data? => laddar det? => Gick det fel?
+  //Bryr sig inte om HUR data hämtas
+  //Bryr sig bara om => har jag data? => laddar det? => Gick det fel?
 
   if (loading) {
     return <p>Loading product details...</p>;
   }
 
-  if (!product || !product.id) {
-    return <p>Product not found.</p>;
-  }
-
   if (error) {
     return <p>Something went wrong...</p>;
+  }
+
+  if (!product || !product._id) {
+    return <p>Product not found.</p>;
   }
 
   const handleAddToCart = () => {
@@ -51,6 +54,7 @@ function ProductDetail() {
   return (
     <div className="product-detail card">
       <Link to="/products">&larr; Back to products</Link>
+      <img src={`/images/products/${product.image}`} alt={product.title} />
 
       <h1>{product.title}</h1>
       <p className="price">{product.price} £</p>

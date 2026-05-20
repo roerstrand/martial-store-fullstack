@@ -14,7 +14,7 @@ function useFetch(fetchFn) {
     const fetchData = async () => {
       try {
         setLoading(true);
-        const response = await fetch(fetchFn);
+        const result = await fetchFn();
         setData(result);
       } catch (err) {
         setError(err);
