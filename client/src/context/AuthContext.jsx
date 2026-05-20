@@ -1,5 +1,5 @@
 import { createContext, useContext, useState } from "react";
-import { logout as logoutSerivce } from "../services/authService";
+import { logout as logoutService } from "../services/authService";
 
 //Skapa en react context som senare i filen fylls med bärden med provider
 const AuthContext = createContext(null);

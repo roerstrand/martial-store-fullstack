@@ -25,6 +25,11 @@ const productSchema = new mongoose.Schema({
   image: {
     type: String,
   },
+  category: {
+    type: String,
+    enum: ["bjj", "boxing", "muaythai", "karate"],
+    required: [true, "Please add a category"],
+  },
 });
 
 module.exports = mongoose.model("Product", productSchema);

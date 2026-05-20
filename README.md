@@ -29,6 +29,8 @@ Projektanalays
 
 Projektets struktur och arkitektur
 
+Projektets struktur består av React klient och node/express backend. Fulla 3-lagers dataflöden med repos, services, controllers, routes för produkter, användare och artiklar (som ska skapa intresse för sporter/produkter). I backend finns global felhanterare (errorMiddleware) samt tokenvalidering som 
+
 Valda tekniska lösningar
 
 Utmaningar och lärdomar under projektets gång

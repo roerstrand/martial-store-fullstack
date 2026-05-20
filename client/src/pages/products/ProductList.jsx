@@ -1,6 +1,6 @@
 import useFetch from "../../hooks/useFetch";
 import { Link } from "react-router-dom";
-import { getProducts } from "../.../services/productService";
+import { getProducts } from "../../services/productService";
 import "../Pages.css";
 
 function ProductList() {
@@ -14,13 +14,16 @@ function ProductList() {
       <h1>Our Products</h1>
       <div className="product-grid">
         {products.map((product) => {
-          <div key={product._id} className="product-card">
-            <h3>{pruduct.name}</h3>
-            <p>Price: {product.price} €</p>
-            <Link to={`/products/${product.id}`} className="btn-small">
-              View Details
-            </Link>
-          </div>;
+          return (
+            <div key={product._id} className="product-card">
+              <img src={`/images/products/${product.image}`} alt={product.title} />
+              <h3>{product.title}</h3>
+              <p>Price: {product.price} €</p>
+              <Link to={`/products/${product._id}`} className="btn-small">
+                View Details
+              </Link>
+            </div>
+          );
         })}
       </div>
     </div>

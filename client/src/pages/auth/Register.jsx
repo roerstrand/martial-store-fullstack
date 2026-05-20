@@ -4,7 +4,7 @@ import "../Pages.css";
 import useInput from "../../hooks/useInput.jsx";
 import { register } from "../../services/authService";
 
-function RegisterForm() {
+function Register() {
   // useInput hanterar value + onChange automatiskt per fält
   const username = useInput("");
   const email = useInput("");

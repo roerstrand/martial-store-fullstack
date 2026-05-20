@@ -1,9 +1,10 @@
-import { Link, useNagivate } from "react-router-dom";
-import { useAtuh } from "../context/AuthContext";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 function Navbar() {
-  const { user, logout } = useAuth();
-  const nagivate = useNagivate();
+  // Token och login behövs ej från useAuth i navbar
+  const [user, , , logout] = useAuth();
+  const navigate = useNavigate();
 
   const handleLogout = () => {
     logout();

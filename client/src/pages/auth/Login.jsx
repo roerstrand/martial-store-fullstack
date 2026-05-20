@@ -13,20 +13,22 @@ function Login() {
   const navigate = useNagivate();
   const { login } = useAuth();
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     setError("");
     setLoading(true);
 
     try {
-      const data = await loginService({email: email.value, password: password.value});
-      login(data.user, data.token)
+      const data = await loginService({
+        email: email.value,
+        password: password.value,
+      });
+      login(data.user, data.token);
     } catch (err) {
       setError(err.response?.data?.message || "Something went wrong");
     } finally {
       setLoading(false);
     }
-
   };
 
   return (
@@ -39,20 +41,24 @@ function Login() {
         <form onSubmit={handleSubmit}>
           <div className="form-group">
             <label htmlFor="email">EmaiL:</label>
-            <input id="email"
-            type="email"
-            value={email.value}
-            onChange={email.onChange}
-            placeholder="your@email.com"
-            disabled={loading}/>
+            <input
+              id="email"
+              type="email"
+              value={email.value}
+              onChange={email.onChange}
+              placeholder="your@email.com"
+              disabled={loading}
+            />
           </div>
           <div className="form-group">
             <label htmlFor="password">Password:</label>
-            <input id="password"
-            value={password.value}
-            onChange={password.onChange}
-            placeholder="Enter password"
-            disabled={loading}/>
+            <input
+              id="password"
+              value={password.value}
+              onChange={password.onChange}
+              placeholder="Enter password"
+              disabled={loading}
+            />
           </div>
           <button type="submit" className="btn" disabled={loading}>
             {loading ? "Loggin in..." : "Log in"}
@@ -60,7 +66,7 @@ function Login() {
         </form>
       </div>
     </div>
-  )
+  );
 }
 
 export default Login;
