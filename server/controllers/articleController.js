@@ -1,12 +1,15 @@
 const asyncHandler = require("express-async-handler");
-const { getArticlesService, getArticleService } = require("../services/articleService");
+const { getAllArticlesService, getArticlesService, getArticleService } = require("../services/articleService");
 
 // @desc GET articles, supports ?category=bjj&random=true&limit=3
 // @route GET /api/articles
 // @access public
 const getArticles = asyncHandler(async (req, res) => {
   const { category, random, limit } = req.query;
-  const articles = await getArticlesService(category, random, limit);
+  const hasFilters = category || random || limit;
+  const articles = hasFilters
+    ? await getArticlesService(category, random, limit)
+    : await getAllArticlesService();
   res.status(200).json(articles);
 });
 
