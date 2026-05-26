@@ -30,6 +30,7 @@ const products = (userId) => [
     image: "bjj_gi.jpg",
     category: "bjj",
     rating: 4,
+    sale: 0,
   },
   {
     user_id: userId,
@@ -39,6 +40,7 @@ const products = (userId) => [
     image: "womens_boxing_startkit.jpg",
     category: "boxing",
     rating: 4,
+    sale: 20,
   },
   {
     user_id: userId,
@@ -48,6 +50,7 @@ const products = (userId) => [
     image: "shin_guards.jpg",
     category: "muaythai",
     rating: 5,
+    sale: 15,
   },
   {
     user_id: userId,
@@ -57,6 +60,7 @@ const products = (userId) => [
     image: "boxing_bag.jpg",
     category: "boxing",
     rating: 5,
+    sale: 0,
   },
   {
     user_id: userId,
@@ -66,6 +70,7 @@ const products = (userId) => [
     image: "black_boxing_gloves.jpg",
     category: "boxing",
     rating: 4,
+    sale: 0,
   },
   {
     user_id: userId,
@@ -75,6 +80,7 @@ const products = (userId) => [
     image: "boxing_helmet.jpg",
     category: "boxing",
     rating: 4,
+    sale: 10,
   },
   {
     user_id: userId,
@@ -84,6 +90,7 @@ const products = (userId) => [
     image: "karate_kimono.jpg",
     category: "karate",
     rating: 4,
+    sale: 25,
   },
   {
     user_id: userId,
@@ -93,6 +100,7 @@ const products = (userId) => [
     image: "boxing_pads.jpg",
     category: "boxing",
     rating: 5,
+    sale: 0,
   },
   {
     user_id: userId,
@@ -102,6 +110,7 @@ const products = (userId) => [
     image: "boxing_boots.jpg",
     category: "boxing",
     rating: 4,
+    sale: 30,
   },
   {
     user_id: userId,
@@ -112,6 +121,7 @@ const products = (userId) => [
     image: "margo-evardson-YYouq46SOXw-unsplash.jpg",
     category: "boxing",
     rating: 5,
+    sale: 0,
   },
 ];
 

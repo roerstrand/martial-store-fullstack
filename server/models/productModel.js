@@ -25,6 +25,12 @@ const productSchema = new mongoose.Schema({
   image: {
     type: String,
   },
+  sale: {
+    type: Number,
+    default: 0,
+    min: 0,
+    max: 100,
+  },
   category: {
     type: String,
     enum: ["bjj", "boxing", "muaythai", "karate"],

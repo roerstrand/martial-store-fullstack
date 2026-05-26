@@ -4,6 +4,7 @@ const dotenv = require("dotenv").config();
 const productRoutes = require("./routes/productRoutes");
 const userRoutes = require("./routes/userRoutes");
 const articleRoutes = require("./routes/articleRoutes");
+const cartRoutes = require("./routes/cartRoutes");
 
 const connectDB = require("./config/dbConnection");
 const { errorHandler } = require("./middleware/errorMiddleware");
@@ -20,6 +21,7 @@ app.use("/api/products", productRoutes);
 // api/users definiera routes anropa här
 app.use("/api/users", userRoutes);
 app.use("/api/articles", articleRoutes);
+app.use("/api/carts", cartRoutes);
 
 app.use(errorHandler);
 
