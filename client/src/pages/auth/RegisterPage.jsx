@@ -1,10 +1,9 @@
 import React, { useState } from "react";
-import UserCard from "./UserCard";
 import "../Pages.css";
 import useInput from "../../hooks/useInput.jsx";
 import { register } from "../../services/authService";
 
-function Register() {
+function RegisterPage() {
   // useInput hanterar value + onChange automatiskt per fält
   const username = useInput("");
   const email = useInput("");
@@ -48,6 +47,7 @@ function Register() {
               onChange={username.onChange}
               placeholder="Enter username"
               disabled={loading}
+              required
             />
 
             <label htmlFor="email">Email:</label>
@@ -58,6 +58,7 @@ function Register() {
               onChange={email.onChange}
               placeholder="your@email.com"
               disabled={loading}
+              required
             />
 
             <label htmlFor="password">Password:</label>
@@ -68,6 +69,7 @@ function Register() {
               onChange={email.onChange}
               placeholder="Enter password"
               disabled={loading}
+              required
             />
 
             <button type="submit" className="btn" disabled={loading}>
@@ -80,4 +82,4 @@ function Register() {
   );
 }
 
-export default Register;
+export default RegisterPage;

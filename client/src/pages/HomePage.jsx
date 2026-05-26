@@ -2,31 +2,22 @@ import React from "react";
 import { Link } from "react-router-dom";
 import "./Pages.css";
 
-import bjjGi from "../assets/images/Products/bjj_gi.jpg";
-import boxKit from "../assets/images/Products/womens_boxing_startkit.jpg";
-import shinGuards from "../assets/images/Products/shin_guards.jpg";
-import boxingBag from "../assets/images/Products/boxing_bag.jpg";
-
-import articleImg1 from "../assets/images/Articles/road_to_blackbelt.jpg";
-import articleImg2 from "../assets/images/Articles/how_my_rolemodels_inspired_me.jpg";
-import articleImg3 from "../assets/images/Articles/tips_for_finishing_the_sweep.jpg";
-
 // Statiska produkter för startsidan — ersätts med API-data senare
 const featuredProducts = [
-  { id: 1, title: "BJJ GI", price: 79, img: bjjGi },
-  { id: 2, title: "BOX KIT", price: 29, img: boxKit },
-  { id: 3, title: "SHIN GUARDS", price: 39, img: shinGuards },
-  { id: 4, title: "BOXING BAG", price: 199, img: boxingBag },
+  { id: 1, title: "BJJ GI", price: 79, img: "/images/products/bjj_gi.jpg" },
+  { id: 2, title: "BOX KIT", price: 29, img: "/images/products/womens_boxing_startkit.jpg" },
+  { id: 3, title: "SHIN GUARDS", price: 39, img: "/images/products/shin_guards.jpg" },
+  { id: 4, title: "BOXING BAG", price: 199, img: "/images/products/boxing_bag.jpg" },
 ];
 
 // Statiska artiklar — ersätts med API-data senare
 const articles = [
-  { id: 1, title: "My Road to a Black Belt", author: "Jon Doe", img: articleImg1 },
-  { id: 2, title: "How My Role Models Inspired Me", author: "Chen Gracie", img: articleImg2 },
-  { id: 3, title: "Finish the Sweep", author: "Sergey Meregali", img: articleImg3 },
+  { id: 1, title: "My Road to a Black Belt", author: "Jon Doe", img: "/images/articles/road_to_blackbelt.jpg" },
+  { id: 2, title: "How My Role Models Inspired Me", author: "Chen Gracie", img: "/images/articles/how_my_rolemodels_inspired_me.jpg" },
+  { id: 3, title: "Finish the Sweep", author: "Sergey Meregali", img: "/images/articles/tips_for_finishing_the_sweep.jpg" },
 ];
 
-function Home() {
+function HomePage() {
   return (
     <div className="home-page">
 
@@ -66,4 +57,4 @@ function Home() {
   );
 }
 
-export default Home;
+export default HomePage;

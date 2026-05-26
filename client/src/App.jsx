@@ -3,34 +3,34 @@ import "./App.css";
 
 import MainLayout from "./layouts/MainLayout";
 
-import Home from "./pages/Home";
-import ProductList from "./pages/products/ProductList";
-import ProductDetail from "./pages/products/ProductDetail";
-import Login from "./pages/auth/Login";
-import Register from "./pages/auth/Register";
+import HomePage from "./pages/HomePage";
+import ProductListPage from "./pages/products/ProductListPage";
+import ProductDetailPage from "./pages/products/ProductDetailPage";
+import LoginPage from "./pages/auth/LoginPage";
+import RegisterPage from "./pages/auth/RegisterPage";
 import CartPage from "./pages/cart/CartPage";
 import CheckoutPage from "./pages/cart/CheckoutPage";
-import Contact from "./pages/Contact";
+import ContactPage from "./pages/ContactPage";
 import FavoritesPage from "./pages/FavoritesPage";
-import NotFound from "./pages/NotFound";
+import NotFoundPage from "./pages/NotFoundPage";
 
 function App() {
   return (
     <Router>
       <Routes>
         <Route element={<MainLayout />}>
-          <Route path="/" element={<Home />} />
-          <Route path="/products" element={<ProductList />} />
-          <Route path="/products/:productId" element={<ProductDetail />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
+          <Route path="/" element={<HomePage />} />
+          <Route path="/products" element={<ProductListPage />} />
+          <Route path="/products/:productId" element={<ProductDetailPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
           <Route path="/cart" element={<CartPage />} />
           <Route path="/checkout" element={<CheckoutPage />} />
-          <Route path="/contact" element={<Contact />} />
+          <Route path="/contact" element={<ContactPage />} />
           <Route path="/favorites" element={<FavoritesPage />} />
         </Route>
 
-        <Route path="*" element={<NotFound />} />
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </Router>
   );

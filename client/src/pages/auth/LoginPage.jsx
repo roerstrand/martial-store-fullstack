@@ -5,7 +5,7 @@ import useInput from "../../hooks/useInput.jsx";
 import { login as loginService } from "../../services/authService";
 import { useAuth } from "../../context/AuthContext";
 
-function Login() {
+function LoginPage() {
   const email = useInput("");
   const password = useInput("");
   const [error, setError] = useState("");
@@ -48,6 +48,7 @@ function Login() {
               onChange={email.onChange}
               placeholder="your@email.com"
               disabled={loading}
+              required
             />
           </div>
           <div className="form-group">
@@ -58,6 +59,7 @@ function Login() {
               onChange={password.onChange}
               placeholder="Enter password"
               disabled={loading}
+              required
             />
           </div>
           <button type="submit" className="btn" disabled={loading}>
@@ -69,4 +71,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default LoginPage;

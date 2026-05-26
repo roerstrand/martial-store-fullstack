@@ -9,7 +9,7 @@ import useInput from '../hooks/useInput.jsx';
  * Den använder useState för att hantera formulärdata.
  */
 
-function Contact() {
+function ContactPage() {
   // useInput hanterar value + onChange automatiskt per fält
   const name = useInput('');
   const email = useInput('');
@@ -137,4 +137,4 @@ function Contact() {
   );
 }
 
-export default Contact;
+export default ContactPage;

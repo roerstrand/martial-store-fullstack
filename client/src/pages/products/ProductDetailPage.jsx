@@ -18,7 +18,7 @@ import { getProduct } from "../../services/productService";
  * 3. Vi visar produkten när den är laddad
  */
 
-function ProductDetail() {
+function ProductDetailPage() {
   // useParams() läser parametrarna från URL:en
   // I App.js skapade vi roueten: path="/products/:productId"
   // Så productId är namnet på vår parameter
@@ -79,4 +79,4 @@ function ProductDetail() {
   );
 }
 
-export default ProductDetail;
+export default ProductDetailPage;

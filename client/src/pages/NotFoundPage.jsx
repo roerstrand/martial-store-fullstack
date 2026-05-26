@@ -14,7 +14,7 @@ import "./Pages.css";
  * Asterisken (*) matchar ALLA routes som inte matchade tidigare
  */
 
-function NotFound() {
+function NotFoundPage() {
   return (
     <div className="not-found container-text-center py-5">
       <h1>404</h1>
@@ -27,4 +27,4 @@ function NotFound() {
   );
 }
 
-export default NotFound;
+export default NotFoundPage;

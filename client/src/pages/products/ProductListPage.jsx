@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { getProducts } from "../../services/productService";
 import "../Pages.css";
 
-function ProductList() {
+function ProductListPage() {
   const { data: products, loading, error } = useFetch(getProducts);
 
   if (loading) return <p>Loading products...</p>;
@@ -30,4 +30,4 @@ function ProductList() {
   );
 }
 
-export default ProductList;
+export default ProductListPage;
