@@ -6,11 +6,11 @@ export const getMyFavorites = async () => {
 };
 
 export const addProductToFavorites = async (productId) => {
-  const response = await api.post("/favorites/products/:productId");
+  const response = await api.post(`/favorites/products/${productId}`);
   return response.data;
 };
 
 export const removeProductFromFavorites = async (productId) => {
-  const response = await api.delete("/favorites/products/:productId");
+  const response = await api.delete(`/favorites/products/${productId}`);
   return response.data;
 };

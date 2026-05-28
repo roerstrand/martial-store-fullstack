@@ -3,6 +3,7 @@ import { useParams, Link } from "react-router-dom";
 import "../Pages.css";
 import useFetch from "../../hooks/useFetch.jsx";
 import { getProduct } from "../../services/productService";
+import FavoriteButton from "../../components/favorites/FavoriteButton";
 
 /**
  * ProductDetail.js - Produktdetaljer-sidan
@@ -74,6 +75,7 @@ function ProductDetailPage() {
         <button onClick={handleAddToCart} className="btn">
           Add to cart
         </button>
+        <FavoriteButton product={product} />
       </div>
     </div>
   );

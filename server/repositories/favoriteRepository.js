@@ -1,15 +1,15 @@
-const Favorite = require("../models/favoriteModel");
+const FavoriteList = require("../models/favoriteModel");
 
-const getFavoriteByUser = async (userId) => {
-  return await Favorite.findOne({ user_id: userId }).populate("products");
+const getFavoriteListByUser = async (userId) => {
+  return await FavoriteList.findOne({ user_id: userId }).populate("products");
 };
 
-const createFavorite = async (userId) => {
-  return await Favorite.create({ user_id: userId, products: [] });
+const createFavoriteList = async (userId) => {
+  return await FavoriteList.create({ user_id: userId, products: [] });
 };
 
 const addProductToFavorites = async (userId, productId) => {
-  return await Favorite.findOneAndUpdate(
+  return await FavoriteList.findOneAndUpdate(
     { user_id: userId },
     { $addToSet: { products: productId } },
     { new: true }
@@ -17,7 +17,7 @@ const addProductToFavorites = async (userId, productId) => {
 };
 
 const removeProductFromFavorites = async (userId, productId) => {
-  return await Favorite.findOneAndUpdate(
+  return await FavoriteList.findOneAndUpdate(
     { user_id: userId },
     { $pull: { products: productId } },
     { new: true }
@@ -25,8 +25,8 @@ const removeProductFromFavorites = async (userId, productId) => {
 };
 
 module.exports = {
-  getFavoriteByUser,
-  createFavorite,
+  getFavoriteListByUser,
+  createFavoriteList,
   addProductToFavorites,
   removeProductFromFavorites,
 };

@@ -1,16 +1,16 @@
 const {
-  getFavoriteByUser,
-  createFavorite,
+  getFavoriteListByUser,
+  createFavoriteList,
   addProductToFavorites,
   removeProductFromFavorites,
 } = require("../repositories/favoriteRepository");
 
-const getMyFavoritesService = async (userId) => {
-  return await getFavoriteByUser(userId);
+const getMyFavoriteListService = async (userId) => {
+  return await getFavoriteListByUser(userId);
 };
 
-const createFavoriteService = async (userId) => {
-  return await createFavorite(userId);
+const createFavoriteListService = async (userId) => {
+  return await createFavoriteList(userId);
 };
 
 const addProductToFavoritesService = async (userId, productId) => {
@@ -22,8 +22,8 @@ const removeProductFromFavoritesService = async (userId, productId) => {
 };
 
 module.exports = {
-  getMyFavoritesService,
-  createFavoriteService,
+  getMyFavoriteListService,
+  createFavoriteListService,
   addProductToFavoritesService,
   removeProductFromFavoritesService,
 };

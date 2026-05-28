@@ -1,63 +1,63 @@
 const asyncHandler = require("express-async-handler");
 const {
-  getMyFavoritesService,
-  createFavoriteService,
+  getMyFavoriteListService,
+  createFavoriteListService,
   addProductToFavoritesService,
   removeProductFromFavoritesService,
 } = require("../services/favoriteService");
 
-// @desc    GET favorites for current user
+// @desc    GET favorite list for current user
 // @route   GET /api/favorites/me
 // @access  private
-const getMyFavorites = asyncHandler(async (req, res) => {
-  const favorites = await getMyFavoritesService(req.user.id);
-  if (!favorites) {
+const getMyFavoriteList = asyncHandler(async (req, res) => {
+  const favoriteList = await getMyFavoriteListService(req.user.id);
+  if (!favoriteList) {
     res.status(404);
-    throw new Error("No favorites found for current user");
+    throw new Error("No favorite list found for current user");
   }
-  res.status(200).json(favorites);
+  res.status(200).json(favoriteList);
 });
 
-// @desc    Create favorites list for current user
+// @desc    Create favorite list for current user
 // @route   POST /api/favorites
 // @access  private
-const createFavorite = asyncHandler(async (req, res) => {
-  const existing = await getMyFavoritesService(req.user.id);
+const createFavoriteList = asyncHandler(async (req, res) => {
+  const existing = await getMyFavoriteListService(req.user.id);
   if (existing) {
     res.status(400);
-    throw new Error("Favorites list already exists");
+    throw new Error("Favorite list already exists");
   }
-  const favorites = await createFavoriteService(req.user.id);
-  res.status(201).json(favorites);
+  const favoriteList = await createFavoriteListService(req.user.id);
+  res.status(201).json(favoriteList);
 });
 
 // @desc    Add product to favorites
 // @route   POST /api/favorites/products/:productId
 // @access  private
 const addProductToFavorites = asyncHandler(async (req, res) => {
-  const favorites = await addProductToFavoritesService(req.user.id, req.params.productId);
-  if (!favorites) {
+  const favoriteList = await addProductToFavoritesService(req.user.id, req.params.productId);
+  if (!favoriteList) {
     res.status(404);
-    throw new Error("Favorites list not found");
+    throw new Error("Favorite list not found");
   }
-  res.status(200).json(favorites);
+  res.status(200).json(favoriteList);
 });
 
 // @desc    Remove product from favorites
 // @route   DELETE /api/favorites/products/:productId
 // @access  private
 const removeProductFromFavorites = asyncHandler(async (req, res) => {
-  const favorites = await removeProductFromFavoritesService(req.user.id, req.params.productId);
-  if (!favorites) {
+  const favoriteList = await removeProductFromFavoritesService(req.user.id, req.params.productId);
+  if (!favoriteList) {
     res.status(404);
-    throw new Error("Favorites list not found");
+    throw new Error("Favorite list not found");
   }
-  res.status(200).json(favorites);
+  res.status(200).json(favoriteList);
 });
 
 module.exports = {
-  getMyFavorites,
-  createFavorite,
+  getMyFavoriteList,
+  createFavoriteList,
   addProductToFavorites,
   removeProductFromFavorites,
 };
