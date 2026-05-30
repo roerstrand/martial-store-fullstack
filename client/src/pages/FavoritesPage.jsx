@@ -10,11 +10,8 @@ function FavoritesPage() {
 
   return (
     <div>
-      pro
       {favorites.map((product) => {
-        <div key={product._id}>
-          <p>{product.title}</p>
-        </div>;
+        return <FavoriteItem product={product} />;
       })}
     </div>
   );
