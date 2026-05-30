@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import "../Pages.css";
 import useInput from "../../hooks/useInput.jsx";
 import { login as loginService } from "../../services/authService";
@@ -9,8 +9,8 @@ function LoginPage() {
   const email = useInput("");
   const password = useInput("");
   const [error, setError] = useState("");
-  const [loading, setLoading] = useState("false");
-  const navigate = useNagivate();
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
   const { login } = useAuth();
 
   const handleLogin = async (e) => {
@@ -24,6 +24,7 @@ function LoginPage() {
         password: password.value,
       });
       login(data.user, data.token);
+      navigate("/");
     } catch (err) {
       setError(err.response?.data?.message || "Something went wrong");
     } finally {
@@ -32,41 +33,36 @@ function LoginPage() {
   };
 
   return (
-    <div className="page-container login-page">
-      <div className="login-box">
-        <h1>Login</h1>
+    <div className="auth-page">
+      <h1>Login</h1>
 
-        {error && <div className="error-message">{error}</div>}
+      {error && <div className="auth-error">{error}</div>}
 
-        <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label htmlFor="email">EmaiL:</label>
-            <input
-              id="email"
-              type="email"
-              value={email.value}
-              onChange={email.onChange}
-              placeholder="your@email.com"
-              disabled={loading}
-              required
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="password">Password:</label>
-            <input
-              id="password"
-              value={password.value}
-              onChange={password.onChange}
-              placeholder="Enter password"
-              disabled={loading}
-              required
-            />
-          </div>
-          <button type="submit" className="btn" disabled={loading}>
-            {loading ? "Loggin in..." : "Log in"}
-          </button>
-        </form>
-      </div>
+      <form className="auth-form" onSubmit={handleLogin}>
+        <input
+          className="apex-input"
+          type="email"
+          placeholder="Username"
+          {...email}
+          required
+        />
+        <input
+          className="apex-input"
+          type="password"
+          placeholder="Password"
+          {...password}
+          required
+        />
+        <button type="submit" className="auth-btn-primary" disabled={loading}>
+          LOGIN ›
+        </button>
+        <Link to="/register" className="auth-btn-secondary">
+          REGISTER ›
+        </Link>
+        <Link to="/" className="auth-btn-secondary">
+          BACK TO HOME ›
+        </Link>
+      </form>
     </div>
   );
 }

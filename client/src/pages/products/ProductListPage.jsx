@@ -1,36 +1,31 @@
-import useFetch from "../../hooks/useFetch";
 import { Link } from "react-router-dom";
+import useFetch from "../../hooks/useFetch";
 import { getProducts } from "../../services/productService";
 import "../Pages.css";
-import FavoriteButton from "../../components/favorites/FavoriteButton";
 
 function ProductListPage() {
   const { data: products, loading, error } = useFetch(getProducts);
 
-  if (loading) return <p>Loading products...</p>;
-  if (error) return <p>Could not load products</p>;
+  if (loading) return <p className="loading">Loading products...</p>;
+  if (error) return <p className="loading">Could not load products</p>;
 
   return (
-    <div>
-      <h1>Our Products</h1>
-      <div className="product-grid">
-        {products.map((product) => {
-          return (
-            <div key={product._id} className="product-card">
-              <img
-                src={`/images/products/${product.image}`}
-                alt={product.title}
-              />
-              <h3>{product.title}</h3>
-              <p>Price: {product.price} €</p>
-              <Link to={`/products/${product._id}`} className="btn-small">
-                View Details
-              </Link>
-              <FavoriteButton product={product} />
+    <div className="products-page">
+      <h1>Our Fight Gear</h1>
+      <div className="products-grid">
+        {products.map((product) => (
+          <Link to={`/products/${product._id}`} key={product._id} className="product-card">
+            <div className="product-card__img-wrap">
+              <img src={`/images/products/${product.image}`} alt={product.title} />
+              <button className="product-card__cart-btn" onClick={(e) => e.preventDefault()}>
+                <img src="/icons/Cart add.svg" alt="Add to cart" />
+              </button>
             </div>
-          );
-        })}
+            <span className="product-card__label">{product.title} {product.price}£</span>
+          </Link>
+        ))}
       </div>
+      <Link to="/" className="auth-btn-secondary">BACK TO HOME ›</Link>
     </div>
   );
 }

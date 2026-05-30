@@ -12,81 +12,64 @@
   --color-secondary: #b3b6b7;
   --color-primary: #4b4139;
   --color-accent: #d62839;
-  --font-family: "Sekuya", system-ui, "Segoe UI", Roboto, sans-serif;
+  --color-green: #39d600;
+  --font-body: 'Sekuya', system-ui, 'Segoe UI', Roboto, sans-serif;
+  --font-heading: 'Sekuya', system-ui, sans-serif;
+  --font-italic: 'Inter', system-ui, sans-serif;
+  --text-h: var(--color-dark);
+  --border: rgba(63, 42, 43, 0.15);
 }
+
 #root {
   width: 1126px;
   max-width: 100%;
   margin: 0 auto;
-  text-align: center;
   border-inline: 1px solid var(--border);
   min-height: 100svh;
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
-
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-
-  @media (max-width: 1024px) {
-    font-size: 16px;
-  }
-}
-
-h1,
-h2 {
-  font-family: var(--heading);
-  font-weight: 500;
-  color: var(--text-h);
-}
-
-h1 {
-  font-size: 56px;
-  letter-spacing: -1.68px;
-  margin: 32px 0;
-  @media (max-width: 1024px) {
-    font-size: 36px;
-    margin: 20px 0;
-  }
-}
-h2 {
-  font-size: 24px;
-  line-height: 118%;
-  letter-spacing: -0.24px;
-  margin: 0 0 8px;
-  @media (max-width: 1024px) {
-    font-size: 20px;
-  }
-}
-p {
-  margin: 0;
 }
 
 body {
-  font-family: "Sekuya", system-ui, sans-serif;
+  font-family: var(--font-body);
   background: var(--color-light);
   color: var(--color-dark);
   line-height: 1.5;
 }
 
+h1,
+h2 {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  color: var(--text-h);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+h1 {
+  font-size: 1.75rem;
+  margin: 1.25rem 0;
+
+  @media (max-width: 768px) {
+    font-size: 1.4rem;
+    margin: 1rem 0;
+  }
+}
+
+h2 {
+  font-size: 1.1rem;
+  margin: 0 0 0.5rem;
+}
+
+p {
+  margin: 0;
+}
+
 a {
   text-decoration: none;
   color: inherit;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --text: #9ca3af;
-    --text-h: #f3f4f6;
-    --bg: #16171d;
-    --border: #2e303a;
-    --code-bg: #1f2028;
-    --accent: #c084fc;
-    --accent-bg: rgba(192, 132, 252, 0.15);
-    --accent-border: rgba(192, 132, 252, 0.5);
-    --social-bg: rgba(47, 48, 58, 0.5);
-    --shadow:
-      rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
-  }
 }

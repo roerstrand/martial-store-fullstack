@@ -1,82 +1,60 @@
-import React, { useState, useEffect } from "react";
+import { useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import "../Pages.css";
 import useFetch from "../../hooks/useFetch.jsx";
 import { getProduct } from "../../services/productService";
-import FavoriteButton from "../../components/favorites/FavoriteButton";
-
-/**
- * ProductDetail.js - Produktdetaljer-sidan
- *
- * Denna komponent använder DYNAMISK ROUTING med URL-parametrar
- *
- * Exempel URL: /products/1
- * Här är "1" en parameter som vi kan läsa med useParams()
- *
- * Flödet:
- * 1. useParams() läser produktens ID från URL:en
- * 2. useEffect() hämtar denna specifika produkts data från API:t
- * 3. Vi visar produkten när den är laddad
- */
 
 function ProductDetailPage() {
-  // useParams() läser parametrarna från URL:en
-  // I App.js skapade vi roueten: path="/products/:productId"
-  // Så productId är namnet på vår parameter
-  const { productId } = useParams(); // Läs productId från URL
-  const [quantity, setQuantity] = useState(1);
+  const { productId } = useParams();
+  const [selectedSize, setSelectedSize] = useState(null);
 
-  const {
-    data: product,
-    loading,
-    error,
-  } = useFetch(() => getProduct(productId));
+  const { data: product, loading, error } = useFetch(() => getProduct(productId));
 
-  //Bryr sig inte om HUR data hämtas
-  //Bryr sig bara om => har jag data? => laddar det? => Gick det fel?
+  if (loading) return <p className="loading">Loading product...</p>;
+  if (error) return <p className="loading">Something went wrong.</p>;
+  if (!product || !product._id) return <p className="loading">Product not found.</p>;
 
-  if (loading) {
-    return <p>Loading product details...</p>;
-  }
-
-  if (error) {
-    return <p>Something went wrong...</p>;
-  }
-
-  if (!product || !product._id) {
-    return <p>Product not found.</p>;
-  }
-
-  const handleAddToCart = () => {
-    alert(`Added ${quantity} x ${product.title} to your cart!`);
-    setQuantity(1); // Återställ kvantitet
+  const handleBuyNow = () => {
+    // CartContext kopplas in senare
   };
 
   return (
-    <div className="product-detail card">
-      <Link to="/products">&larr; Back to products</Link>
-      <img src={`/images/products/${product.image}`} alt={product.title} />
+    <div className="product-detail-page">
+      <div className="product-detail__layout">
 
-      <h1>{product.title}</h1>
-      <p className="price">{product.price} £</p>
-      <p className="description">{product.description}</p>
-      <p className="rating">Rating: {product.rating} ⭐</p>
+        <div className="product-detail__image">
+          <img src={`/images/products/${product.image}`} alt={product.title} />
+        </div>
 
-      <div className="purchase-section">
-        <label>
-          Quantity:
-          <input
-            type="number"
-            min="1"
-            value={quantity}
-            onChange={(e) => setQuantity(parseInt(e.target.value))}
-          />
-        </label>
-        <button onClick={handleAddToCart} className="btn">
-          Add to cart
-        </button>
-        <FavoriteButton product={product} />
+        <div className="product-detail__info">
+          <p className="product-detail__name">{product.title}</p>
+          <p className="product-detail__availability">AVAILABLE</p>
+          <p className="product-detail__price">{product.price}£</p>
+          <p className="product-detail__desc">{product.description}</p>
+
+          <p className="product-detail__size-label">SIZE</p>
+          <div className="product-detail__sizes">
+            {["S", "M", "L"].map((size) => (
+              <button
+                key={size}
+                className={`size-btn ${selectedSize === size ? "size-btn--active" : ""}`}
+                onClick={() => setSelectedSize(size)}
+              >
+                {size}
+              </button>
+            ))}
+          </div>
+
+          <button className="product-detail__buy" onClick={handleBuyNow}>
+            BUY NOW
+          </button>
+
+          <p className="product-detail__materials-title">MATERIALS / DETAILS</p>
+          <p className="product-detail__materials-text">{product.details}</p>
+        </div>
+
       </div>
+      <Link to="/" className="auth-btn-secondary">BACK TO HOME ›</Link>
     </div>
   );
 }
