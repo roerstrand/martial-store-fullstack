@@ -7,23 +7,23 @@ function CartItem({ item }) {
     <div className="cart-item">
       <img
         className="cart-item__image"
-        src={`/images/prodcuts/${item.product.image}`}
+        src={`/images/products/${item.product.image}`}
         alt="{item.product.title}"
       />
       <div className="cart-item__details">
         <p className="cart-item__name">{item.product.title}</p>
         <div className="cart-item__row">
-          <span SIZE></span>
-          <span className="cart-item__badge">{item.badge}</span>
+          <span>SIZE</span>
+          <span className="cart-item__badge">{item.size}</span>
           <span className="cart-item__price">{item.product.price} EUR</span>
         </div>
 
         <div className="cart-item__row">
           <span>QUANTITY</span>
-          <span classNAme="cart-item__badge">{item.quantity}</span>
+          <span className="cart-item__badge">{item.quantity}</span>
           <button
             className="cart-item__remove"
-            onClick={() => removeFromCard(item.product._id, item.size)}
+            onClick={() => removeFromCart(item.product._id, item.size)}
           >
             REMOVE
           </button>

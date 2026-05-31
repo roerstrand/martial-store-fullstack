@@ -1,5 +1,6 @@
 import { useFavorites } from "../context/FavoriteContext";
 import "./Pages.css";
+import FavoriteItem from "../compoenents/favorites/FavoriteItem";
 
 function FavoritesPage() {
   const [, favorites] = useFavorites();
@@ -11,7 +12,7 @@ function FavoritesPage() {
   return (
     <div>
       {favorites.map((product) => {
-        return <FavoriteItem product={product} />;
+        return <FavoriteItem key={product._id} product={product} />;
       })}
     </div>
   );

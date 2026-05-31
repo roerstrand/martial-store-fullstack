@@ -30,7 +30,7 @@ function HomePage() {
                 <img src={product.img} alt={product.title} />
                 <span className="home-product-card__fav">♡</span>
               </div>
-              <span className="home-product-card__label">{product.title} {product.price}£</span>
+              <span className="home-product-card__label">{product.title} {product.price} EUR</span>
             </Link>
           ))}
         </div>

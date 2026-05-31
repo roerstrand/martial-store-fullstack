@@ -1,0 +1,98 @@
+import { useLocation, Link, useNavigate } from "react-router-dom";
+import "../Pages.css";
+
+function OrderConfirmationPage() {
+  const { state } = useLocation();
+  const navigate = useNavigate();
+  const { order, shippingInfo, shipping, shippingCost, cartSnapshot } = state;
+
+  const subtotal = cartSnapshot.reduce(
+    (sum, item) => sum + item.product.price * item.quantity,
+    0
+  );
+
+  return (
+    <div className="confirmation-page">
+      <div className="flow-breadcrumb">
+        <span>CART</span>
+        <span>=›</span>
+        <span>CHECKOUT</span>
+        <span>=›</span>
+        <span className="flow-breadcrumb__step--active">CONFIRMATION</span>
+      </div>
+
+      <h1>✓ Order confirmed</h1>
+
+      <div className="confirmation-layout">
+
+        <div>
+          <p className="confirmation-section-title">Order details</p>
+          <div className="confirmation-row">
+            <span className="confirmation-row__label">Order number</span>
+            <span>{order._id}</span>
+          </div>
+          <div className="confirmation-row">
+            <span className="confirmation-row__label">Email</span>
+            <span>{shippingInfo.email}</span>
+          </div>
+          <div className="confirmation-row">
+            <span className="confirmation-row__label">Shipping method</span>
+            <span>{shipping}</span>
+          </div>
+
+          <p className="confirmation-section-title" style={{ marginTop: "1.5rem" }}>
+            Shipping address
+          </p>
+          <p>{shippingInfo.name}</p>
+          <p>{shippingInfo.address}</p>
+          <p>{shippingInfo.zip} {shippingInfo.city}</p>
+        </div>
+
+        <div>
+          <p className="confirmation-section-title">Order summary</p>
+          {cartSnapshot.map((item, i) => (
+            <div key={`${item.product._id}-${item.size}-${i}`} className="confirmation-item">
+              <p className="confirmation-item__name">
+                {item.product.title} ({item.size})
+              </p>
+              <div className="confirmation-item__row">
+                <span>Quantity: {item.quantity}</span>
+                <span>{item.product.price * item.quantity} EUR</span>
+              </div>
+            </div>
+          ))}
+
+          <div className="confirmation-row" style={{ marginTop: "0.5rem" }}>
+            <span className="confirmation-row__label">Subtotal</span>
+            <span>{subtotal} EUR</span>
+          </div>
+          <div className="confirmation-row">
+            <span className="confirmation-row__label">Shipping</span>
+            <span>{shippingCost} EUR</span>
+          </div>
+          <div className="confirmation-row">
+            <span className="confirmation-row__label">VAT included</span>
+          </div>
+          <div className="confirmation-total">
+            <span>Total</span>
+            <span>{subtotal + shippingCost} EUR</span>
+          </div>
+        </div>
+
+      </div>
+
+      <div className="confirmation-footer">
+        <Link to="/products" className="confirmation-btn">Continue shopping</Link>
+        <button
+          className="confirmation-btn confirmation-btn--secondary"
+          onClick={() => navigate(`/orders/${order._id}`)}
+        >
+          Track order
+        </button>
+        <Link to="/" className="confirmation-btn confirmation-btn--secondary">Back to home ›</Link>
+      </div>
+    </div>
+  );
+}
+
+export default OrderConfirmationPage;

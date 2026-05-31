@@ -13,6 +13,8 @@ import CheckoutPage from "./pages/cart/CheckoutPage";
 import ContactPage from "./pages/ContactPage";
 import FavoritesPage from "./pages/FavoritesPage";
 import NotFoundPage from "./pages/NotFoundPage";
+import OrderConfirmationPage from "./pages/cart/OrderConfirmationPage";
+import OrderPage from "./pages/cart/OrderPage";
 
 function App() {
   return (
@@ -28,6 +30,8 @@ function App() {
           <Route path="/checkout" element={<CheckoutPage />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/favorites" element={<FavoritesPage />} />
+          <Route path="/confirmation" element={<OrderConfirmationPage />} />
+          <Route path="/orders/:orderId" element={<OrderPage />} />
         </Route>
 
         <Route path="*" element={<NotFoundPage />} />
