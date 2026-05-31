@@ -1,10 +1,9 @@
 import { Link } from "react-router-dom";
 
-function Hero({ onToggleMeny }) {
-  const bgStyle = { backgroundImage: "url(`/images/misc/woman_headkick.jpg`" };
+function Hero({ onToggleMenu }) {
   return (
     <div
-      className="apex hero"
+      className="apex-hero"
       style={{ backgroundImage: `url(/images/misc/woman_headkick.jpg)` }}
     >
       <Link to="/" className="apex-hero__brand">

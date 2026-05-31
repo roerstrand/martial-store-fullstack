@@ -29,7 +29,6 @@ function CheckoutPage() {
     setIsLoading(true);
     try {
       const order = await createOrder(products, totalPrice);
-      stz;
       const cartSnapshot = [...cart];
       await clearCart();
       navigate("/confirmation", {

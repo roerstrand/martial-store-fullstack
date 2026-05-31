@@ -9,7 +9,7 @@ function ProductDetailPage() {
   const { productId } = useParams();
   const [selectedSize, setSelectedSize] = useState(null);
   const [, addToCart] = useCart();
-  const nagivate = useNavigate();
+  const navigate = useNavigate();
 
   const {
     data: product,

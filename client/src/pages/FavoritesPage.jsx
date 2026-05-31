@@ -1,6 +1,6 @@
 import { useFavorites } from "../context/FavoriteContext";
 import "./Pages.css";
-import FavoriteItem from "../compoenents/favorites/FavoriteItem";
+import FavoriteItem from "../components/favorites/FavoriteItem";
 
 function FavoritesPage() {
   const [, favorites] = useFavorites();

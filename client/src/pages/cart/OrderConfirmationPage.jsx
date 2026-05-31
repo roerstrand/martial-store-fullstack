@@ -8,7 +8,7 @@ function OrderConfirmationPage() {
 
   const subtotal = cartSnapshot.reduce(
     (sum, item) => sum + item.product.price * item.quantity,
-    0
+    0,
   );
 
   return (
@@ -24,7 +24,6 @@ function OrderConfirmationPage() {
       <h1>✓ Order confirmed</h1>
 
       <div className="confirmation-layout">
-
         <div>
           <p className="confirmation-section-title">Order details</p>
           <div className="confirmation-row">
@@ -40,18 +39,26 @@ function OrderConfirmationPage() {
             <span>{shipping}</span>
           </div>
 
-          <p className="confirmation-section-title" style={{ marginTop: "1.5rem" }}>
+          <p
+            className="confirmation-section-title"
+            style={{ marginTop: "1.5rem" }}
+          >
             Shipping address
           </p>
           <p>{shippingInfo.name}</p>
           <p>{shippingInfo.address}</p>
-          <p>{shippingInfo.zip} {shippingInfo.city}</p>
+          <p>
+            {shippingInfo.zip} {shippingInfo.city}
+          </p>
         </div>
 
         <div>
           <p className="confirmation-section-title">Order summary</p>
           {cartSnapshot.map((item, i) => (
-            <div key={`${item.product._id}-${item.size}-${i}`} className="confirmation-item">
+            <div
+              key={`${item.product._id}-${item.size}-${i}`}
+              className="confirmation-item"
+            >
               <p className="confirmation-item__name">
                 {item.product.title} ({item.size})
               </p>
@@ -78,18 +85,21 @@ function OrderConfirmationPage() {
             <span>{subtotal + shippingCost} EUR</span>
           </div>
         </div>
-
       </div>
 
       <div className="confirmation-footer">
-        <Link to="/products" className="confirmation-btn">Continue shopping</Link>
+        <Link to="/products" className="confirmation-btn">
+          Continue shopping
+        </Link>
         <button
           className="confirmation-btn confirmation-btn--secondary"
           onClick={() => navigate(`/orders/${order._id}`)}
         >
           Track order
         </button>
-        <Link to="/" className="confirmation-btn confirmation-btn--secondary">Back to home ›</Link>
+        <Link to="/" className="confirmation-btn confirmation-btn--secondary">
+          Back to home ›
+        </Link>
       </div>
     </div>
   );

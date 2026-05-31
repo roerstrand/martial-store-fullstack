@@ -25,3 +25,5 @@ function PaymentForm({ onSubmit, isLoading }) {
     </form>
   );
 }
+
+export default PaymentForm;
