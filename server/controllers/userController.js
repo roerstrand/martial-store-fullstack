@@ -23,14 +23,14 @@ const registerUser = asyncHandler(async (req, res) => {
 // @route POST /api/users/login
 // @access public
 const loginUser = asyncHandler(async (req, res) => {
-  const { email, password } = req.body;
+  const { username, password } = req.body;
 
-  if (!email || !password) {
+  if (!username || !password) {
     res.status(400);
     throw new Error("Please fill in all the fields");
   }
 
-  const accessToken = await loginUserService({ email, password });
+  const accessToken = await loginUserService({ username, password });
   res.status(200).json(accessToken);
 });
 

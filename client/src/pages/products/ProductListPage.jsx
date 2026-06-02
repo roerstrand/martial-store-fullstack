@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import useFetch from "../../hooks/useFetch";
 import { getProducts } from "../../services/productService";
 import Filter, { DEFAULT_FILTERS } from "../../components/products/Filter";
+import { useFavorites } from "../../context/FavoriteContext";
 import "../Pages.css";
 
 const CATEGORIES = ["all", "bjj", "boxing", "muaythai", "karate"];
@@ -26,6 +27,7 @@ function applyFilters(products, category, filters) {
 }
 
 function ProductListPage() {
+  const [toggleFavorites, favorites] = useFavorites();
   const { data: products, loading, error } = useFetch(getProducts);
   const [category, setCategory]         = useState("all");
   const [showCategories, setShowCategories] = useState(false);
@@ -97,7 +99,18 @@ function ProductListPage() {
                   <img src="/icons/Cart add.svg" alt="Add to cart" />
                 </button>
               </div>
-              <span className="product-card__label">{product.title} {product.price} EUR</span>
+              <div className="product-card__footer">
+                <span className="product-card__label">{product.title} {product.price} EUR</span>
+                <button
+                  className={`home-product-card__fav-btn${favorites.some(f => f._id === product._id) ? " active" : ""}`}
+                  onClick={(e) => { e.preventDefault(); toggleFavorites(product); }}
+                >
+                  <img
+                    src={favorites.some(f => f._id === product._id) ? "/icons/FavoritesFilled.png" : "/icons/Favorites.png"}
+                    alt="Favorite"
+                  />
+                </button>
+              </div>
             </Link>
           ))}
         </div>

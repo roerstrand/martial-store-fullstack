@@ -6,7 +6,7 @@ import { login as loginService } from "../../services/authService";
 import { useAuth } from "../../context/AuthContext";
 
 function LoginPage() {
-  const email = useInput("");
+  const username = useInput("");
   const password = useInput("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -20,13 +20,17 @@ function LoginPage() {
 
     try {
       const data = await loginService({
-        email: email.value,
+        username: username.value,
         password: password.value,
       });
       login(data.user, data.token);
       navigate("/");
     } catch (err) {
-      setError(err.response?.data?.message || "Something went wrong");
+      if (!err.response) {
+        setError("Cannot connect to server. Is the backend running?");
+      } else {
+        setError(err.response.data?.message || `Error ${err.response.status}`);
+      }
     } finally {
       setLoading(false);
     }
@@ -41,9 +45,9 @@ function LoginPage() {
       <form className="auth-form" onSubmit={handleLogin}>
         <input
           className="apex-input"
-          type="email"
+          type="text"
           placeholder="Username"
-          {...email}
+          {...username}
           required
         />
         <input

@@ -25,16 +25,23 @@
 .apex-hero {
   position: relative;
   height: 384px;
-  background-size: cover;
-  background-position: center;
   overflow: hidden;
+}
+
+.apex-hero__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: bottom center;
+  display: block;
 }
 
 .apex-hero::after {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.55) 0%, transparent 55%);
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.72) 0%, rgba(0,0,0,0.18) 45%, transparent 70%),
+              linear-gradient(to bottom, rgba(0,0,0,0.25) 0%, transparent 30%);
   pointer-events: none;
 }
 
@@ -67,12 +74,12 @@
 
 .apex-hero__tagline {
   position: absolute;
-  bottom: 3rem;
+  bottom: 4.5rem;
   left: 50%;
   transform: translateX(-50%);
   color: var(--color-light);
   font-family: var(--font-italic);
-  font-size: 3.5rem;
+  font-size: 2rem;
   font-weight: 100;
   font-style: italic;
   white-space: nowrap;
@@ -82,12 +89,12 @@
 
 .apex-hero__subtitle {
   position: absolute;
-  bottom: 1.5rem;
+  bottom: 1.25rem;
   left: 50%;
   transform: translateX(-50%);
   color: var(--color-light);
   font-family: var(--font-italic);
-  font-size: 0.95rem;
+  font-size: 1.1rem;
   font-weight: 300;
   font-style: italic;
   white-space: nowrap;
@@ -107,12 +114,31 @@
 }
 
 .apex-hero__icon {
+  position: relative;
   width: 2rem;
   height: 2rem;
   color: var(--color-light);
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.apex-hero__badge {
+  position: absolute;
+  top: -0.35rem;
+  right: -0.35rem;
+  background: var(--color-accent);
+  color: var(--color-light);
+  font-family: var(--font-heading);
+  font-size: 0.55rem;
+  font-weight: 700;
+  min-width: 1rem;
+  height: 1rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 0.15rem;
 }
 
 .apex-hero__icon img {
@@ -152,45 +178,73 @@
 /* === NAVBAR === */
 .apex-navbar {
   background: var(--color-primary);
-  padding: 1rem 2rem;
+  padding: 0.65rem 1.5rem;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.35);
+  position: relative;
+  z-index: 10;
 }
 
-.apex-navbar__items {
+.apex-navbar__left,
+.apex-navbar__right {
   display: flex;
-  gap: 1.5rem;
   align-items: center;
-  flex-wrap: wrap;
-  justify-content: center;
+  gap: 0.5rem;
 }
 
 .apex-nav-btn {
-  background: var(--color-primary);
+  background: transparent;
   color: var(--color-accent) !important;
   font-family: var(--font-heading);
-  font-size: 0.85rem;
+  font-size: 0.78rem;
   text-transform: uppercase;
   letter-spacing: 0.06em;
-  padding: 0.4rem 1rem;
-  border-radius: 0.35rem;
+  padding: 0.35rem 1rem;
+  border-radius: 1.5rem;
   text-decoration: none !important;
   display: inline-flex;
   align-items: center;
-  gap: 0.3rem;
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  gap: 0.25rem;
+  border: 1px solid var(--color-accent);
   cursor: pointer;
-  transition: background 0.2s;
+  white-space: nowrap;
+  box-shadow: inset 0 0 14px rgba(140, 70, 80, 0.55);
+  transition: box-shadow 0.2s;
 }
 
 .apex-nav-btn:hover {
-  background: #5a4d43;
+  box-shadow: inset 0 0 18px rgba(140, 70, 80, 0.7);
+  background: rgba(214, 40, 57, 0.06);
+}
+
+.apex-login-notice {
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  right: 0;
+  background: var(--color-dark);
+  color: var(--color-light);
+  font-family: var(--font-heading);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 0.5rem 0.85rem;
+  border-radius: 0.3rem;
+  white-space: nowrap;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.3);
+  animation: fadeIn 0.2s ease;
+  z-index: 50;
+}
+
+.apex-nav-btn--active {
+  background: rgba(214, 40, 57, 0.18);
+  box-shadow: 0 0 12px rgba(214, 40, 57, 0.9), 0 0 28px rgba(214, 40, 57, 0.45);
 }
 
 .apex-nav-chevron {
-  opacity: 0.6;
-  font-size: 0.85rem;
+  opacity: 0.7;
+  font-size: 0.8rem;
 }
 
 /* mobile nav drawer */
@@ -211,6 +265,111 @@
   justify-content: center;
   font-size: 0.95rem;
   padding: 0.65rem;
+}
+
+/* === MINIMAL HEADER === */
+.minimal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.6rem 1.5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.minimal-header__brand {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  text-decoration: none;
+}
+
+.minimal-header__logo {
+  width: 52px;
+  height: 52px;
+  object-fit: contain;
+}
+
+.minimal-header__brand-name {
+  font-family: var(--font-heading);
+  font-size: 1.4rem;
+  font-weight: 400;
+  color: var(--color-dark);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.minimal-header__icons {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.minimal-header__icon {
+  position: relative;
+  width: 1.75rem;
+  height: 1.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.minimal-header__icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: brightness(0) sepia(1) saturate(0.6) hue-rotate(330deg);
+}
+
+.minimal-header__badge {
+  position: absolute;
+  top: -0.3rem;
+  right: -0.3rem;
+  background: var(--color-accent);
+  color: var(--color-light);
+  font-family: var(--font-heading);
+  font-size: 0.5rem;
+  font-weight: 700;
+  min-width: 0.9rem;
+  height: 0.9rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 0.1rem;
+}
+
+/* === CATEGORIES DROPDOWN === */
+.apex-cat-dropdown {
+  position: absolute;
+  top: calc(100% + 0.4rem);
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--color-primary);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 0.35rem;
+  z-index: 100;
+  min-width: 130px;
+  display: flex;
+  flex-direction: column;
+  padding: 0.3rem 0;
+}
+
+.apex-cat-option {
+  background: none;
+  border: none;
+  color: var(--color-accent);
+  font-family: var(--font-heading);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 0.5rem 1rem;
+  text-align: center;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.apex-cat-option:hover {
+  background: #5a4d43;
 }
 
 /* === RESPONSIVE === */

@@ -1,6 +1,6 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const { findUserByEmail, createUser } = require("../repositories/userRepository");
+const { findUserByEmail, findUserByName, createUser } = require("../repositories/userRepository");
 
 const registerUserService = async ({ name, email, password }) => {
   const existingUser = await findUserByEmail(email);
@@ -15,8 +15,8 @@ const registerUserService = async ({ name, email, password }) => {
   return { _id: user.id, name: user.name, email: user.email };
 };
 
-const loginUserService = async ({ email, password }) => {
-  const user = await findUserByEmail(email);
+const loginUserService = async ({ username, password }) => {
+  const user = await findUserByName(username);
 
   if (!user || !(await bcrypt.compare(password, user.password))) {
     const error = new Error("Invalid credentials");
@@ -30,7 +30,10 @@ const loginUserService = async ({ email, password }) => {
     { expiresIn: "24h" },
   );
 
-  return accessToken;
+  return {
+    token: accessToken,
+    user: { name: user.name, email: user.email, id: user.id },
+  };
 };
 
 module.exports = { registerUserService, loginUserService };
