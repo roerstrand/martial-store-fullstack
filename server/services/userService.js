@@ -1,6 +1,10 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const { findUserByEmail, findUserByName, createUser } = require("../repositories/userRepository");
+const {
+  findUserByEmail,
+  findUserByName,
+  createUser,
+} = require("../repositories/userRepository");
 
 const registerUserService = async ({ name, email, password }) => {
   const existingUser = await findUserByEmail(email);
@@ -25,14 +29,21 @@ const loginUserService = async ({ username, password }) => {
   }
 
   const accessToken = jwt.sign(
-    { user: { name: user.name, email: user.email, id: user.id } },
+    {
+      user: {
+        name: user.name,
+        email: user.email,
+        id: user.id,
+        role: user.role,
+      },
+    },
     process.env.ACCESS_TOKEN_SECRET,
     { expiresIn: "24h" },
   );
 
   return {
     token: accessToken,
-    user: { name: user.name, email: user.email, id: user.id },
+    user: { name: user.name, email: user.email, id: user.id, role: user.role },
   };
 };
 

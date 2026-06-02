@@ -40,8 +40,3 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server running on port http://localhost:${PORT}`);
 });
-
-// localhost:3000/contacts
-// localhost:3000/users
-// localhost:3000/categories
-// etc

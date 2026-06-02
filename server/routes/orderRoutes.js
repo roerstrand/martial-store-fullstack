@@ -1,5 +1,6 @@
 const express = require("express");
 const tokenValidator = require("../middleware/validateTokenHandler");
+const adminValidator = require("../middleware/adminValidator");
 const {
   getAllOrders,
   getOrder,
@@ -11,12 +12,18 @@ const {
 
 const router = express.Router();
 
-router.route("/").get(tokenValidator, getAllOrders).post(tokenValidator, createOrder);
+router
+  .route("/")
+  .get(tokenValidator, adminValidator, getAllOrders)
+  .post(tokenValidator, createOrder);
 
 router.get("/me", tokenValidator, getMyOrders);
 
-router.route("/:id").get(tokenValidator, getOrder).delete(tokenValidator, deleteOrder);
+router
+  .route("/:id")
+  .get(tokenValidator, getOrder)
+  .delete(tokenValidator, adminValidator, deleteOrder);
 
-router.patch("/:id/status", tokenValidator, updateOrderStatus);
+router.patch("/:id/status", tokenValidator, adminValidator, updateOrderStatus);
 
 module.exports = router;
