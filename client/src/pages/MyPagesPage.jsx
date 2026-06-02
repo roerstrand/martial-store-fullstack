@@ -5,11 +5,11 @@ import useFetch from "../hooks/useFetch.jsx";
 import "./Pages.css";
 
 const STATUS_LABELS = {
-  pending: "Pending",
+  pending:    "Pending",
   processing: "Processing",
-  shipped: "Shipped",
-  delivered: "Delivered",
-  cancelled: "Cancelled",
+  shipped:    "Shipped",
+  delivered:  "Delivered",
+  cancelled:  "Cancelled",
 };
 
 function MyPagesPage() {
@@ -18,54 +18,66 @@ function MyPagesPage() {
 
   return (
     <div className="my-pages-page">
-      <h1>My Pages</h1>
 
-      <section className="my-pages-section">
-        <p className="confirmation-section-title">Account</p>
+      <div className="my-pages-header">
+        <p className="my-pages-header__eyebrow">Member account</p>
         {userLoading ? (
-          <p className="loading">Loading...</p>
+          <p className="loading" style={{ padding: 0 }}>Loading...</p>
         ) : user ? (
           <>
-            <div className="confirmation-row">
-              <span className="confirmation-row__label">Name</span>
-              <span>{user.name}</span>
-            </div>
-            <div className="confirmation-row">
-              <span className="confirmation-row__label">Email</span>
-              <span>{user.email}</span>
-            </div>
+            <p className="my-pages-header__name">{user.name}</p>
+            <p className="my-pages-header__email">{user.email}</p>
           </>
         ) : null}
-      </section>
+      </div>
 
-      <section className="my-pages-section">
-        <p className="confirmation-section-title">Order history</p>
-        {ordersLoading ? (
-          <p className="loading">Loading orders...</p>
-        ) : orders && orders.length > 0 ? (
-          orders.map((order) => (
-            <div key={order._id} className="my-pages-order">
-              <div className="confirmation-row">
-                <span className="confirmation-row__label">Order</span>
-                <span>{order._id}</span>
+      <div className="my-pages-body">
+
+        <section className="my-pages-section">
+          <p className="my-pages-section__title">Order History</p>
+
+          {ordersLoading ? (
+            <p className="loading">Loading orders...</p>
+          ) : orders && orders.length > 0 ? (
+            <div className="my-pages-table">
+              <div className="my-pages-table__head">
+                <span>Order</span>
+                <span>Status</span>
+                <span>Total</span>
+                <span />
               </div>
-              <div className="confirmation-row">
-                <span className="confirmation-row__label">Status</span>
-                <span>{STATUS_LABELS[order.status] ?? order.status}</span>
-              </div>
-              <div className="confirmation-row">
-                <span className="confirmation-row__label">Total</span>
-                <span>{order.totalPrice} EUR</span>
-              </div>
-              <Link to={`/orders/${order._id}`} className="my-pages-order__link">
-                Track order
+              {orders.map((order) => (
+                <div key={order._id} className="my-pages-table__row">
+                  <span className="my-pages-table__id">
+                    #{order._id.slice(-8).toUpperCase()}
+                  </span>
+                  <span className={`my-pages-table__status my-pages-table__status--${order.status}`}>
+                    {STATUS_LABELS[order.status] ?? order.status}
+                  </span>
+                  <span className="my-pages-table__total">
+                    {order.totalPrice} EUR
+                  </span>
+                  <Link to={`/orders/${order._id}`} className="my-pages-table__link">
+                    Track ›
+                  </Link>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="my-pages-empty">
+              <p>No orders placed yet.</p>
+              <Link to="/products" className="auth-btn-primary" style={{ display: "inline-block", marginTop: "1rem" }}>
+                SHOP NOW ›
               </Link>
             </div>
-          ))
-        ) : (
-          <p className="favorites-empty">No orders yet</p>
-        )}
-      </section>
+          )}
+        </section>
+
+      </div>
+
+      <div className="my-pages-footer">
+        <Link to="/" className="auth-btn-secondary">BACK TO HOME ›</Link>
+      </div>
     </div>
   );
 }

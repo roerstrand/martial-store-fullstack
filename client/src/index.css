@@ -17,8 +17,9 @@ html {
   --color-primary: #4b4139;
   --color-accent: #d62839;
   --color-green: #39d600;
-  --font-body: 'Sekuya', system-ui, 'Segoe UI', Roboto, sans-serif;
-  --font-heading: 'Sekuya', system-ui, sans-serif;
+  --font-display: 'Sekuya', system-ui, sans-serif;
+  --font-body: 'Inter', system-ui, 'Segoe UI', sans-serif;
+  --font-heading: 'Inter', system-ui, 'Segoe UI', sans-serif;
   --font-italic: 'Inter', system-ui, sans-serif;
   --font-ui: 'Inter', system-ui, 'Segoe UI', sans-serif;
   --text-h: var(--color-dark);

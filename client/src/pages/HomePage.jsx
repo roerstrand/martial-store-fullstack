@@ -3,18 +3,23 @@ import { Link, useSearchParams, useNavigate } from "react-router-dom";
 import useFetch from "../hooks/useFetch.jsx";
 import { getProducts } from "../services/productService";
 import { useFavorites } from "../context/FavoriteContext";
+import { useCart } from "../context/CartContext";
 import { articles } from "../data/articles";
 import "./Pages.css";
 
 const SLIDE_INTERVAL = 3500;
+const SLIDE_INTERVAL_AFTER_INTERACTION = 7000;
 const VISIBLE = 4;
 
 function HomePage() {
   const [toggleFavorites, favorites] = useFavorites();
+  const [, addToCart] = useCart();
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const category = searchParams.get("category");
   const sale = searchParams.get("sale");
+  const [email, setEmail] = useState("");
+  const [subscribed, setSubscribed] = useState(false);
 
   const { data: allProducts, loading } = useFetch(getProducts);
 
@@ -27,7 +32,10 @@ function HomePage() {
 
   const [displayIndex, setDisplayIndex] = useState(0);
   const [phase, setPhase] = useState("idle"); // "idle" | "exit" | "enter"
+  const [isPaused, setIsPaused] = useState(false);
   const intervalRef = useRef(null);
+  const pausedRef = useRef(false);
+  const interactedRef = useRef(false);
 
   // Preload all product images when fetched
   useEffect(() => {
@@ -47,7 +55,7 @@ function HomePage() {
   }, [category, sale]);
 
   // Auto-advance
-  const startSlide = () => {
+  const startSlide = (delay = SLIDE_INTERVAL) => {
     clearInterval(intervalRef.current);
     if (products.length <= VISIBLE) return;
     intervalRef.current = setInterval(() => {
@@ -57,7 +65,31 @@ function HomePage() {
         setPhase("enter");
         setTimeout(() => setPhase("idle"), 400);
       }, 280);
-    }, SLIDE_INTERVAL);
+    }, delay);
+  };
+
+  const pauseSlide = () => {
+    clearInterval(intervalRef.current);
+    pausedRef.current = true;
+    setIsPaused(true);
+  };
+
+  const resumeSlide = () => {
+    pausedRef.current = false;
+    setIsPaused(false);
+    const delay = interactedRef.current ? SLIDE_INTERVAL_AFTER_INTERACTION : SLIDE_INTERVAL;
+    interactedRef.current = false;
+    startSlide(delay);
+  };
+
+  const togglePause = () => {
+    if (isPaused) resumeSlide();
+    else pauseSlide();
+  };
+
+  const handleInteraction = () => {
+    interactedRef.current = true;
+    if (!pausedRef.current) startSlide(SLIDE_INTERVAL_AFTER_INTERACTION);
   };
 
   useEffect(() => {
@@ -74,6 +106,12 @@ function HomePage() {
   return (
     <div className="home-page">
       <section className="home-products">
+        <div className="home-products__topbar">
+          <p className="home-products__label">Popular gear</p>
+          <button className="home-products__pause-btn" onClick={togglePause} title={isPaused ? "Resume" : "Pause"}>
+            {isPaused ? "▶" : "⏸"}
+          </button>
+        </div>
         <div style={{ display: "flex", alignItems: "center", gap: "0.25rem" }}>
           <button
             className="home-products__arrow home-products__arrow--left"
@@ -81,16 +119,19 @@ function HomePage() {
             disabled={products.length <= VISIBLE}
           >‹</button>
 
-          <div className="home-slideshow-wrapper" style={{ flex: 1 }}>
+          <div className="home-slideshow-wrapper" style={{ flex: 1 }} onMouseEnter={pauseSlide} onMouseLeave={resumeSlide}>
             <div className={`home-products__grid home-products__grid--${phase}`}>
               {loading && (
                 <p className="loading" style={{ gridColumn: "1/-1" }}>Loading...</p>
               )}
               {visibleProducts.map((product, i) => (
-                <Link
-                  to={`/products/${product._id}`}
+                <div
                   key={`${product._id}-${displayIndex}-${i}`}
                   className="home-product-card"
+                  onClick={() => navigate(`/products/${product._id}`)}
+                  role="link"
+                  tabIndex={0}
+                  onKeyDown={(e) => e.key === "Enter" && navigate(`/products/${product._id}`)}
                 >
                   <div className="home-product-card__img-wrap">
                     <img src={`/images/products/${product.image}`} alt={product.title} />
@@ -99,25 +140,32 @@ function HomePage() {
                     )}
                   </div>
                   <div className="home-product-card__footer">
-                    <span className="home-product-card__label">
-                      {product.title} {product.price}€
-                    </span>
-                    <div className="home-product-card__actions">
+                    <div className="home-product-card__text">
+                      <span className="home-product-card__title">{product.title}</span>
+                      <span className="home-product-card__price">{product.price}€</span>
+                    </div>
+                    <div
+                      className="home-product-card__actions"
+                      onClick={(e) => e.stopPropagation()}
+                    >
                       <button
                         className={`home-product-card__fav-btn${favorites.some(f => f._id === product._id) ? " active" : ""}`}
-                        onClick={(e) => { e.preventDefault(); toggleFavorites(product); }}
+                        onClick={() => { toggleFavorites(product); handleInteraction(); }}
                       >
                         <img
                           src={favorites.some(f => f._id === product._id) ? "/icons/FavoritesFilled.png" : "/icons/Favorites.png"}
                           alt="Favorite"
                         />
                       </button>
-                      <span className="home-product-card__cart">
-                        <img src="/icons/Cart.svg" alt="Add to cart" />
-                      </span>
+                      <button
+                        className="home-product-card__cart"
+                        onClick={() => { addToCart(product, null); handleInteraction(); }}
+                      >
+                        <img src="/icons/Cart add.svg" alt="Add to cart" />
+                      </button>
                     </div>
                   </div>
-                </Link>
+                </div>
               ))}
             </div>
           </div>
@@ -150,7 +198,7 @@ function HomePage() {
 
       <section className="home-articles">
         <div className="home-articles__header">
-          <span>Stories below</span>
+          <span>Stories</span>
           <Link to="/articles" className="home-articles__btn">›</Link>
         </div>
         <div className="home-articles__grid">
@@ -164,6 +212,29 @@ function HomePage() {
             </Link>
           ))}
         </div>
+      </section>
+
+      <section className="home-newsletter">
+        <h2 className="home-newsletter__heading">Join the Apex Core Community</h2>
+        <p className="home-newsletter__sub">Get training tips, stories and exclusive offers.</p>
+        {subscribed ? (
+          <p className="home-newsletter__success">You're in. Welcome to the community.</p>
+        ) : (
+          <form
+            className="home-newsletter__form"
+            onSubmit={(e) => { e.preventDefault(); if (email) setSubscribed(true); }}
+          >
+            <input
+              className="home-newsletter__input"
+              type="email"
+              placeholder="Your email address"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+            <button type="submit" className="home-newsletter__btn">Subscribe</button>
+          </form>
+        )}
       </section>
     </div>
   );

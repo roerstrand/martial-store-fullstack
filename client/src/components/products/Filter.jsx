@@ -28,65 +28,69 @@ function Filter({ filters, onChange, onClose }) {
 
   return (
     <div className="filter-panel">
-      <div className="filter-panel__header">
-        <p className="filter-panel__title">Filter</p>
-        <button className="filter-panel__close" onClick={onClose}>✕</button>
+
+      <div className="filter-col">
+        <p className="filter-section-title">Sort by</p>
+        <div className="filter-options-chips">
+          {SORT_OPTIONS.map((opt) => (
+            <button
+              key={opt.value}
+              className={`filter-option${local.sort === opt.value ? " filter-option--active" : ""}`}
+              onClick={() => update("sort", opt.value)}
+            >
+              {opt.label}
+            </button>
+          ))}
+        </div>
       </div>
 
-      <p className="filter-section-title">Sort by</p>
-      {SORT_OPTIONS.map((opt) => (
-        <button
-          key={opt.value}
-          className={`filter-option${local.sort === opt.value ? " filter-option--active" : ""}`}
-          onClick={() => update("sort", opt.value)}
-        >
-          {opt.label}
-        </button>
-      ))}
+      <div className="filter-col">
+        <p className="filter-section-title">Price range</p>
+        <div className="filter-price-row">
+          <input
+            type="number"
+            placeholder="Min"
+            value={local.minPrice}
+            onChange={(e) => update("minPrice", e.target.value)}
+            className="filter-price-input"
+          />
+          <span className="filter-price-sep">—</span>
+          <input
+            type="number"
+            placeholder="Max"
+            value={local.maxPrice}
+            onChange={(e) => update("maxPrice", e.target.value)}
+            className="filter-price-input"
+          />
+        </div>
 
-      <p className="filter-section-title">Price range</p>
-      <div className="filter-price-row">
-        <input
-          type="number"
-          placeholder="Min"
-          value={local.minPrice}
-          onChange={(e) => update("minPrice", e.target.value)}
-          className="filter-price-input"
-        />
-        <span>—</span>
-        <input
-          type="number"
-          placeholder="Max"
-          value={local.maxPrice}
-          onChange={(e) => update("maxPrice", e.target.value)}
-          className="filter-price-input"
-        />
+        <p className="filter-section-title" style={{ marginTop: "1rem" }}>Min rating</p>
+        <div className="filter-rating">
+          {[1, 2, 3, 4, 5].map((r) => (
+            <button
+              key={r}
+              className={`filter-rating-btn${local.minRating >= r ? " filter-rating-btn--active" : ""}`}
+              onClick={() => update("minRating", local.minRating === r ? 0 : r)}
+            >
+              ★
+            </button>
+          ))}
+        </div>
+
+        <label className="filter-sale-label">
+          <input
+            type="checkbox"
+            checked={local.onSale}
+            onChange={(e) => update("onSale", e.target.checked)}
+          />
+          On sale only
+        </label>
       </div>
 
-      <p className="filter-section-title">Min rating</p>
-      <div className="filter-rating">
-        {[1, 2, 3, 4, 5].map((r) => (
-          <button
-            key={r}
-            className={`filter-rating-btn${local.minRating >= r ? " filter-rating-btn--active" : ""}`}
-            onClick={() => update("minRating", local.minRating === r ? 0 : r)}
-          >
-            ★
-          </button>
-        ))}
-      </div>
-
-      <label className="filter-sale-label">
-        <input
-          type="checkbox"
-          checked={local.onSale}
-          onChange={(e) => update("onSale", e.target.checked)}
-        />
-        On sale only
-      </label>
+      <div />
 
       <div className="filter-footer">
-        <button className="filter-apply-btn" onClick={handleApply}>Apply</button>
+        <button className="filter-apply-btn" onClick={handleApply}>Apply ›</button>
         <button className="filter-reset-btn" onClick={handleReset}>Reset</button>
       </div>
     </div>

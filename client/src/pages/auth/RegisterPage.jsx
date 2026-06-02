@@ -19,7 +19,7 @@ function RegisterPage() {
     setLoading(true);
 
     try {
-      await register({ username: username.value, email: email.value, password: password.value });
+      await register({ name: username.value, email: email.value, password: password.value });
       navigate("/login");
     } catch (err) {
       setError(err.response?.data?.message || "Something went wrong");
@@ -30,20 +30,23 @@ function RegisterPage() {
 
   return (
     <div className="auth-page">
-      <h1>Create an account</h1>
+      <div className="auth-card">
+        <h1>Create Account</h1>
+        <p className="auth-tagline">Join the Apex Core family</p>
 
-      {error && <div className="auth-error">{error}</div>}
+        {error && <div className="auth-error">{error}</div>}
 
-      <form className="auth-form" onSubmit={handleRegister}>
-        <input className="apex-input" type="text" placeholder="Username" {...username} required />
-        <input className="apex-input" type="email" placeholder="Email" {...email} required />
-        <input className="apex-input" type="password" placeholder="Password" {...password} required />
-        <input className="apex-input" type="password" placeholder="Repeat Password" {...repeatPassword} required />
-        <button type="submit" className="auth-btn-primary" disabled={loading}>
-          REGISTER ›
-        </button>
-        <Link to="/" className="auth-btn-secondary">BACK TO HOME ›</Link>
-      </form>
+        <form className="auth-form" onSubmit={handleRegister}>
+          <input className="apex-input" type="text" placeholder="Username" {...username} required />
+          <input className="apex-input" type="email" placeholder="Email" {...email} required />
+          <input className="apex-input" type="password" placeholder="Password" {...password} required />
+          <input className="apex-input" type="password" placeholder="Repeat Password" {...repeatPassword} required />
+          <button type="submit" className="auth-btn-primary" disabled={loading}>
+            {loading ? "CREATING..." : "REGISTER ›"}
+          </button>
+          <Link to="/" className="auth-btn-secondary">BACK TO HOME ›</Link>
+        </form>
+      </div>
     </div>
   );
 }

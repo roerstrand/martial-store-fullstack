@@ -13,13 +13,13 @@ function ArticlePage() {
       <img className="article-page__img" src={article.img} alt={article.title} />
       <div className="article-page__body">
         <h1>{article.title}</h1>
-        <p className="article-page__author">by {article.author}</p>
+        <p className="article-page__author">{article.author}</p>
         <div className="article-page__content">
           {article.content.split("\n\n").map((para, i) => (
             <p key={i}>{para}</p>
           ))}
         </div>
-        <Link to="/" className="auth-btn-secondary" style={{ display: "inline-block", marginTop: "2rem" }}>
+        <Link to="/" className="auth-btn-secondary" style={{ display: "inline-flex", marginTop: "2rem" }}>
           ← BACK TO HOME
         </Link>
       </div>

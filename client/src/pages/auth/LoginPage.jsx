@@ -11,7 +11,7 @@ function LoginPage() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const { login } = useAuth();
+  const [, , login] = useAuth();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -38,35 +38,40 @@ function LoginPage() {
 
   return (
     <div className="auth-page">
-      <h1>Login</h1>
+      <div className="auth-card">
+        <h1>Login</h1>
+        <p className="auth-tagline">Welcome back, warrior</p>
 
-      {error && <div className="auth-error">{error}</div>}
+        {error && <div className="auth-error">{error}</div>}
 
-      <form className="auth-form" onSubmit={handleLogin}>
-        <input
-          className="apex-input"
-          type="text"
-          placeholder="Username"
-          {...username}
-          required
-        />
-        <input
-          className="apex-input"
-          type="password"
-          placeholder="Password"
-          {...password}
-          required
-        />
-        <button type="submit" className="auth-btn-primary" disabled={loading}>
-          LOGIN ›
-        </button>
-        <Link to="/register" className="auth-btn-secondary">
-          REGISTER ›
-        </Link>
-        <Link to="/" className="auth-btn-secondary">
-          BACK TO HOME ›
-        </Link>
-      </form>
+        <form className="auth-form" onSubmit={handleLogin} autoComplete="off">
+          <input
+            className="apex-input"
+            type="text"
+            placeholder="Username"
+            autoComplete="username"
+            {...username}
+            required
+          />
+          <input
+            className="apex-input"
+            type="password"
+            placeholder="Password"
+            autoComplete="current-password"
+            {...password}
+            required
+          />
+          <button type="submit" className="auth-btn-primary" disabled={loading}>
+            {loading ? "LOGGING IN..." : "LOGIN ›"}
+          </button>
+          <Link to="/register" className="auth-btn-secondary">
+            REGISTER ›
+          </Link>
+          <Link to="/" className="auth-btn-secondary">
+            BACK TO HOME ›
+          </Link>
+        </form>
+      </div>
     </div>
   );
 }

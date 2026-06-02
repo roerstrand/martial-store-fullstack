@@ -18,11 +18,11 @@ function MinimalLayout() {
         <div className="minimal-header__icons">
           <Link to="/favorites" className="minimal-header__icon">
             <img src="/icons/Favorites.png" alt="Favorites" />
-            {favCount > 0 && <span className="minimal-header__badge">{favCount}</span>}
+            <span className="minimal-header__badge">{favCount}</span>
           </Link>
           <Link to="/cart" className="minimal-header__icon">
             <img src="/icons/Cart.svg" alt="Cart" />
-            {cartCount > 0 && <span className="minimal-header__badge">{cartCount}</span>}
+            <span className="minimal-header__badge">{cartCount}</span>
           </Link>
         </div>
       </header>
@@ -30,7 +30,10 @@ function MinimalLayout() {
         <Outlet />
       </main>
       <footer className="footer">
-        <p>&copy; 2026 Robin Erik Strandberg. All rights reserved.</p>
+        <div className="footer__brand">Apex Core</div>
+        <p className="footer__tagline">Train hard. Fight smart.</p>
+        <div className="footer__divider" />
+        <p className="footer__copy">&copy; 2026 Robin Erik Strandberg. All rights reserved.</p>
       </footer>
     </div>
   );

@@ -14,7 +14,10 @@ function MainLayout() {
         <Outlet />
       </main>
       <footer className="footer">
-        <p>&copy; 2026 Robin Erik Strandberg. All rights reserved.</p>
+        <div className="footer__brand">Apex Core</div>
+        <p className="footer__tagline">Train hard. Fight smart.</p>
+        <div className="footer__divider" />
+        <p className="footer__copy">&copy; 2026 Robin Erik Strandberg. All rights reserved.</p>
       </footer>
     </div>
   );

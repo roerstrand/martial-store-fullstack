@@ -13,11 +13,15 @@ const users = [
     email: "admin@apexcore.com",
     password: "admin1234",
   },
-
   {
     name: "Customer",
     email: "customer@apexcore.com",
     password: "customer1234",
+  },
+  {
+    name: "user",
+    email: "user@apexcore.com",
+    password: "password",
   },
 ];
 
@@ -191,6 +195,26 @@ const products = (userId) => [
     category: "karate",
     rating: 4,
     sale: 20,
+  },
+  {
+    user_id: userId,
+    title: "Muay Thai Pads",
+    price: 54,
+    description: "Thai pads for partner drills — built to absorb heavy kicks and elbows.",
+    image: "muaythai_pads.jpg",
+    category: "muaythai",
+    rating: 5,
+    sale: 0,
+  },
+  {
+    user_id: userId,
+    title: "Karate Chest Pads",
+    price: 44,
+    description: "Lightweight chest protector approved for WKF kumite competition.",
+    image: "karate_chestpads.jpg",
+    category: "karate",
+    rating: 4,
+    sale: 0,
   },
 ];
 
