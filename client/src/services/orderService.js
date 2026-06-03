@@ -6,11 +6,11 @@ export const createOrder = async (products, totalPrice) => {
 };
 
 export const getMyOrders = async () => {
-  const response = await api.post("/orders/me");
+  const response = await api.get("/orders/me");
   return response.data;
 };
 
 export const getOrder = async (orderId) => {
-  const response = await api.post(`/orders/${orderId}`);
+  const response = await api.get(`/orders/${orderId}`);
   return response.data;
 };

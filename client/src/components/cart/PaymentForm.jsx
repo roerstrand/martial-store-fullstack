@@ -1,14 +1,21 @@
 import { useState } from "react";
 
+const PAYMENT_METHODS = [
+  { value: "card",   label: "Credit / Debit Card", icon: "/icons/Card payments.png" },
+  { value: "swish",  label: "Swish",               icon: "/icons/Swish.png" },
+  { value: "klarna", label: "Klarna",               icon: "/icons/Klarna.png" },
+];
+
 function PaymentForm({ onSubmit }) {
   const [form, setForm] = useState({ name: "", email: "", phone: "", address: "", zip: "", city: "" });
   const [shipping, setShipping] = useState("standard");
+  const [payment, setPayment] = useState("card");
 
   const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSubmit({ ...form, shipping });
+    onSubmit({ ...form, shipping, payment });
   };
 
   const shippingOptions = [
@@ -21,14 +28,16 @@ function PaymentForm({ onSubmit }) {
     <form id="checkout-form" className="checkout-form" onSubmit={handleSubmit}>
 
       <p className="checkout-section-title">Contact information</p>
-      <input className="apex-input" type="text"  name="name"  placeholder="Name"  value={form.name}  onChange={handleChange} required />
-      <input className="apex-input" type="email" name="email" placeholder="Email" value={form.email} onChange={handleChange} required />
-      <input className="apex-input" type="tel"   name="phone" placeholder="Phone" value={form.phone} onChange={handleChange} required />
+      <input className="apex-input" type="text"  name="name"  placeholder="Full name"  value={form.name}  onChange={handleChange} required />
+      <input className="apex-input" type="email" name="email" placeholder="Email address" value={form.email} onChange={handleChange} required />
+      <input className="apex-input" type="tel"   name="phone" placeholder="Phone number" value={form.phone} onChange={handleChange} required />
 
       <p className="checkout-section-title">Shipping address</p>
-      <input className="apex-input" type="text" name="address" placeholder="Address"     value={form.address} onChange={handleChange} required />
-      <input className="apex-input" type="text" name="zip"     placeholder="Postal code" value={form.zip}     onChange={handleChange} required />
-      <input className="apex-input" type="text" name="city"    placeholder="City"        value={form.city}    onChange={handleChange} required />
+      <input className="apex-input" type="text" name="address" placeholder="Street address" value={form.address} onChange={handleChange} required />
+      <div style={{ display: "flex", gap: "0.5rem" }}>
+        <input className="apex-input" type="text" name="zip"  placeholder="Postal code" value={form.zip}  onChange={handleChange} required />
+        <input className="apex-input" type="text" name="city" placeholder="City"         value={form.city} onChange={handleChange} required />
+      </div>
 
       <p className="checkout-section-title">Shipping method</p>
       <div className="shipping-options">
@@ -36,7 +45,7 @@ function PaymentForm({ onSubmit }) {
           <button
             key={opt.value}
             type="button"
-            className={`shipping-option ${shipping === opt.value ? "shipping-option--active" : ""}`}
+            className={`shipping-option${shipping === opt.value ? " shipping-option--active" : ""}`}
             onClick={() => setShipping(opt.value)}
           >
             <span>{opt.label}</span>
@@ -45,11 +54,19 @@ function PaymentForm({ onSubmit }) {
         ))}
       </div>
 
-      <p className="checkout-section-title">Payment</p>
-      <div className="payment-logos">
-        <img src="/icons/Klarna.png" alt="Klarna" />
-        <img src="/icons/Swish.png" alt="Swish" />
-        <img src="/icons/Card payments.png" alt="Card" />
+      <p className="checkout-section-title">Payment method</p>
+      <div className="payment-methods">
+        {PAYMENT_METHODS.map((m) => (
+          <button
+            key={m.value}
+            type="button"
+            className={`payment-method${payment === m.value ? " payment-method--active" : ""}`}
+            onClick={() => setPayment(m.value)}
+          >
+            <img src={m.icon} alt={m.label} className="payment-method__icon" />
+            <span>{m.label}</span>
+          </button>
+        ))}
       </div>
 
     </form>

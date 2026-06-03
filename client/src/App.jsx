@@ -19,6 +19,9 @@ import OrderConfirmationPage from "./pages/cart/OrderConfirmationPage";
 import OrderPage from "./pages/cart/OrderPage";
 import MyPagesPage from "./pages/MyPagesPage";
 import ArticlePage from "./pages/ArticlePage";
+import ArticleListPage from "./pages/ArticleListPage";
+import InfoPage from "./pages/InfoPage";
+import AdminPage from "./pages/admin/AdminPage";
 
 function App() {
   return (
@@ -35,14 +38,17 @@ function App() {
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/cart" element={<CartPage />} />
           <Route path="/contact" element={<ContactPage />} />
+          <Route path="/articles" element={<ArticleListPage />} />
           <Route path="/articles/:id" element={<ArticlePage />} />
           <Route path="/favorites" element={<FavoritesPage />} />
+          <Route path="/info/:slug" element={<InfoPage />} />
 
           <Route element={<PrivateRoute />}>
             <Route path="/checkout" element={<CheckoutPage />} />
             <Route path="/confirmation" element={<OrderConfirmationPage />} />
             <Route path="/orders/:orderId" element={<OrderPage />} />
             <Route path="/my-pages" element={<MyPagesPage />} />
+            <Route path="/admin" element={<AdminPage />} />
           </Route>
         </Route>
 

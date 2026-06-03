@@ -1,137 +1,94 @@
-import React, { useState } from 'react';
-import './Pages.css';
-import useInput from '../hooks/useInput.jsx';
+import { useState } from "react";
+import useInput from "../hooks/useInput.jsx";
+import "./Pages.css";
+import PageNav from "../components/PageNav";
 
-/**
- * Contact.js - Kontaktsidan
- * 
- * Denna komponent visar en enkel kontaktform.
- * Den använder useState för att hantera formulärdata.
- */
+const INFO = [
+  { label: "Email",   value: "hello@apexcore.com" },
+  { label: "Phone",   value: "+44 (0) 20 1234 5678" },
+  { label: "Address", value: "1 Main Street\nLondon EC1A 1BB" },
+  { label: "Hours",   value: "Mon – Fri  09:00 – 17:00\nWeekends  Closed" },
+];
 
 function ContactPage() {
-  // useInput hanterar value + onChange automatiskt per fält
-  const name = useInput('');
-  const email = useInput('');
-  const message = useInput('');
-
-  // State för att visa bekräftelse
+  const name    = useInput("");
+  const email   = useInput("");
+  const message = useInput("");
   const [submitted, setSubmitted] = useState(false);
 
-  /**
-   * handleChange()
-   * Denna funktion körs när användaren skriver i ett inputfält
-   * Den uppdaterar state med det som användaren skriver
-   * — ersatt av useInput-hookens onChange per fält
-   */
-
-  /**
-   * handleSubmit()
-   * Denna funktion körs när användaren klickar "Skicka"
-   */
   const handleSubmit = (e) => {
-    e.preventDefault(); // Förhindra sida-omladdning
-
-    // I en riktig app skulle vi skicka detta till en server här
-    console.log('Formulär skickat:', { name: name.value, email: email.value, message: message.value });
-
-    // Visa bekräftelse
+    e.preventDefault();
     setSubmitted(true);
-
-    // Rensa formuläret
     name.reset();
     email.reset();
     message.reset();
-
-    // Dölj bekräftelse efter 5 sekunder
-    setTimeout(() => {
-      setSubmitted(false);
-    }, 5000);
+    setTimeout(() => setSubmitted(false), 6000);
   };
 
   return (
-    <div className="page-container contact-page">
-      <h1>Contact us</h1>
-      <p className="section-intro">We usually respond within 24 hours</p>
+    <div className="contact-page">
+      <PageNav back="/" backLabel="Home" />
+      <div className="contact-hero">
+        <p className="contact-hero__eyebrow">Get in touch</p>
+        <h1 className="contact-hero__heading">Contact Us</h1>
+        <p className="contact-hero__sub">We usually respond within 24 hours.</p>
+      </div>
 
-      <div className="contact-content">
-        {/* Kontaktinformation */}
-        <div className="contact-info">
-          <h3>Contact information</h3>
+      <div className="contact-body">
 
-          <div className="info-item">
-            <h4>📧 Email</h4>
-            <p>hello@apexcore.com</p>
+        <aside className="contact-info">
+          <p className="contact-info__heading">Apex Core HQ</p>
+          <div className="contact-info__items">
+            {INFO.map((item) => (
+              <div key={item.label} className="contact-info__item">
+                <span className="contact-info__label">{item.label}</span>
+                <span className="contact-info__value">
+                  {item.value.split("\n").map((line, i) => (
+                    <span key={i}>{line}<br /></span>
+                  ))}
+                </span>
+              </div>
+            ))}
           </div>
 
-          <div className="info-item">
-            <h4>📞 Phone</h4>
-            <p>+44 (0) 20 1234 5678</p>
+          <div className="contact-info__social">
+            <p className="contact-info__label">Follow us</p>
+            <div className="contact-social-links">
+              <a href="#" className="contact-social-link">Instagram</a>
+              <a href="#" className="contact-social-link">Facebook</a>
+              <a href="#" className="contact-social-link">YouTube</a>
+            </div>
           </div>
+        </aside>
 
-          <div className="info-item">
-            <h4>📍 Address</h4>
-            <p>1 Main Street<br/>London EC1A 1BB</p>
-          </div>
-
-          <div className="info-item">
-            <h4>🕐 Opening hours</h4>
-            <p>Mon-Fri: 09:00 - 17:00<br/>Sat-Sun: Closed</p>
-          </div>
-        </div>
-
-        {/* Kontaktformulär */}
-        <div className="contact-form">
-          <h3>Send a message</h3>
-
+        <section className="contact-form-wrap">
           {submitted ? (
-            <div className="form-success">
-              <p>✓ Thank you for your message! We'll get back to you as soon as possible.</p>
+            <div className="contact-success">
+              <span className="contact-success__icon">✓</span>
+              <h2 className="contact-success__heading">Message sent</h2>
+              <p className="contact-success__text">Thank you — we'll be in touch shortly.</p>
             </div>
           ) : (
-            <form onSubmit={handleSubmit}>
-              <div className="form-group">
-                <label htmlFor="name">Name:</label>
-                <input
-                  id="name"
-                  type="text"
-                  value={name.value}
-                  onChange={name.onChange}
-                  placeholder="Your name"
-                  required
-                />
+            <form className="contact-form" onSubmit={handleSubmit}>
+              <div className="contact-form__row">
+                <div className="contact-field">
+                  <label className="contact-label">Name</label>
+                  <input className="contact-input" type="text" placeholder="Your name" {...name} required />
+                </div>
+                <div className="contact-field">
+                  <label className="contact-label">Email</label>
+                  <input className="contact-input" type="email" placeholder="your@email.com" {...email} required />
+                </div>
               </div>
-
-              <div className="form-group">
-                <label htmlFor="email">Email:</label>
-                <input
-                  id="email"
-                  type="email"
-                  value={email.value}
-                  onChange={email.onChange}
-                  placeholder="your@email.com"
-                  required
-                />
+              <div className="contact-field">
+                <label className="contact-label">Message</label>
+                <textarea className="contact-input contact-input--textarea" placeholder="How can we help you?" rows={6} {...message} required />
               </div>
-
-              <div className="form-group">
-                <label htmlFor="message">Message:</label>
-                <textarea
-                  id="message"
-                  value={message.value}
-                  onChange={message.onChange}
-                  placeholder="Write your message here..."
-                  rows="6"
-                  required
-                ></textarea>
-              </div>
-
-              <button type="submit" className="btn">
-                Send message
-              </button>
+              <button type="submit" className="contact-submit">Send message</button>
             </form>
           )}
-        </div>
+        </section>
+
       </div>
     </div>
   );

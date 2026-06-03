@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import useFetch from "../../hooks/useFetch";
 import { getProducts } from "../../services/productService";
 import Filter, { DEFAULT_FILTERS } from "../../components/products/Filter";
@@ -9,10 +9,18 @@ import "../Pages.css";
 
 const CATEGORIES = ["all", "bjj", "boxing", "muaythai", "karate"];
 
-function applyFilters(products, category, filters) {
+function applyFilters(products, category, filters, search) {
   let result = category === "all"
     ? [...products]
     : products.filter((p) => p.category === category);
+
+  if (search.trim()) {
+    const q = search.trim().toLowerCase();
+    result = result.filter((p) =>
+      p.title.toLowerCase().includes(q) ||
+      p.category.toLowerCase().includes(q)
+    );
+  }
 
   if (filters.onSale)          result = result.filter((p) => p.sale > 0);
   if (filters.minPrice !== "") result = result.filter((p) => p.price >= Number(filters.minPrice));
@@ -44,16 +52,19 @@ function ProductListPage() {
   const [category, setCategory] = useState("all");
   const [showFilter, setShowFilter] = useState(false);
   const [filters, setFilters] = useState(DEFAULT_FILTERS);
+  const [urlParams] = useSearchParams();
+  const [search, setSearch] = useState(urlParams.get("q") || "");
 
   if (loading) return <p className="loading">Loading products...</p>;
   if (error)   return <p className="loading">Could not load products</p>;
 
-  const displayed = applyFilters(products, category, filters);
+  const displayed = applyFilters(products, category, filters, search);
 
   return (
     <div className="products-page">
 
       <div className="products-toolbar">
+        <Link to="/" className="auth-btn-secondary">‹ HOME</Link>
         <h1>Our Fight Gear</h1>
         <button
           className="products-toolbar-btn"
@@ -61,6 +72,20 @@ function ProductListPage() {
         >
           {showFilter ? "CLOSE ✕" : "FILTER ›"}
         </button>
+      </div>
+
+      <div className="products-search">
+        <span className="products-search__icon">🔍</span>
+        <input
+          className="products-search__input"
+          type="text"
+          placeholder="Search products..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
+        {search && (
+          <button className="products-search__clear" onClick={() => setSearch("")}>✕</button>
+        )}
       </div>
 
       <div className="products-categories">
@@ -83,7 +108,16 @@ function ProductListPage() {
         />
       )}
 
-      <p className="products-count">{displayed.length} products</p>
+      <p className="products-count">
+        {search ? `${displayed.length} results for "${search}"` : `${displayed.length} products`}
+      </p>
+
+      {displayed.length === 0 && (
+        <div className="products-empty">
+          <p>No products match <strong>"{search}"</strong>.</p>
+          <button className="products-toolbar-btn" onClick={() => setSearch("")}>Clear search</button>
+        </div>
+      )}
 
       <div className="products-grid">
         {displayed.map((product) => {

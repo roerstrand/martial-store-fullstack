@@ -9,7 +9,7 @@ const CATEGORIES = [
   { value: "karate",   label: "Karate" },
 ];
 
-function Navbar({ isOpen }) {
+function Navbar({ isOpen, onToggleMenu }) {
   const [user, , , logout] = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
@@ -43,18 +43,21 @@ function Navbar({ isOpen }) {
       {/* Desktop */}
       <nav className="apex-navbar">
         <div className="apex-navbar__left">
-          <Link to="/products" className="apex-nav-btn">ALL PRODUCTS <span className="apex-nav-chevron">›</span></Link>
+          <Link to="/products" className="apex-nav-link">All Products</Link>
           <button
-            className={`apex-nav-btn${saleActive ? " apex-nav-btn--active" : ""}`}
+            className={`apex-nav-link apex-nav-link--sale${saleActive ? " apex-nav-link--active" : ""}`}
             onClick={() => navigate(saleActive ? "/" : "/?sale=true")}
-          >SALE <span className="apex-nav-chevron">›</span></button>
+          >
+            Sale
+          </button>
           <div ref={catRef} style={{ position: "relative" }}>
-            <button className="apex-nav-btn" onClick={() => setCatOpen((o) => !o)}>
-              CATEGORIES <span className="apex-nav-chevron">{catOpen ? "▾" : "›"}</span>
+            <button className={`apex-nav-link apex-nav-link--drop${catOpen ? " apex-nav-link--active" : ""}`} onClick={() => setCatOpen((o) => !o)}>
+              Categories <span className="apex-nav-chevron">{catOpen ? "▴" : "▾"}</span>
             </button>
             {catOpen && (
               <div className="apex-cat-dropdown">
-                <button className="apex-cat-option" onClick={() => { setCatOpen(false); navigate("/"); }}>All</button>
+                <button className="apex-cat-option" onClick={() => { setCatOpen(false); navigate("/"); }}>All disciplines</button>
+                <div className="apex-cat-divider" />
                 {CATEGORIES.map((c) => (
                   <button key={c.value} className="apex-cat-option" onClick={() => handleCategory(c.value)}>
                     {c.label}
@@ -66,11 +69,19 @@ function Navbar({ isOpen }) {
         </div>
 
         <div className="apex-navbar__right" style={{ position: "relative" }}>
-          <Link to="/login"    className="apex-nav-btn">LOGIN    <span className="apex-nav-chevron">›</span></Link>
-          <Link to="/register" className="apex-nav-btn">REGISTER <span className="apex-nav-chevron">›</span></Link>
-          <button onClick={handleMyPages} className="apex-nav-btn">MY PAGES <span className="apex-nav-chevron">›</span></button>
-          {user && (
-            <button onClick={handleLogout} className="apex-nav-btn">LOGOUT</button>
+          {user ? (
+            <>
+              {user.role === "admin" && (
+                <Link to="/admin" className="apex-nav-link apex-nav-link--sale">Admin</Link>
+              )}
+              <button onClick={handleMyPages} className="apex-nav-link">My Pages</button>
+              <button onClick={handleLogout} className="apex-nav-btn-ghost">Log out</button>
+            </>
+          ) : (
+            <>
+              <Link to="/login" className="apex-nav-link">Log in</Link>
+              <Link to="/register" className="apex-nav-btn-primary">Create account</Link>
+            </>
           )}
           {loginNotice && (
             <div className="apex-login-notice">Please log in to view My Pages</div>
@@ -80,23 +91,24 @@ function Navbar({ isOpen }) {
 
       {/* Mobile drawer */}
       <div className={`apex-mobile-nav ${isOpen ? "open" : ""}`}>
-        <Link to="/products" className="apex-nav-btn">ALL PRODUCTS</Link>
+        <Link to="/products" className="apex-nav-link">All Products</Link>
         <button
-          className={`apex-nav-btn${saleActive ? " apex-nav-btn--active" : ""}`}
+          className={`apex-nav-link apex-nav-link--sale${saleActive ? " apex-nav-link--active" : ""}`}
           onClick={() => navigate(saleActive ? "/" : "/?sale=true")}
-        >SALE</button>
+        >Sale</button>
         {CATEGORIES.map((c) => (
-          <button key={c.value} className="apex-nav-btn" onClick={() => handleCategory(c.value)}>{c.label}</button>
+          <button key={c.value} className="apex-nav-link" onClick={() => handleCategory(c.value)}>{c.label}</button>
         ))}
+        <div className="apex-cat-divider" style={{ margin: "0.25rem 0" }} />
         {user ? (
           <>
-            <Link to="/my-pages" className="apex-nav-btn">MY PAGES</Link>
-            <button onClick={handleLogout} className="apex-nav-btn">LOGOUT</button>
+            <Link to="/my-pages" className="apex-nav-link">My Pages</Link>
+            <button onClick={handleLogout} className="apex-nav-link">Log out</button>
           </>
         ) : (
           <>
-            <Link to="/login"    className="apex-nav-btn">LOGIN</Link>
-            <Link to="/register" className="apex-nav-btn">REGISTER</Link>
+            <Link to="/login" className="apex-nav-link">Log in</Link>
+            <Link to="/register" className="apex-nav-link">Create account</Link>
           </>
         )}
       </div>

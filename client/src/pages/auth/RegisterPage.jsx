@@ -16,8 +16,17 @@ function RegisterPage() {
   const handleRegister = async (e) => {
     e.preventDefault();
     setError("");
-    setLoading(true);
 
+    if (password.value !== repeatPassword.value) {
+      setError("Passwords do not match.");
+      return;
+    }
+    if (password.value.length < 6) {
+      setError("Password must be at least 6 characters.");
+      return;
+    }
+
+    setLoading(true);
     try {
       await register({ name: username.value, email: email.value, password: password.value });
       navigate("/login");

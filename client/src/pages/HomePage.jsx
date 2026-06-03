@@ -1,15 +1,87 @@
 import { useState, useEffect, useMemo, useRef } from "react";
 import { Link, useSearchParams, useNavigate } from "react-router-dom";
 import useFetch from "../hooks/useFetch.jsx";
-import { getProducts } from "../services/productService";
+import { getProducts, getNewArrivals, getLimitedSale } from "../services/productService";
+import { getArticles } from "../services/articleService";
 import { useFavorites } from "../context/FavoriteContext";
 import { useCart } from "../context/CartContext";
-import { articles } from "../data/articles";
 import "./Pages.css";
 
 const SLIDE_INTERVAL = 3500;
 const SLIDE_INTERVAL_AFTER_INTERACTION = 7000;
 const VISIBLE = 4;
+
+const CATEGORY_TILES = [
+  { value: "bjj",      label: "Brazilian Jiu-Jitsu", img: "/images/misc/bjj_triangle.jpg" },
+  { value: "boxing",   label: "Boxing",               img: "/images/misc/woman_headkick.jpg" },
+  { value: "muaythai", label: "Muay Thai",             img: "/images/misc/muaythai_fight.jpg" },
+  { value: "karate",   label: "Karate",                img: "/images/misc/karate_sunset.jpg" },
+];
+
+function ProductShelf({ title, subtitle, products, linkTo, onNavigate, onAddToCart, variant }) {
+  if (!products || products.length === 0) return null;
+  return (
+    <section className={`home-shelf home-shelf--${variant || "default"}`}>
+      <div className="home-shelf__header">
+        <div className="home-shelf__header-left">
+          {variant === "sale" && <span className="home-shelf__tag home-shelf__tag--sale">Sale</span>}
+          {variant === "new" && <span className="home-shelf__tag home-shelf__tag--new">New</span>}
+          <div>
+            <h2 className="home-shelf__title">{title}</h2>
+            {subtitle && <p className="home-shelf__sub">{subtitle}</p>}
+          </div>
+        </div>
+        <Link to={linkTo} className="home-shelf__link">View All ›</Link>
+      </div>
+      <div className="home-shelf__row">
+        {products.slice(0, 4).map((product) => {
+          const salePrice = product.sale > 0
+            ? Math.round(product.price * (1 - product.sale / 100))
+            : null;
+          return (
+            <div
+              key={product._id}
+              className={`home-shelf-card${variant === "sale" ? " home-shelf-card--sale" : ""}${variant === "new" ? " home-shelf-card--new" : ""}`}
+              onClick={() => onNavigate(`/products/${product._id}`)}
+              role="link"
+              tabIndex={0}
+              onKeyDown={(e) => e.key === "Enter" && onNavigate(`/products/${product._id}`)}
+            >
+              <div className="home-shelf-card__img-wrap">
+                <img src={`/images/products/${product.image}`} alt={product.title} />
+                {variant === "sale" && product.sale > 0 && (
+                  <span className="home-shelf-card__sale-badge">−{product.sale}%</span>
+                )}
+                {variant === "new" && (
+                  <span className="home-shelf-card__new-badge">New</span>
+                )}
+              </div>
+              <div className="home-shelf-card__body">
+                <p className="home-shelf-card__name">{product.title}</p>
+                <div className="home-shelf-card__price-row">
+                  {salePrice ? (
+                    <>
+                      <span className="home-shelf-card__price--original">{product.price}€</span>
+                      <span className="home-shelf-card__price--sale">{salePrice}€</span>
+                    </>
+                  ) : (
+                    <span className="home-shelf-card__price">{product.price}€</span>
+                  )}
+                </div>
+                <button
+                  className="home-shelf-card__cart"
+                  onClick={(e) => { e.stopPropagation(); onAddToCart(product, null); }}
+                >
+                  Add to cart
+                </button>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </section>
+  );
+}
 
 function HomePage() {
   const [toggleFavorites, favorites] = useFavorites();
@@ -20,8 +92,21 @@ function HomePage() {
   const sale = searchParams.get("sale");
   const [email, setEmail] = useState("");
   const [subscribed, setSubscribed] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      navigate(`/products?q=${encodeURIComponent(searchQuery.trim())}`);
+    } else {
+      navigate("/products");
+    }
+  };
 
   const { data: allProducts, loading } = useFetch(getProducts);
+  const { data: allArticles } = useFetch(() => getArticles({ random: "true", limit: 3 }));
+  const { data: newArrivalsData } = useFetch(getNewArrivals);
+  const { data: limitedSaleData } = useFetch(getLimitedSale);
 
   const products = useMemo(() => {
     if (!allProducts) return [];
@@ -29,32 +114,27 @@ function HomePage() {
     if (sale) return allProducts.filter((p) => p.sale > 0);
     return allProducts;
   }, [allProducts, category, sale]);
+  const featuredArticles = useMemo(
+    () => allArticles ? allArticles.filter((a) => a.image).slice(0, 3) : [],
+    [allArticles]
+  );
 
   const [displayIndex, setDisplayIndex] = useState(0);
-  const [phase, setPhase] = useState("idle"); // "idle" | "exit" | "enter"
+  const [phase, setPhase] = useState("idle");
   const [isPaused, setIsPaused] = useState(false);
   const intervalRef = useRef(null);
   const pausedRef = useRef(false);
   const interactedRef = useRef(false);
 
-  // Preload all product images when fetched
   useEffect(() => {
     if (!allProducts) return;
     allProducts.forEach((p) => {
-      if (p.image) {
-        const img = new Image();
-        img.src = `/images/products/${p.image}`;
-      }
+      if (p.image) { const img = new Image(); img.src = `/images/products/${p.image}`; }
     });
   }, [allProducts]);
 
-  // Reset on filter change
-  useEffect(() => {
-    setDisplayIndex(0);
-    setPhase("idle");
-  }, [category, sale]);
+  useEffect(() => { setDisplayIndex(0); setPhase("idle"); }, [category, sale]);
 
-  // Auto-advance
   const startSlide = (delay = SLIDE_INTERVAL) => {
     clearInterval(intervalRef.current);
     if (products.length <= VISIBLE) return;
@@ -68,99 +148,74 @@ function HomePage() {
     }, delay);
   };
 
-  const pauseSlide = () => {
-    clearInterval(intervalRef.current);
-    pausedRef.current = true;
-    setIsPaused(true);
-  };
-
+  const pauseSlide  = () => { clearInterval(intervalRef.current); pausedRef.current = true;  setIsPaused(true); };
   const resumeSlide = () => {
-    pausedRef.current = false;
-    setIsPaused(false);
-    const delay = interactedRef.current ? SLIDE_INTERVAL_AFTER_INTERACTION : SLIDE_INTERVAL;
+    pausedRef.current = false; setIsPaused(false);
+    startSlide(interactedRef.current ? SLIDE_INTERVAL_AFTER_INTERACTION : SLIDE_INTERVAL);
     interactedRef.current = false;
-    startSlide(delay);
   };
+  const togglePause    = () => isPaused ? resumeSlide() : pauseSlide();
+  const handleInteraction = () => { interactedRef.current = true; if (!pausedRef.current) startSlide(SLIDE_INTERVAL_AFTER_INTERACTION); };
 
-  const togglePause = () => {
-    if (isPaused) resumeSlide();
-    else pauseSlide();
-  };
-
-  const handleInteraction = () => {
-    interactedRef.current = true;
-    if (!pausedRef.current) startSlide(SLIDE_INTERVAL_AFTER_INTERACTION);
-  };
-
-  useEffect(() => {
-    startSlide();
-    return () => clearInterval(intervalRef.current);
-  }, [products.length]);
+  useEffect(() => { startSlide(); return () => clearInterval(intervalRef.current); }, [products.length]);
 
   const visibleProducts = products.length > 0
     ? Array.from({ length: Math.min(VISIBLE, products.length) }, (_, i) =>
-        products[(displayIndex + i) % products.length]
-      )
+        products[(displayIndex + i) % products.length])
     : [];
 
   return (
     <div className="home-page">
+
+      {/* SEARCH */}
+      <form className="home-search" onSubmit={handleSearch}>
+        <input
+          className="home-search__input"
+          type="text"
+          placeholder="Search products..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          autoComplete="off"
+        />
+        <button type="submit" className="home-search__btn">Search ›</button>
+      </form>
+
+      {/* POPULAR GEAR CAROUSEL */}
       <section className="home-products">
         <div className="home-products__topbar">
           <p className="home-products__label">Popular gear</p>
-          <button className="home-products__pause-btn" onClick={togglePause} title={isPaused ? "Resume" : "Pause"}>
-            {isPaused ? "▶" : "⏸"}
-          </button>
+          <button className="home-products__pause-btn" onClick={togglePause}>{isPaused ? "▶" : "⏸"}</button>
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: "0.25rem" }}>
-          <button
-            className="home-products__arrow home-products__arrow--left"
-            onClick={() => { setDisplayIndex((prev) => (prev - 1 + products.length) % products.length); startSlide(); }}
-            disabled={products.length <= VISIBLE}
-          >‹</button>
-
+          <button className="home-products__arrow" onClick={() => { setDisplayIndex((p) => (p - 1 + products.length) % products.length); startSlide(); }} disabled={products.length <= VISIBLE}>‹</button>
           <div className="home-slideshow-wrapper" style={{ flex: 1 }} onMouseEnter={pauseSlide} onMouseLeave={resumeSlide}>
             <div className={`home-products__grid home-products__grid--${phase}`}>
-              {loading && (
-                <p className="loading" style={{ gridColumn: "1/-1" }}>Loading...</p>
-              )}
+              {loading && <p className="loading" style={{ gridColumn: "1/-1" }}>Loading...</p>}
               {visibleProducts.map((product, i) => (
                 <div
                   key={`${product._id}-${displayIndex}-${i}`}
                   className="home-product-card"
                   onClick={() => navigate(`/products/${product._id}`)}
-                  role="link"
-                  tabIndex={0}
+                  role="link" tabIndex={0}
                   onKeyDown={(e) => e.key === "Enter" && navigate(`/products/${product._id}`)}
                 >
                   <div className="home-product-card__img-wrap">
                     <img src={`/images/products/${product.image}`} alt={product.title} />
-                    {product.sale > 0 && (
-                      <span className="home-product-card__sale">-{product.sale}%</span>
-                    )}
+                    {product.sale > 0 && <span className="home-product-card__sale">-{product.sale}%</span>}
                   </div>
                   <div className="home-product-card__footer">
                     <div className="home-product-card__text">
                       <span className="home-product-card__title">{product.title}</span>
                       <span className="home-product-card__price">{product.price}€</span>
                     </div>
-                    <div
-                      className="home-product-card__actions"
-                      onClick={(e) => e.stopPropagation()}
-                    >
+                    <div className="home-product-card__actions" onClick={(e) => e.stopPropagation()}>
                       <button
                         className={`home-product-card__fav-btn${favorites.some(f => f._id === product._id) ? " active" : ""}`}
                         onClick={() => { toggleFavorites(product); handleInteraction(); }}
                       >
-                        <img
-                          src={favorites.some(f => f._id === product._id) ? "/icons/FavoritesFilled.png" : "/icons/Favorites.png"}
-                          alt="Favorite"
-                        />
+                        <img src={favorites.some(f => f._id === product._id) ? "/icons/FavoritesFilled.png" : "/icons/Favorites.png"} alt="Favorite" />
                       </button>
-                      <button
-                        className="home-product-card__cart"
-                        onClick={() => { addToCart(product, null); handleInteraction(); }}
-                      >
+                      <button className="home-product-card__cart" onClick={() => { addToCart(product, null); handleInteraction(); }}>
                         <img src="/icons/Cart add.svg" alt="Add to cart" />
                       </button>
                     </div>
@@ -169,73 +224,85 @@ function HomePage() {
               ))}
             </div>
           </div>
-
-          <button
-            className="home-products__arrow home-products__arrow--right"
-            onClick={() => { setDisplayIndex((prev) => (prev + 1) % products.length); startSlide(); }}
-            disabled={products.length <= VISIBLE}
-          >›</button>
+          <button className="home-products__arrow" onClick={() => { setDisplayIndex((p) => (p + 1) % products.length); startSlide(); }} disabled={products.length <= VISIBLE}>›</button>
         </div>
-
         {products.length > VISIBLE && (
           <div className="home-products__dots">
             {products.map((_, i) => (
-              <button
-                key={i}
-                className={`home-products__dot ${i === displayIndex ? "home-products__dot--active" : ""}`}
-                onClick={() => { setDisplayIndex(i); startSlide(); }}
-              />
+              <button key={i} className={`home-products__dot${i === displayIndex ? " home-products__dot--active" : ""}`} onClick={() => { setDisplayIndex(i); startSlide(); }} />
             ))}
           </div>
         )}
-
         {(category || sale) && (
-          <button className="home-products__clear" onClick={() => navigate("/")}>
-            ✕ Clear filter
-          </button>
+          <button className="home-products__clear" onClick={() => navigate("/")}>✕ Clear filter</button>
         )}
       </section>
 
-      <section className="home-articles">
-        <div className="home-articles__header">
-          <span>Stories</span>
-          <Link to="/articles" className="home-articles__btn">›</Link>
+      {/* PRODUCT SHELVES */}
+      <div className="home-shelves">
+        <ProductShelf title="New Arrivals" subtitle="Just dropped" products={newArrivalsData || []} linkTo="/products" onNavigate={navigate} onAddToCart={addToCart} variant="new" />
+        {(limitedSaleData || []).length > 0 && (
+          <ProductShelf title="Limited Sale" subtitle="While stocks last" products={limitedSaleData || []} linkTo="/products" onNavigate={navigate} onAddToCart={addToCart} variant="sale" />
+        )}
+      </div>
+
+      {/* FEATURED CATEGORIES */}
+      <section className="home-categories">
+        <div className="home-categories__header">
+          <h2 className="home-shelf__title">Shop by Discipline</h2>
         </div>
-        <div className="home-articles__grid">
-          {articles.map((article) => (
-            <Link key={article.id} to={`/articles/${article.id}`} className="home-article-card">
-              <div className="home-article-card__text">
-                <p className="home-article-card__title">{article.title}</p>
-                <p className="home-article-card__author">by {article.author}</p>
-              </div>
-              <img src={article.img} alt={article.title} />
-            </Link>
+        <div className="home-categories__grid">
+          {CATEGORY_TILES.map((cat) => (
+            <div
+              key={cat.value}
+              className="home-cat-tile"
+              onClick={() => navigate(`/?category=${cat.value}`)}
+              role="link" tabIndex={0}
+              onKeyDown={(e) => e.key === "Enter" && navigate(`/?category=${cat.value}`)}
+            >
+              <img src={cat.img} alt={cat.label} className="home-cat-tile__img" />
+              <div className="home-cat-tile__overlay" />
+              <span className="home-cat-tile__label">{cat.label}</span>
+            </div>
           ))}
         </div>
       </section>
 
+      {/* ARTICLES */}
+      <section className="home-articles">
+        <div className="home-articles__header">
+          <span>Stories</span>
+        </div>
+        <div className="home-articles__grid">
+          {featuredArticles.map((article) => (
+            <Link key={article._id} to={`/articles/${article._id}`} className="home-article-card">
+              <img src={`/images/articles/${article.image}`} alt={article.title} />
+              <div className="home-article-card__text">
+                <p className="home-article-card__title">{article.title}</p>
+                <p className="home-article-card__author">by {article.author}</p>
+              </div>
+            </Link>
+          ))}
+        </div>
+        <div className="home-articles__footer">
+          <Link to="/articles" className="home-articles__more-btn">More Stories ›</Link>
+        </div>
+      </section>
+
+      {/* NEWSLETTER */}
       <section className="home-newsletter">
         <h2 className="home-newsletter__heading">Join the Apex Core Community</h2>
         <p className="home-newsletter__sub">Get training tips, stories and exclusive offers.</p>
         {subscribed ? (
           <p className="home-newsletter__success">You're in. Welcome to the community.</p>
         ) : (
-          <form
-            className="home-newsletter__form"
-            onSubmit={(e) => { e.preventDefault(); if (email) setSubscribed(true); }}
-          >
-            <input
-              className="home-newsletter__input"
-              type="email"
-              placeholder="Your email address"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
+          <form className="home-newsletter__form" onSubmit={(e) => { e.preventDefault(); if (email) setSubscribed(true); }}>
+            <input className="home-newsletter__input" type="email" placeholder="Your email address" value={email} onChange={(e) => setEmail(e.target.value)} required />
             <button type="submit" className="home-newsletter__btn">Subscribe</button>
           </form>
         )}
       </section>
+
     </div>
   );
 }

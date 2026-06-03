@@ -1,5 +1,6 @@
 const express = require("express");
 const tokenValidator = require("../middleware/validateTokenHandler");
+const adminValidator = require("../middleware/adminValidator");
 const router = express.Router();
 
 const {
@@ -15,7 +16,7 @@ const {
   resetCart,
 } = require("../controllers/cartController");
 
-router.route("/").get(tokenValidator, getAllCarts).post(tokenValidator, createCart);
+router.route("/").get(tokenValidator, adminValidator, getAllCarts).post(tokenValidator, createCart);
 
 router.get("/me", tokenValidator, getCurrentUserCart);
 

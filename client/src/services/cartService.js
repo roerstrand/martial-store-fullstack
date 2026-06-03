@@ -5,6 +5,11 @@ export const getCart = async () => {
   return response.data;
 };
 
+export const createCart = async () => {
+  const response = await api.post("/carts");
+  return response.data;
+};
+
 export const addCartItem = async (cartId, productId, size) => {
   const response = await api.post(`/carts/${cartId}/products`, { product_id: productId, size });
   return response.data;

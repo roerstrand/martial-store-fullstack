@@ -30,11 +30,11 @@ function Hero({ onToggleMenu }) {
       <div className="apex-hero__icons">
         <Link to="/favorites" className="apex-hero__icon">
           <img src="/icons/Favorites.png" alt="Favorites" />
-          <span className="apex-hero__badge">{favCount}</span>
+          {favCount > 0 && <span className="apex-hero__badge">{favCount}</span>}
         </Link>
         <Link to="/cart" className="apex-hero__icon">
           <img src="/icons/Cart.svg" alt="Cart" />
-          <span className="apex-hero__badge">{cartCount}</span>
+          {cartCount > 0 && <span className="apex-hero__badge">{cartCount}</span>}
         </Link>
       </div>
 

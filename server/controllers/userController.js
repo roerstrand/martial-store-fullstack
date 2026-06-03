@@ -41,4 +41,13 @@ const getCurrentUser = asyncHandler(async (req, res) => {
   return res.status(200).json(req.user);
 });
 
-module.exports = { registerUser, loginUser, getCurrentUser };
+// @desc Get all users
+// @route GET /api/users
+// @access private/admin
+const getUsers = asyncHandler(async (req, res) => {
+  const User = require("../models/userModel");
+  const users = await User.find().select("-password");
+  res.status(200).json(users);
+});
+
+module.exports = { registerUser, loginUser, getCurrentUser, getUsers };

@@ -1,7 +1,18 @@
 import api from "./api";
 
-export const getProducts = async () => {
-  const response = await api.get("/products");
+export const getProducts = async (params = {}) => {
+  const query = new URLSearchParams(params).toString();
+  const response = await api.get(`/products${query ? `?${query}` : ""}`);
+  return response.data;
+};
+
+export const getNewArrivals = async () => {
+  const response = await api.get("/products?newArrival=true");
+  return response.data;
+};
+
+export const getLimitedSale = async () => {
+  const response = await api.get("/products?limitedSale=true");
   return response.data;
 };
 

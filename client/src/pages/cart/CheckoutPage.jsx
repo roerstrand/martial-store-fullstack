@@ -4,6 +4,7 @@ import { useCart } from "../../context/CartContext";
 import PaymentForm from "../../components/cart/PaymentForm";
 import { createOrder } from "../../services/orderService";
 import "../Pages.css";
+import PageNav from "../../components/PageNav";
 
 const SHIPPING_COSTS = { standard: 5, express: 19, pickup: 0 };
 
@@ -43,6 +44,7 @@ function CheckoutPage() {
 
   return (
     <div className="checkout-page">
+      <PageNav back="/cart" backLabel="Cart" />
       <div className="flow-breadcrumb">
         <span>CART</span>
         <span>=›</span>

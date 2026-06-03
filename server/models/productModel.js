@@ -22,6 +22,10 @@ const productSchema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
+  sold: {
+    type: Number,
+    default: 0,
+  },
   image: {
     type: String,
   },
@@ -30,6 +34,14 @@ const productSchema = new mongoose.Schema({
     default: 0,
     min: 0,
     max: 100,
+  },
+  isLimitedSale: {
+    type: Boolean,
+    default: false,
+  },
+  isNewArrival: {
+    type: Boolean,
+    default: false,
   },
   category: {
     type: String,

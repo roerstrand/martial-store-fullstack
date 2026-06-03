@@ -2,12 +2,14 @@ import { Link } from "react-router-dom";
 import { useFavorites } from "../context/FavoriteContext";
 import "./Pages.css";
 import FavoriteItem from "../components/favorites/FavoriteItem";
+import PageNav from "../components/PageNav";
 
 function FavoritesPage() {
   const [, favorites] = useFavorites();
 
   return (
     <div className="favorites-page">
+      <PageNav back="/" backLabel="Home" />
       <div className="favorites-header">
         <h1>Favorites</h1>
         {favorites.length > 0 && (

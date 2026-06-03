@@ -1,5 +1,6 @@
 import { useLocation, Link, useNavigate } from "react-router-dom";
 import "../Pages.css";
+import PageNav from "../../components/PageNav";
 
 function OrderConfirmationPage() {
   const { state } = useLocation();
@@ -13,6 +14,7 @@ function OrderConfirmationPage() {
 
   return (
     <div className="confirmation-page">
+      <PageNav back="/" backLabel="Home" />
       <div className="flow-breadcrumb">
         <span>CART</span>
         <span>=›</span>

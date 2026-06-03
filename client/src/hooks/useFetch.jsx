@@ -1,30 +1,29 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 
-function useFetch(fetchFn) {
-  // Data
-  // Loading
-  // Error
-  //   GET, SET
-
+function useFetch(fetchFn, deps = []) {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
+    let cancelled = false;
     const fetchData = async () => {
       try {
         setLoading(true);
+        setError(null);
         const result = await fetchFn();
-        setData(result);
+        if (!cancelled) setData(result);
       } catch (err) {
-        setError(err);
+        if (!cancelled) setError(err);
       } finally {
-        setLoading(false);
+        if (!cancelled) setLoading(false);
       }
     };
     fetchData();
-  }, []);
+    return () => { cancelled = true; };
+  }, deps);
 
   return { data, loading, error };
 }
+
 export default useFetch;

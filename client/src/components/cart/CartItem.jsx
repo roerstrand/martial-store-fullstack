@@ -1,7 +1,7 @@
 import { useCart } from "../../context/CartContext";
 
 function CartItem({ item }) {
-  const [, , removeFromCart] = useCart();
+  const [, , removeFromCart, , , increaseItem, decreaseItem] = useCart();
 
   return (
     <div className="cart-item">
@@ -15,11 +15,22 @@ function CartItem({ item }) {
         <div className="cart-item__row">
           <span className="cart-item__meta-label">Size</span>
           <span className="cart-item__badge">{item.size}</span>
-          <span className="cart-item__meta-label" style={{ marginLeft: "0.5rem" }}>Qty</span>
-          <span className="cart-item__badge">{item.quantity}</span>
         </div>
         <div className="cart-item__row">
           <span className="cart-item__price">{item.product.price * item.quantity} EUR</span>
+          <div className="cart-item__qty">
+            <button
+              className="cart-item__qty-btn"
+              onClick={() => decreaseItem(item.product._id)}
+              aria-label="Decrease quantity"
+            >−</button>
+            <span className="cart-item__qty-num">{item.quantity}</span>
+            <button
+              className="cart-item__qty-btn"
+              onClick={() => increaseItem(item.product._id)}
+              aria-label="Increase quantity"
+            >+</button>
+          </div>
           <button
             className="cart-item__remove"
             onClick={() => removeFromCart(item.product._id, item.size)}

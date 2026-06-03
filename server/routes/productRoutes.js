@@ -1,7 +1,7 @@
 const express = require("express");
 
 const tokenValidator = require("../middleware/validateTokenHandler");
-const adminValidator = require("../middleware/validateTokenHandler");
+const adminValidator = require("../middleware/adminValidator");
 
 const router = express.Router();
 

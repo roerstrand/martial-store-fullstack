@@ -2,6 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useCart } from "../../context/CartContext";
 import CartItem from "../../components/cart/CartItem";
 import "../Pages.css";
+import PageNav from "../../components/PageNav";
 
 function CartPage() {
   const [cart] = useCart();
@@ -16,6 +17,7 @@ function CartPage() {
 
   return (
     <div className="cart-page">
+      <PageNav back="/" backLabel="Home" />
       <div className="cart-header">
         <div className="flow-breadcrumb">
           <span className="flow-breadcrumb__step--active">CART</span>

@@ -4,7 +4,10 @@ import {
   getCart,
   addCartItem,
   removeCartItem,
+  increaseQuantity,
+  decreaseQuantity,
   resetCart,
+  createCart,
 } from "../services/cartService";
 
 const CartContext = createContext(null);
@@ -21,7 +24,14 @@ export function CartProvider({ children }) {
           setCart(data.products || []);
           setCartId(data._id);
         })
-        .catch(() => {});
+        .catch(async () => {
+          // No cart exists yet — create one automatically
+          try {
+            const newCart = await createCart();
+            setCart([]);
+            setCartId(newCart._id);
+          } catch {}
+        });
     } else {
       const local = JSON.parse(localStorage.getItem("cart") || "[]");
       setCart(local);
@@ -66,6 +76,36 @@ export function CartProvider({ children }) {
     }
   };
 
+  const increaseItem = async (productId) => {
+    if (token) {
+      const data = await increaseQuantity(cartId, productId);
+      setCart(data.products || []);
+    } else {
+      setCart((prev) => {
+        const updated = prev.map((i) =>
+          i.product._id === productId ? { ...i, quantity: i.quantity + 1 } : i
+        );
+        localStorage.setItem("cart", JSON.stringify(updated));
+        return updated;
+      });
+    }
+  };
+
+  const decreaseItem = async (productId) => {
+    if (token) {
+      const data = await decreaseQuantity(cartId, productId);
+      setCart(data.products || []);
+    } else {
+      setCart((prev) => {
+        const updated = prev
+          .map((i) => i.product._id === productId ? { ...i, quantity: i.quantity - 1 } : i)
+          .filter((i) => i.quantity > 0);
+        localStorage.setItem("cart", JSON.stringify(updated));
+        return updated;
+      });
+    }
+  };
+
   const clearCart = async () => {
     if (token && cartId) {
       await resetCart(cartId);
@@ -75,7 +115,7 @@ export function CartProvider({ children }) {
   };
 
   return (
-    <CartContext.Provider value={[cart, addToCart, removeFromCart, clearCart, cartId]}>
+    <CartContext.Provider value={[cart, addToCart, removeFromCart, clearCart, cartId, increaseItem, decreaseItem]}>
       {children}
     </CartContext.Provider>
   );

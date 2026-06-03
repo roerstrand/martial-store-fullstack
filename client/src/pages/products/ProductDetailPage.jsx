@@ -4,6 +4,18 @@ import "../Pages.css";
 import useFetch from "../../hooks/useFetch.jsx";
 import { getProduct } from "../../services/productService";
 import { useCart } from "../../context/CartContext";
+import { REVIEWS } from "../../data/testimonials";
+import PageNav from "../../components/PageNav";
+
+function Stars({ rating }) {
+  return (
+    <span className="detail-stars">
+      {[1,2,3,4,5].map(s => (
+        <span key={s} className={s <= rating ? "star star--filled" : "star"}>★</span>
+      ))}
+    </span>
+  );
+}
 
 function ProductDetailPage() {
   const { productId } = useParams();
@@ -11,16 +23,13 @@ function ProductDetailPage() {
   const [, addToCart] = useCart();
   const navigate = useNavigate();
 
-  const {
-    data: product,
-    loading,
-    error,
-  } = useFetch(() => getProduct(productId));
+  const { data: product, loading, error } = useFetch(() => getProduct(productId));
 
   if (loading) return <p className="loading">Loading product...</p>;
-  if (error) return <p className="loading">Something went wrong.</p>;
-  if (!product || !product._id)
-    return <p className="loading">Product not found.</p>;
+  if (error)   return <p className="loading">Something went wrong.</p>;
+  if (!product || !product._id) return <p className="loading">Product not found.</p>;
+
+  const reviews = REVIEWS[product.category] ?? [];
 
   const handleBuyNow = async () => {
     if (!selectedSize) return;
@@ -30,6 +39,7 @@ function ProductDetailPage() {
 
   return (
     <div className="product-detail-page">
+      <PageNav back="/" backLabel="Home" />
       <div className="product-detail__layout">
         <div className="product-detail__image">
           <img src={`/images/products/${product.image}`} alt={product.title} />
@@ -37,6 +47,17 @@ function ProductDetailPage() {
 
         <div className="product-detail__info">
           <p className="product-detail__name">{product.title}</p>
+
+          <div className="product-detail__social-row">
+            <Stars rating={product.rating} />
+            <span className="product-detail__rating-num">
+              {product.rating}.0
+            </span>
+            {product.sold > 0 && (
+              <span className="product-detail__sold">{product.sold} sold</span>
+            )}
+          </div>
+
           <p className="product-detail__availability">AVAILABLE</p>
           <p className="product-detail__price">{product.price} EUR</p>
           <p className="product-detail__desc">{product.description}</p>
@@ -62,7 +83,26 @@ function ProductDetailPage() {
           <p className="product-detail__materials-text">{product.details}</p>
         </div>
       </div>
-      <Link to="/" className="auth-btn-secondary">
+
+      {reviews.length > 0 && (
+        <div className="product-reviews">
+          <p className="product-reviews__title">Customer Reviews</p>
+          <div className="product-reviews__list">
+            {reviews.map((r, i) => (
+              <div key={i} className="product-review">
+                <div className="product-review__top">
+                  <span className="product-review__author">{r.author}</span>
+                  <Stars rating={r.rating} />
+                  <span className="product-review__date">{r.date}</span>
+                </div>
+                <p className="product-review__text">"{r.text}"</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      <Link to="/" className="auth-btn-secondary" style={{ margin: "0 1.5rem 2rem" }}>
         BACK TO HOME ›
       </Link>
     </div>

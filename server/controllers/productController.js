@@ -13,8 +13,12 @@ const {
 // @route GET /api/products
 // @access public
 const getProducts = asyncHandler(async (req, res) => {
-  //ÄNDRA SERVICE OCH REPO F HÄMTA PRODUCTER BASERAT PÅ USER ID
-  const products = await getProductsService();
+  const filter = {};
+  if (req.query.newArrival === "true")   filter.isNewArrival   = true;
+  if (req.query.limitedSale === "true")  filter.isLimitedSale  = true;
+  if (req.query.category)               filter.category       = req.query.category;
+
+  const products = await getProductsService(filter);
 
   if (!products) {
     res.status(404);
@@ -52,64 +56,46 @@ const getCurrentUserProducts = asyncHandler(async (req, res) => {
 
 // @desc create one product
 // @route POST /api/products
-// @access private
+// @access private/admin
 const createProduct = asyncHandler(async (req, res) => {
-  const { title, price, description } = req.body;
-  if (!title || !price || !description) {
+  const { title, price, description, category, image, sale, rating, sold } = req.body;
+  if (!title || !price || !description || !category) {
     res.status(400);
-    throw new Error(
-      "Title, price and description are required for this request",
-    );
+    throw new Error("title, price, description and category are required");
   }
-  //ÄNDRA SERVICE OCH REPO SÅ USER SKAPAS M USER ID
   const product = await createProductService({
-    title,
-    price,
-    description,
+    title, price, description, category,
+    image: image || "",
+    sale: sale ?? 0,
+    rating: rating ?? 0,
+    sold: sold ?? 0,
     user_id: req.user.id,
   });
-
   res.status(201).json(product);
 });
 
 // @desc update one product
 // @route PUT /api/products/:id
-// @access private
+// @access private/admin
 const updateProduct = asyncHandler(async (req, res) => {
   const product = await updateProductService(req.params.id, req.body);
-
   if (!product) {
     res.status(404);
-    throw new Error("Product to be updated could not be found");
+    throw new Error("Product not found");
   }
-
-  if (product.user_id.toString() !== req.user.id) {
-    return res
-      .status(403)
-      .jon({ message: "Product does not belong to this user" });
-  }
-
-  res.status(200).json({ message: "Product deleted", data: product });
+  res.status(200).json(product);
 });
 
 // @desc delete one product
 // @route DELETE /api/products/:id
-// @access private
+// @access private/admin
 const deleteProduct = asyncHandler(async (req, res) => {
   const product = await deleteProductService(req.params.id);
-
   if (!product) {
     res.status(404);
-    throw new Error("Product to be deleted could not be found");
+    throw new Error("Product not found");
   }
-
-  if (product.user_id.toString() !== req.user.id) {
-    return res
-      .status(403)
-      .jon({ message: "Product does not belong to this user" });
-  }
-
-  res.status(200).json(product);
+  res.status(200).json({ message: "Product deleted" });
 });
 
 module.exports = {

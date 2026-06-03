@@ -7,8 +7,8 @@ const {
   getCurrentUserProducts,
 } = require("../repositories/productRepository");
 
-const getProductsService = async () => {
-  return await getAllProducts();
+const getProductsService = async (filter = {}) => {
+  return await getAllProducts(filter);
 };
 
 const getProductService = async (id) => {
