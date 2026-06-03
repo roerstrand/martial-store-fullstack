@@ -64,10 +64,10 @@
 
 /* Grid card skeleton — matches product-card on products page */
 .skeleton-grid-card {
-  border-radius: 0.5rem;
+  border-radius: 0.75rem;
   overflow: hidden;
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(255,255,255,0.06);
+  background: rgba(255,255,255,0.92);
+  border: 1px solid rgba(0,0,0,0.06);
 }
 
 .skeleton-grid-card__img {
@@ -157,26 +157,26 @@
 .apex-input {
   display: block;
   width: 100%;
-  background: rgba(0, 0, 0, 0.55);
-  color: var(--color-light);
+  background: #fff;
+  color: var(--color-dark);
   font-family: var(--font-ui);
   font-size: 0.9rem;
   padding: 0.8rem 1rem;
-  border: 1px solid rgba(247, 243, 227, 0.1);
+  border: 1px solid rgba(0, 0, 0, 0.12);
   border-radius: 0.35rem;
   outline: none;
   transition: border-color 0.18s ease, box-shadow 0.18s ease;
 }
 
 .apex-input::placeholder {
-  color: rgba(247, 243, 227, 0.28);
+  color: rgba(28, 20, 16, 0.4);
   font-family: var(--font-ui);
 }
 
 .apex-input:focus {
   border-color: rgba(214, 40, 57, 0.6);
-  box-shadow: 0 0 0 3px rgba(214, 40, 57, 0.12);
-  background: rgba(0, 0, 0, 0.65);
+  box-shadow: 0 0 0 3px rgba(214, 40, 57, 0.1);
+  background: #fff;
 }
 
 /* ============================================
@@ -216,6 +216,7 @@
 
 .home-search__input {
   flex: 1;
+  min-width: 0;
   max-width: 480px;
   background: rgba(255,255,255,0.07);
   border: 1px solid rgba(247,243,227,0.18);
@@ -246,6 +247,7 @@
   border-radius: 0.3rem;
   cursor: pointer;
   white-space: nowrap;
+  flex-shrink: 0;
   transition: background 0.18s ease;
 }
 
@@ -259,15 +261,14 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  background: var(--color-dark);
+  background: #fff;
   text-align: left;
 }
 
 .home-products {
-  padding: 1.5rem 1.25rem 2rem;
+  padding: 3rem 1.25rem;
   position: relative;
-  background: var(--color-dark);
-  border-top: 1px solid rgba(247,243,227,0.07);
+  background: #fff;
 }
 
 .home-products__topbar {
@@ -278,10 +279,10 @@
 }
 
 .home-products__pause-btn {
-  background: rgba(247,243,227,0.06);
-  border: 1px solid rgba(247,243,227,0.18);
+  background: rgba(0,0,0,0.04);
+  border: 1px solid rgba(0,0,0,0.14);
   border-radius: 0.35rem;
-  color: var(--color-light);
+  color: var(--color-dark);
   font-size: 1.25rem;
   width: 3rem;
   height: 3rem;
@@ -294,9 +295,9 @@
 }
 
 .home-products__pause-btn:hover {
-  color: var(--color-light);
-  border-color: rgba(247,243,227,0.4);
-  background: rgba(247,243,227,0.1);
+  color: var(--color-dark);
+  border-color: rgba(0,0,0,0.3);
+  background: rgba(0,0,0,0.08);
 }
 
 .home-products__label {
@@ -324,7 +325,7 @@
   border-radius: 0.5rem;
   overflow: hidden;
   background: #fff;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18), 0 2px 6px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.1);
   transition: transform 0.22s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   will-change: transform;
   animation: slideIn 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
@@ -332,7 +333,7 @@
 
 .home-product-card:hover {
   transform: translateY(-8px) scale(1.025);
-  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.26), 0 6px 14px rgba(0,0,0,0.14);
+  box-shadow: 0 10px 28px rgba(0,0,0,0.13);
 }
 
 .home-product-card__img-wrap {
@@ -558,8 +559,7 @@ img[src*="ancle_guards"] {
 /* Articles / Stories */
 .home-articles {
   background: var(--color-dark);
-  padding: 1.25rem 1.25rem 1rem;
-  box-shadow: inset 0 18px 40px rgba(0,0,0,0.5);
+  padding: 3rem 1.25rem 2.5rem;
 }
 
 .home-articles__header {
@@ -624,8 +624,7 @@ img[src*="ancle_guards"] {
   border-radius: 0.5rem;
   overflow: hidden;
   background: rgba(0, 0, 0, 0.3);
-  border: 1px solid rgba(255,255,255,0.08);
-  box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.2);
   transition: transform 0.22s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   will-change: transform;
 }
@@ -701,7 +700,7 @@ img[src*="ancle_guards"] {
    ============================================ */
 
 .home-shelves {
-  background: var(--color-primary);
+  background: #fff;
   padding: 0;
 }
 
@@ -711,12 +710,11 @@ img[src*="ancle_guards"] {
 
 .home-shelf {
   padding: 0;
-  background: var(--color-primary);
-  border-bottom: 1px solid rgba(247, 243, 227, 0.06);
+  background: #fff;
 }
 
-.home-shelf--new  { background: rgba(255,255,255,0.03); }
-.home-shelf--sale { background: rgba(214, 40, 57, 0.05); }
+.home-shelf--new  { background: #fafaf8; }
+.home-shelf--sale { background: #fff8f8; }
 
 .home-shelf:last-child { border-bottom: none; }
 
@@ -724,7 +722,7 @@ img[src*="ancle_guards"] {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1.1rem 1.25rem 0.75rem;
+  padding: 2rem 1.25rem 0.75rem;
 }
 
 .home-shelf--sale .home-shelf__header { padding-bottom: 0.75rem; }
@@ -746,7 +744,7 @@ img[src*="ancle_guards"] {
   flex-shrink: 0;
 }
 
-.home-shelf__tag--new  { background: rgba(247,243,227,0.15); color: var(--color-light); }
+.home-shelf__tag--new  { background: var(--color-dark); color: var(--color-light); }
 .home-shelf__tag--sale { background: var(--color-accent); color: #fff; }
 
 .home-shelf__title {
@@ -755,20 +753,20 @@ img[src*="ancle_guards"] {
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: var(--color-light);
+  color: var(--color-dark);
   margin: 0;
 }
 
-.home-shelf--sale .home-shelf__title { color: var(--color-light); }
+.home-shelf--sale .home-shelf__title { color: var(--color-dark); }
 
 .home-shelf__sub {
   font-family: var(--font-ui);
   font-size: 0.7rem;
-  color: rgba(247,243,227,0.4);
+  color: rgba(28,20,16,0.45);
   margin: 0.1rem 0 0;
 }
 
-.home-shelf--sale .home-shelf__sub { color: rgba(247,243,227,0.4); }
+.home-shelf--sale .home-shelf__sub { color: rgba(28,20,16,0.45); }
 
 .home-shelf__link {
   font-family: var(--font-heading);
@@ -781,14 +779,233 @@ img[src*="ancle_guards"] {
   transition: opacity 0.18s ease;
 }
 
-.home-shelf--sale .home-shelf__link { color: rgba(247,243,227,0.6); }
+.home-shelf--sale .home-shelf__link { color: var(--color-accent); }
 .home-shelf__link:hover { opacity: 0.7; }
+
+/* Editorial layout — lifestyle image + product list */
+.home-shelf--editorial {
+  padding: 0;
+}
+
+.home-shelf__editorial {
+  display: grid;
+  grid-template-columns: 55% 45%;
+  min-height: 420px;
+}
+
+.home-shelf__editorial-hero {
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.home-shelf__editorial-hero img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.home-shelf__editorial-hero:hover img {
+  transform: scale(1.04);
+}
+
+.home-shelf__editorial-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0.15) 55%, transparent 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 2rem 2.5rem;
+  gap: 0.35rem;
+}
+
+.home-shelf__editorial-title {
+  color: #fff;
+  font-family: var(--font-heading);
+  font-size: 2.4rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+  line-height: 1;
+  margin: 0.4rem 0 0;
+}
+
+.home-shelf__editorial-sub {
+  color: rgba(255,255,255,0.65);
+  font-family: var(--font-heading);
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  margin: 0;
+  padding-left: 0.1em;
+}
+
+.home-shelf__editorial-cta {
+  color: #fff;
+  font-family: var(--font-heading);
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-top: 0.75rem;
+  opacity: 0.85;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.home-shelf__editorial-list {
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  border-left: 1px solid rgba(0,0,0,0.06);
+}
+
+.home-shelf-row-card {
+  display: grid;
+  grid-template-columns: 110px 1fr auto;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.1rem 1.2rem;
+  cursor: pointer;
+  transition: background 0.15s ease;
+  border-bottom: 1px solid #f0ece4;
+  flex: 1;
+}
+
+.home-shelf-row-card:last-child {
+  border-bottom: none;
+}
+
+.home-shelf-row-card:hover {
+  background: #fafaf8;
+}
+
+.home-shelf-row-card__img {
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
+  width: 110px;
+  height: 110px;
+  flex-shrink: 0;
+}
+
+.home-shelf-row-card__img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.home-shelf-row-card__info {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.home-shelf-row-card__name {
+  font-family: var(--font-heading);
+  font-size: 0.82rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--color-dark);
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.home-shelf-row-card__price-row {
+  display: flex;
+  align-items: baseline;
+  gap: 0.4rem;
+}
+
+.home-shelf-row-card__price {
+  font-family: var(--font-heading);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--color-dark);
+}
+
+.home-shelf-row-card__actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.home-shelf-row-card__fav {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: transparent;
+  border: 1px solid #e0ddd6;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 7px;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.home-shelf-row-card__fav:hover {
+  border-color: var(--color-accent);
+  background: rgba(214,40,57,0.06);
+}
+
+.home-shelf-row-card__fav.active {
+  border-color: var(--color-accent);
+  background: rgba(214,40,57,0.08);
+}
+
+.home-shelf-row-card__fav img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: brightness(0) opacity(0.5);
+}
+
+.home-shelf-row-card__fav.active img {
+  filter: none;
+}
+
+.home-shelf-row-card__cart {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--color-dark);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 7px;
+  flex-shrink: 0;
+  transition: background 0.15s ease, transform 0.15s ease;
+}
+
+.home-shelf-row-card__cart:hover {
+  background: var(--color-accent);
+  transform: scale(1.08);
+}
+
+.home-shelf-row-card__cart img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: brightness(0) invert(1);
+}
 
 .home-shelf__row {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 0.75rem;
-  padding: 0 1.25rem 1.5rem;
+  padding: 0 1.25rem 2.5rem;
 }
 
 /* --- Card base --- */
@@ -799,22 +1016,17 @@ img[src*="ancle_guards"] {
   border-radius: 0.5rem;
   overflow: hidden;
   background: #fff;
-  border: 1px solid rgba(63, 42, 43, 0.09);
-  box-shadow: 0 4px 14px rgba(0,0,0,0.09);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
   transition: transform 0.22s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   will-change: transform;
 }
 
 .home-shelf-card:hover {
   transform: translateY(-6px);
-  box-shadow: 0 14px 36px rgba(0,0,0,0.16);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.1);
 }
 
 /* --- New arrival card --- */
-.home-shelf-card--new {
-  border-color: rgba(63, 42, 43, 0.12);
-}
-
 .home-shelf-card--new:hover {
   box-shadow: 0 14px 36px rgba(0,0,0,0.18);
 }
@@ -965,9 +1177,8 @@ img[src*="ancle_guards"] {
    ============================================ */
 
 .home-categories {
-  background: var(--color-primary);
-  padding: 1.5rem 1.25rem 1.75rem;
-  border-top: 1px solid rgba(247,243,227,0.06);
+  background: var(--color-light);
+  padding: 3rem 1.25rem 3.5rem;
 }
 
 .home-categories__header {
@@ -1029,6 +1240,17 @@ img[src*="ancle_guards"] {
 }
 
 @media (max-width: 768px) {
+  /* Editorial shelf — stack vertically */
+  .home-shelf__editorial {
+    grid-template-columns: 1fr;
+  }
+  .home-shelf__editorial-hero {
+    min-height: 300px;
+  }
+  .home-shelf__editorial-title {
+    font-size: 1.8rem;
+  }
+
   /* Shelf grid — 2 columns */
   .home-categories__grid { grid-template-columns: repeat(2, 1fr); }
   .home-shelf__row {
@@ -1317,7 +1539,7 @@ img[src*="ancle_guards"] {
 .products-page {
   padding: 0 0 3rem;
   text-align: left;
-  background: #18100a;
+  background: var(--color-light);
   min-height: 80vh;
 }
 
@@ -1405,21 +1627,21 @@ img[src*="ancle_guards"] {
   overflow-x: auto;
   scrollbar-width: none;
   padding: 0.85rem 1.5rem 0.6rem;
-  border-bottom: 1px solid rgba(247, 243, 227, 0.07);
-  background: rgba(0,0,0,0.15);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  background: transparent;
 }
 
 .products-categories::-webkit-scrollbar { display: none; }
 
 .category-pill {
   background: transparent;
-  color: rgba(247, 243, 227, 0.8);
+  color: rgba(28, 20, 16, 0.65);
   font-family: var(--font-heading);
   font-size: 0.68rem;
   text-transform: uppercase;
   letter-spacing: 0.1em;
   padding: 0.35rem 1rem;
-  border: 1px solid rgba(247, 243, 227, 0.4);
+  border: 1px solid rgba(0, 0, 0, 0.2);
   border-radius: 2rem;
   cursor: pointer;
   white-space: nowrap;
@@ -1427,15 +1649,15 @@ img[src*="ancle_guards"] {
 }
 
 .category-pill:hover {
-  color: var(--color-light);
-  border-color: rgba(247, 243, 227, 0.75);
-  background: rgba(247, 243, 227, 0.06);
+  color: var(--color-dark);
+  border-color: rgba(0, 0, 0, 0.4);
+  background: rgba(0, 0, 0, 0.04);
 }
 
 .category-pill--active {
-  background: var(--color-light);
-  color: var(--color-dark);
-  border-color: var(--color-light);
+  background: var(--color-dark);
+  color: var(--color-light);
+  border-color: var(--color-dark);
   font-weight: 700;
 }
 
@@ -1445,7 +1667,7 @@ img[src*="ancle_guards"] {
   align-items: center;
   gap: 0.6rem;
   padding: 0.85rem 1.5rem 0;
-  background: #18100a;
+  background: var(--color-light);
 }
 
 .products-search__icon {
@@ -1456,10 +1678,10 @@ img[src*="ancle_guards"] {
 
 .products-search__input {
   flex: 1;
-  background: rgba(255, 255, 255, 0.07);
-  border: 1px solid rgba(247, 243, 227, 0.14);
+  background: rgba(0, 0, 0, 0.04);
+  border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 0.3rem;
-  color: var(--color-light);
+  color: var(--color-dark);
   font-family: var(--font-ui);
   font-size: 0.88rem;
   padding: 0.55rem 0.9rem;
@@ -1469,18 +1691,18 @@ img[src*="ancle_guards"] {
 }
 
 .products-search__input::placeholder {
-  color: rgba(247, 243, 227, 0.3);
+  color: rgba(28, 20, 16, 0.3);
 }
 
 .products-search__input:focus {
   border-color: rgba(214, 40, 57, 0.5);
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.06);
 }
 
 .products-search__clear {
   background: none;
   border: none;
-  color: rgba(247, 243, 227, 0.4);
+  color: rgba(28, 20, 16, 0.4);
   font-size: 0.8rem;
   cursor: pointer;
   padding: 0.2rem 0.3rem;
@@ -1488,13 +1710,13 @@ img[src*="ancle_guards"] {
   transition: color 0.15s;
 }
 
-.products-search__clear:hover { color: var(--color-light); }
+.products-search__clear:hover { color: var(--color-dark); }
 
 .products-empty {
   padding: 3rem 1.5rem;
   font-family: var(--font-ui);
   font-size: 0.9rem;
-  color: rgba(247, 243, 227, 0.5);
+  color: rgba(28, 20, 16, 0.5);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1503,7 +1725,7 @@ img[src*="ancle_guards"] {
 }
 
 .products-empty strong {
-  color: rgba(247, 243, 227, 0.8);
+  color: var(--color-dark);
 }
 
 .products-count {
@@ -1512,15 +1734,15 @@ img[src*="ancle_guards"] {
   font-size: 0.6rem;
   text-transform: uppercase;
   letter-spacing: 0.12em;
-  color: rgba(247, 243, 227, 0.28);
+  color: rgba(28, 20, 16, 0.35);
   margin: 0;
 }
 
 .products-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 1rem;
-  padding: 1rem 1.5rem 2rem;
+  gap: 1.5rem;
+  padding: 1.5rem 2rem 3rem;
 }
 
 .products-back {
@@ -1528,37 +1750,36 @@ img[src*="ancle_guards"] {
 }
 
 .products-page .auth-btn-secondary {
-  color: var(--color-light);
-  border-color: rgba(247, 243, 227, 0.6);
+  color: var(--color-dark);
+  border-color: rgba(28, 20, 16, 0.35);
 }
 
 .products-page .auth-btn-secondary:hover {
-  color: var(--color-light);
-  border-color: var(--color-light);
-  background: rgba(247, 243, 227, 0.08);
+  color: var(--color-dark);
+  border-color: rgba(28, 20, 16, 0.6);
+  background: rgba(0, 0, 0, 0.04);
 }
 
 .product-card {
   display: flex;
   flex-direction: column;
   text-decoration: none;
-  color: var(--color-light);
+  color: var(--color-dark);
   cursor: pointer;
-  border-radius: 0.6rem;
+  border-radius: 0.75rem;
   overflow: hidden;
-  background: #160f08;
-  border: 1px solid rgba(214, 40, 57, 0);
+  background: #fff;
+  border: 1px solid rgba(0,0,0,0.06);
   box-shadow:
-    0 10px 32px rgba(0,0,0,0.45),
-    0 4px 10px rgba(0,0,0,0.28),
-    0 1px 3px rgba(0,0,0,0.2);
-  transition: transform 0.22s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    0 2px 8px rgba(0,0,0,0.10),
+    0 6px 24px rgba(0,0,0,0.08);
+  transition: transform 0.22s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.22s ease;
   will-change: transform;
 }
 
 .product-card:hover {
-  transform: translateY(-12px) scale(1.03);
-  border-color: rgba(214, 40, 57, 0.5);
+  transform: translateY(-6px) scale(1.02);
+  border-color: rgba(214, 40, 57, 0.4);
   box-shadow:
     0 28px 70px rgba(0,0,0,0.5),
     0 0 0 1px rgba(214,40,57,0.5),
@@ -1625,8 +1846,10 @@ img[src*="ancle_guards"] {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.6rem 0.65rem 0.55rem;
+  padding: 0.75rem 0.85rem 0.7rem;
   gap: 0.4rem;
+  border-top: 1px solid #f0ece4;
+  background: #fafaf8;
 }
 
 .product-card__info {
@@ -1642,7 +1865,7 @@ img[src*="ancle_guards"] {
   font-size: 0.7rem;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  color: rgba(247, 243, 227, 0.75);
+  color: var(--color-dark);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -1652,7 +1875,7 @@ img[src*="ancle_guards"] {
   font-family: var(--font-heading);
   font-size: 0.9rem;
   font-weight: 700;
-  color: var(--color-light);
+  color: var(--color-dark);
   letter-spacing: 0.02em;
 }
 
@@ -1672,13 +1895,13 @@ img[src*="ancle_guards"] {
 }
 
 .product-card .home-product-card__fav-btn img {
-  filter: brightness(0) invert(1);
-  opacity: 0.5;
+  filter: brightness(0);
+  opacity: 0.35;
   transition: opacity 0.18s ease, transform 0.22s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .product-card .home-product-card__fav-btn:hover img {
-  opacity: 0.85;
+  opacity: 0.65;
   transform: scale(1.18);
 }
 
@@ -1763,8 +1986,8 @@ img[src*="ancle_guards"] {
 @media (max-width: 768px) {
   .products-grid {
     grid-template-columns: repeat(2, 1fr);
-    gap: 0.75rem;
-    padding: 0.75rem 1rem 2rem;
+    gap: 1rem;
+    padding: 1rem 1rem 2rem;
   }
   .products-categories {
     padding: 0.75rem 1rem 0.6rem;
@@ -1789,19 +2012,91 @@ img[src*="ancle_guards"] {
   align-items: start;
 }
 
-.product-detail__image img {
+.product-detail__image-main {
+  overflow: hidden;
+  border-radius: 0.4rem;
+  cursor: zoom-in;
+}
+
+.product-detail__image-main img {
   width: 100%;
   aspect-ratio: 3/4;
   max-height: 500px;
   object-fit: cover;
-  object-position: top center;
   display: block;
-  border-radius: 0.4rem;
+  transition: transform 0.4s ease;
+}
+
+.product-detail__image-main:hover img {
+  transform: scale(1.06);
+}
+
+.product-detail__thumbnails {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.6rem;
+}
+
+.product-detail__thumb {
+  width: 60px;
+  height: 60px;
+  border: 2px solid transparent;
+  border-radius: 0.25rem;
+  overflow: hidden;
+  cursor: pointer;
+  padding: 0;
+  background: none;
+  flex-shrink: 0;
+  transition: border-color 0.15s ease;
+}
+
+.product-detail__thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.product-detail__thumb--active,
+.product-detail__thumb:hover {
+  border-color: var(--color-green);
 }
 
 .product-detail__info {
   text-align: left;
   padding-top: 0.5rem;
+}
+
+.product-detail__badge-row {
+  display: flex;
+  gap: 0.4rem;
+  margin-bottom: 0.6rem;
+}
+
+.product-badge {
+  font-family: var(--font-heading);
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 0.2rem 0.5rem;
+  border-radius: 0.2rem;
+}
+
+.product-badge--new {
+  background: var(--color-green);
+  color: var(--color-dark);
+}
+
+.product-badge--limited {
+  background: var(--color-dark);
+  color: var(--color-green);
+  border: 1px solid rgba(57, 214, 0, 0.3);
+}
+
+.product-badge--sale {
+  background: #c0392b;
+  color: #fff;
 }
 
 .product-detail__name {
@@ -1820,6 +2115,25 @@ img[src*="ancle_guards"] {
   letter-spacing: 0.08em;
   color: var(--color-green);
   margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.product-detail__stock-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--color-green);
+  box-shadow: 0 0 6px rgba(57, 214, 0, 0.6);
+  flex-shrink: 0;
+}
+
+.product-detail__price-row {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
 }
 
 .product-detail__price {
@@ -1827,7 +2141,25 @@ img[src*="ancle_guards"] {
   font-size: 1.75rem;
   font-weight: 700;
   color: var(--color-dark);
+}
+
+.product-detail__price-original {
+  font-family: var(--font-heading);
+  font-size: 1rem;
+  color: rgba(16, 12, 12, 0.4);
+  text-decoration: line-through;
+}
+
+.product-detail__delivery {
+  font-family: var(--font-heading);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: rgba(16, 12, 12, 0.55);
   margin-bottom: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
 }
 
 .product-detail__desc {
@@ -1877,6 +2209,32 @@ img[src*="ancle_guards"] {
   background: var(--color-primary);
 }
 
+.product-detail__cta-row {
+  display: flex;
+  gap: 0.6rem;
+  margin-bottom: 1rem;
+}
+
+.product-detail__add-cart {
+  background: transparent;
+  color: var(--color-dark);
+  font-family: var(--font-heading);
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  padding: 0.85rem;
+  border: 1.5px solid var(--color-dark);
+  border-radius: 0.25rem;
+  cursor: pointer;
+  flex: 1;
+  transition: background 0.18s ease, color 0.18s ease;
+}
+
+.product-detail__add-cart:hover {
+  background: var(--color-dark);
+  color: var(--color-light);
+}
+
 .product-detail__buy {
   background: var(--color-dark);
   color: var(--color-green);
@@ -1888,14 +2246,38 @@ img[src*="ancle_guards"] {
   border: none;
   border-radius: 0.25rem;
   cursor: pointer;
-  width: 100%;
+  flex: 1;
   text-shadow: 0 0 10px rgba(57, 214, 0, 0.6);
   box-shadow: 0 0 14px rgba(57, 214, 0, 0.25);
-  margin-bottom: 1.5rem;
   transition: opacity 0.18s ease, box-shadow 0.18s ease;
 }
 
 .product-detail__buy:hover { opacity: 0.9; box-shadow: 0 0 22px rgba(57, 214, 0, 0.45); }
+
+.product-detail__trust-row {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+  padding: 0.75rem 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.trust-item {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-family: var(--font-heading);
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: rgba(16, 12, 12, 0.55);
+  flex: 1;
+}
+
+.trust-item__icon {
+  font-size: 0.85rem;
+}
 
 .product-detail__materials-title {
   font-family: var(--font-heading);
@@ -1916,13 +2298,87 @@ img[src*="ancle_guards"] {
   color: var(--color-dark);
 }
 
+.product-detail__related {
+  padding: 2rem 1.25rem 1rem;
+  border-top: 1px solid var(--border);
+  margin-top: 2rem;
+}
+
+.product-detail__related-title {
+  font-family: var(--font-heading);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-weight: 700;
+  margin-bottom: 1.25rem;
+  color: var(--color-dark);
+}
+
+.product-detail__related-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+}
+
+.product-detail__related-card {
+  text-decoration: none;
+  color: inherit;
+}
+
+.product-detail__related-img {
+  overflow: hidden;
+  border-radius: 0.3rem;
+  margin-bottom: 0.5rem;
+}
+
+.product-detail__related-img img {
+  width: 100%;
+  aspect-ratio: 3/4;
+  object-fit: cover;
+  object-position: top center;
+  display: block;
+  transition: transform 0.3s ease;
+}
+
+.product-detail__related-card:hover .product-detail__related-img img {
+  transform: scale(1.04);
+}
+
+.product-detail__related-name {
+  font-family: var(--font-heading);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-dark);
+  margin-bottom: 0.2rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.product-detail__related-price {
+  font-family: var(--font-heading);
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--color-dark);
+}
+
 @media (max-width: 768px) {
   .product-detail__layout {
     grid-template-columns: 1fr;
   }
 
-  .product-detail__image img {
+  .product-detail__image-main img {
     aspect-ratio: 1;
+  }
+
+  .product-detail__related-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .product-detail__trust-row {
+    flex-wrap: wrap;
+    gap: 0.6rem;
   }
 }
 
@@ -2240,7 +2696,7 @@ img[src*="ancle_guards"] {
 .checkout-page {
   padding: 1rem 1.25rem 2rem;
   text-align: left;
-  background: var(--color-dark);
+  background: var(--color-light);
   min-height: 80vh;
 }
 
@@ -2259,7 +2715,7 @@ img[src*="ancle_guards"] {
   font-weight: 700;
   margin-top: 1.25rem;
   margin-bottom: 0.4rem;
-  color: rgba(247, 243, 227, 0.55);
+  color: rgba(28, 20, 16, 0.75);
 }
 
 .checkout-section-title:first-child {
@@ -2280,19 +2736,19 @@ img[src*="ancle_guards"] {
 
 .shipping-option__meta {
   font-size: 0.75rem;
-  opacity: 0.7;
+  opacity: 0.8;
   margin-left: auto;
 }
 
 .shipping-option {
-  background: var(--color-dark);
-  color: var(--color-light);
+  background: rgba(0, 0, 0, 0.04);
+  color: var(--color-dark);
   font-family: var(--font-heading);
   font-size: 0.75rem;
   text-transform: uppercase;
   letter-spacing: 0.08em;
   padding: 0.55rem 1rem;
-  border: none;
+  border: 1px solid rgba(0, 0, 0, 0.08);
   border-radius: 0.2rem;
   cursor: pointer;
   text-align: left;
@@ -2300,11 +2756,13 @@ img[src*="ancle_guards"] {
   align-items: center;
   justify-content: space-between;
   gap: 0.5rem;
-  transition: background 0.18s ease;
+  transition: background 0.18s ease, border-color 0.18s ease;
 }
 
 .shipping-option--active {
-  background: var(--color-primary);
+  background: var(--color-dark);
+  color: var(--color-light);
+  border-color: var(--color-dark);
 }
 
 .payment-logos {
@@ -2331,12 +2789,12 @@ img[src*="ancle_guards"] {
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  background: rgba(247,243,227,0.04);
-  border: 1px solid rgba(247,243,227,0.1);
+  background: #fff;
+  border: 1px solid rgba(0,0,0,0.1);
   border-radius: 0.3rem;
   padding: 0.55rem 0.85rem;
   cursor: pointer;
-  color: rgba(247,243,227,0.6);
+  color: rgba(28,20,16,0.8);
   font-family: var(--font-heading);
   font-size: 0.72rem;
   text-transform: uppercase;
@@ -2346,14 +2804,14 @@ img[src*="ancle_guards"] {
 }
 
 .payment-method:hover {
-  border-color: rgba(247,243,227,0.25);
-  color: var(--color-light);
+  border-color: rgba(0,0,0,0.2);
+  color: var(--color-dark);
 }
 
 .payment-method--active {
   border-color: var(--color-accent);
-  background: rgba(214,40,57,0.08);
-  color: var(--color-light);
+  background: rgba(214,40,57,0.06);
+  color: var(--color-dark);
 }
 
 .payment-method__icon {
@@ -2365,9 +2823,9 @@ img[src*="ancle_guards"] {
 
 /* order summary (right column) */
 .checkout-summary {
-  border-top: 1px solid rgba(247, 243, 227, 0.1);
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
   padding-top: 0.75rem;
-  color: var(--color-light);
+  color: var(--color-dark);
 }
 
 .checkout-summary__item {
@@ -2397,10 +2855,10 @@ img[src*="ancle_guards"] {
   font-weight: 700;
   text-transform: uppercase;
   text-align: right;
-  border-top: 1px solid rgba(247, 243, 227, 0.1);
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
   padding-top: 0.5rem;
   margin-top: 0.5rem;
-  color: var(--color-light);
+  color: var(--color-dark);
 }
 
 .checkout-trust {
@@ -2435,7 +2893,7 @@ img[src*="ancle_guards"] {
   font-family: var(--font-italic);
   font-style: italic;
   font-size: 0.72rem;
-  color: rgba(247, 243, 227, 0.35);
+  color: rgba(28, 20, 16, 0.4);
   text-align: center;
   line-height: 1.5;
   margin-top: 0.6rem;
@@ -2523,6 +2981,13 @@ img[src*="ancle_guards"] {
   font-size: 0.8rem;
   font-weight: 700;
   text-transform: uppercase;
+}
+
+.confirmation-track-link {
+  color: var(--color-accent, #1a1a1a);
+  font-weight: 600;
+  font-size: 0.85rem;
+  text-decoration: underline;
 }
 
 .confirmation-footer {
@@ -2740,6 +3205,120 @@ img[src*="ancle_guards"] {
   width: 100%;
   height: 100%;
   object-fit: contain;
+}
+
+.fav-card__actions {
+  padding: 0.5rem 0.65rem 0.65rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  border-top: 1px solid rgba(247, 243, 227, 0.07);
+}
+
+.fav-card__sizes {
+  display: flex;
+  gap: 0.3rem;
+}
+
+.fav-card__size-btn {
+  background: rgba(247, 243, 227, 0.08);
+  color: rgba(247, 243, 227, 0.65);
+  font-family: var(--font-heading);
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  width: 2rem;
+  height: 2rem;
+  border: 1px solid rgba(247, 243, 227, 0.12);
+  border-radius: 0.2rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+
+.fav-card__size-btn--active,
+.fav-card__size-btn:hover {
+  background: var(--color-green);
+  border-color: var(--color-green);
+  color: var(--color-dark);
+}
+
+.fav-card__add-btn {
+  width: 100%;
+  background: rgba(57, 214, 0, 0.08);
+  color: var(--color-green);
+  font-family: var(--font-heading);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 0.5rem;
+  border: 1px solid rgba(57, 214, 0, 0.22);
+  border-radius: 0.2rem;
+  cursor: pointer;
+  transition: background 0.18s, border-color 0.18s;
+}
+
+.fav-card__add-btn:hover {
+  background: rgba(57, 214, 0, 0.18);
+  border-color: rgba(57, 214, 0, 0.5);
+}
+
+.fav-card__add-btn:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
+.favorites-bulk {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1.5rem;
+  background: rgba(0, 0, 0, 0.03);
+  border-bottom: 1px solid var(--border);
+  flex-wrap: wrap;
+}
+
+.favorites-bulk__label {
+  font-family: var(--font-heading);
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: rgba(16, 12, 12, 0.5);
+}
+
+.favorites-bulk__sizes {
+  display: flex;
+  gap: 0.35rem;
+}
+
+.favorites-bulk__btn {
+  background: var(--color-dark);
+  color: var(--color-green);
+  font-family: var(--font-heading);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 0.55rem 1.25rem;
+  border: 1px solid rgba(57, 214, 0, 0.25);
+  border-radius: 0.25rem;
+  cursor: pointer;
+  text-shadow: 0 0 8px rgba(57, 214, 0, 0.4);
+  box-shadow: 0 0 10px rgba(57, 214, 0, 0.1);
+  margin-left: auto;
+  transition: box-shadow 0.18s, filter 0.18s;
+}
+
+.favorites-bulk__btn:hover {
+  box-shadow: 0 0 18px rgba(57, 214, 0, 0.3);
+  filter: brightness(1.1);
+}
+
+.favorites-bulk__btn:disabled {
+  opacity: 0.3;
+  cursor: default;
+  filter: none;
 }
 
 .favorites-nav {
@@ -3020,6 +3599,111 @@ img[src*="ancle_guards"] {
   color: var(--color-accent);
   text-decoration: none;
   white-space: nowrap;
+}
+
+/* Order cards (expanded order history) */
+.mp-orders {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.mp-order-card {
+  border: 1px solid #e0ddd6;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #fff;
+}
+
+.mp-order-card__header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.8rem 1rem;
+  background: #f5f3ee;
+  border-bottom: 1px solid #e0ddd6;
+  flex-wrap: wrap;
+}
+
+.mp-order-card__id {
+  font-family: var(--font-heading);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--color-dark);
+}
+
+.mp-order-card__date {
+  font-size: 0.75rem;
+  color: #888;
+  margin-right: auto;
+}
+
+.mp-order-card__items {
+  display: flex;
+  flex-direction: column;
+}
+
+.mp-order-card__item {
+  display: grid;
+  grid-template-columns: 48px 1fr auto auto auto;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.65rem 1rem;
+  border-bottom: 1px solid #f0ede7;
+}
+
+.mp-order-card__item:last-child {
+  border-bottom: none;
+}
+
+.mp-order-card__item-img {
+  width: 48px;
+  height: 48px;
+  object-fit: cover;
+  border-radius: 4px;
+  background: #f0ede7;
+}
+
+.mp-order-card__item-name {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--color-dark);
+}
+
+.mp-order-card__item-qty {
+  font-size: 0.8rem;
+  color: #888;
+  white-space: nowrap;
+}
+
+.mp-order-card__item-unitprice {
+  font-size: 0.8rem;
+  color: #888;
+  white-space: nowrap;
+}
+
+.mp-order-card__item-line {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-dark);
+  white-space: nowrap;
+  min-width: 70px;
+  text-align: right;
+}
+
+.mp-order-card__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.7rem 1rem;
+  background: #f5f3ee;
+  border-top: 1px solid #e0ddd6;
+}
+
+.mp-order-card__total {
+  font-size: 0.85rem;
+  color: var(--color-dark);
 }
 
 /* Favorites grid */
@@ -3990,7 +4674,7 @@ img[src*="ancle_guards"] {
   .products-toolbar h1 { font-size: 1.2rem; }
   .products-grid {
     grid-template-columns: repeat(2, 1fr);
-    gap: 0.75rem;
+    gap: 1rem;
     padding: 1rem 1rem 2rem;
   }
   .products-categories { padding: 0.75rem 1rem 0; }
@@ -4587,21 +5271,10 @@ img[src*="ancle_guards"] {
   position: relative;
 }
 
-.home-testimonials::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 3px;
-  background: linear-gradient(to right, transparent, rgba(214,40,57,0.35), transparent);
-  pointer-events: none;
-}
+
 
 /* Articles → Newsletter: seamless dark merge */
-.home-articles {
-  box-shadow: 0 8px 0 var(--color-dark);
-}
+
 
 
 
@@ -4671,8 +5344,8 @@ img[src*="ancle_guards"] {
 
   .products-grid {
     grid-template-columns: repeat(2, 1fr);
-    gap: 0.5rem;
-    padding: 0.6rem 0.75rem 2rem;
+    gap: 0.75rem;
+    padding: 0.75rem 0.75rem 2rem;
   }
 
   .product-card__name {
@@ -4796,8 +5469,7 @@ img[src*="ancle_guards"] {
    ============================================ */
 
 .recently-viewed {
-  padding: 2rem 1.25rem 1.5rem;
-  border-top: 1px solid rgba(247, 243, 227, 0.07);
+  padding: 3rem 1.25rem 2.5rem;
   background: var(--color-dark);
 }
 
@@ -4899,41 +5571,42 @@ img[src*="ancle_guards"] {
 
 .cart-toast {
   position: fixed;
-  bottom: 1.5rem;
-  right: 1.5rem;
+  bottom: 2.5rem;
+  left: 50%;
+  transform: translateX(-50%);
   z-index: 9999;
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 1.5rem;
   background: #1a1108;
-  border: 1px solid rgba(247, 243, 227, 0.18);
-  border-radius: 0.45rem;
-  padding: 0.75rem 1.1rem;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.55);
+  border: 1px solid rgba(247, 243, 227, 0.25);
+  border-radius: 0.55rem;
+  padding: 1rem 1.75rem;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.65);
   animation: toastSlideUp 0.28s ease;
-  min-width: 220px;
-  max-width: 320px;
+  min-width: 340px;
+  max-width: 520px;
 }
 
 .cart-toast__text {
   font-family: var(--font-heading);
-  font-size: 0.72rem;
+  font-size: 0.82rem;
   text-transform: uppercase;
   letter-spacing: 0.06em;
-  color: rgba(247, 243, 227, 0.75);
+  color: rgba(247, 243, 227, 0.85);
   flex: 1;
 }
 
 .cart-toast__link {
   font-family: var(--font-heading);
-  font-size: 0.72rem;
+  font-size: 0.82rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.08em;
   color: var(--color-green);
   text-decoration: none;
   white-space: nowrap;
-  text-shadow: 0 0 8px rgba(57, 214, 0, 0.5);
+  text-shadow: 0 0 10px rgba(57, 214, 0, 0.55);
   transition: opacity 0.15s;
 }
 
@@ -4947,10 +5620,14 @@ img[src*="ancle_guards"] {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.75rem;
-  background: #0e0904;
-  border-top: 1px solid rgba(247, 243, 227, 0.07);
-  padding: 0.5rem 1.25rem;
+  gap: 1rem;
+  background: #120d07;
+  border-top: 1px solid rgba(57, 214, 0, 0.18);
+  padding: 0.65rem 1.5rem;
+  box-shadow: 0 -6px 28px rgba(0, 0, 0, 0.55);
+  position: sticky;
+  top: 3.5rem;
+  z-index: 99;
 }
 
 .ml-cart-bar__text {
@@ -4958,28 +5635,43 @@ img[src*="ancle_guards"] {
   font-size: 0.65rem;
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  color: rgba(247, 243, 227, 0.5);
+  color: rgba(247, 243, 227, 0.65);
+  margin-right: 0.25rem;
 }
 
 .ml-cart-bar__btn {
   font-family: var(--font-heading);
-  font-size: 0.72rem;
-  font-weight: 700;
+  font-size: 0.7rem;
+  font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  color: var(--color-green);
   text-decoration: none;
-  padding: 0.35rem 1rem;
-  border: 1px solid rgba(57, 214, 0, 0.4);
-  border-radius: 0.25rem;
-  text-shadow: 0 0 8px rgba(57, 214, 0, 0.4);
-  box-shadow: 0 0 10px rgba(57, 214, 0, 0.12);
-  transition: box-shadow 0.2s, border-color 0.2s;
+  padding: 0.4rem 1.1rem;
+  border-radius: 2rem;
+  transition: box-shadow 0.2s, background 0.2s, border-color 0.2s;
+  color: rgba(247, 243, 227, 0.75);
+  border: 1px solid rgba(247, 243, 227, 0.2);
+  background: transparent;
 }
 
 .ml-cart-bar__btn:hover {
-  border-color: rgba(57, 214, 0, 0.7);
-  box-shadow: 0 0 16px rgba(57, 214, 0, 0.25);
+  color: var(--color-light);
+  border-color: rgba(247, 243, 227, 0.45);
+}
+
+.ml-cart-bar__btn:last-child {
+  color: #0a0a0a;
+  background: var(--color-green);
+  border-color: var(--color-green);
+  font-weight: 700;
+  box-shadow: 0 0 14px rgba(57, 214, 0, 0.35);
+  text-shadow: none;
+}
+
+.ml-cart-bar__btn:last-child:hover {
+  background: #45f500;
+  border-color: #45f500;
+  box-shadow: 0 0 22px rgba(57, 214, 0, 0.55);
 }
 
 /* ============================================
@@ -5152,4 +5844,431 @@ img[src*="ancle_guards"] {
 
 @keyframes spin {
   to { transform: rotate(360deg); }
+}
+
+
+/* ============================================
+   MOBILE — COMPREHENSIVE RESPONSIVE FIXES
+   ============================================ */
+
+/* --- 768px: tablet / large phone --- */
+@media (max-width: 768px) {
+  /* Cart: stack layout vertically */
+  .cart-layout {
+    grid-template-columns: 1fr;
+    padding: 1rem;
+    gap: 1.25rem;
+  }
+
+  /* Cart summary loses sticky on mobile */
+  .cart-summary-col { position: static; }
+
+  /* Cart header */
+  .cart-header { padding: 0.5rem 1rem 0.75rem; }
+  .cart-header h1 { font-size: 1.2rem; }
+
+  /* Home product card — smaller action buttons */
+  .home-product-card__fav-btn {
+    min-width: 2rem;
+    min-height: 2rem;
+    padding: 0.4rem;
+  }
+  .home-product-card__fav-btn img {
+    width: 1.15rem;
+    height: 1.15rem;
+  }
+  .home-product-card__cart img {
+    width: 1.1rem;
+    height: 1.1rem;
+  }
+
+  /* Checkout page — less side padding */
+  .checkout-page { padding: 0.75rem 1rem 2rem; }
+
+  /* Cart toast — sit above the sticky cart bar */
+  .cart-toast {
+    min-width: unset;
+    width: calc(100vw - 2rem);
+    bottom: 4.5rem;
+  }
+
+  /* Cart bar — sticky at bottom of viewport on mobile */
+  .ml-cart-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 200;
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.4);
+  }
+
+  /* Push page content above the sticky cart bar */
+  .app {
+    padding-bottom: 3rem;
+  }
+}
+
+/* --- 480px: phone --- */
+@media (max-width: 480px) {
+  /* Home product card footer */
+  .home-product-card__footer {
+    padding: 0.3rem 0.35rem 0.25rem;
+    gap: 0.1rem;
+  }
+  .home-product-card__title { font-size: 0.62rem; }
+  .home-product-card__price { font-size: 0.72rem; }
+  .home-product-card__fav-btn {
+    min-width: 1.7rem;
+    min-height: 1.7rem;
+    padding: 0.25rem;
+  }
+  .home-product-card__fav-btn img,
+  .home-product-card__cart img {
+    width: 0.95rem;
+    height: 0.95rem;
+  }
+
+  /* Home product card — actions area tighter */
+  .home-product-card__actions {
+    margin: -0.25rem -0.25rem -0.25rem 0;
+    padding: 0.25rem 0.25rem 0.25rem 0;
+  }
+
+  /* Home page search bar */
+  .home-search { padding: 0.6rem 0.75rem; }
+  .home-search__input { font-size: 0.8rem; }
+
+  /* Cart items — smaller image */
+  .cart-item {
+    grid-template-columns: 75px 1fr;
+    gap: 0.65rem;
+    padding: 0.65rem;
+  }
+  .cart-item__image { width: 75px; height: 75px; }
+  .cart-item__name { font-size: 0.75rem; }
+
+  /* Cart layout */
+  .cart-layout { padding: 0.75rem; gap: 1rem; }
+
+  /* Checkout */
+  .checkout-page { padding: 0.5rem 0.75rem 2rem; }
+  .checkout-layout { gap: 1.25rem; }
+  .checkout-trust { gap: 0.75rem; font-size: 0.75rem; margin: 1rem 0; }
+  .checkout-submit { font-size: 0.85rem; }
+
+  /* Confirmation page */
+  .confirmation-page { padding: 1.25rem 0.75rem; }
+  .confirmation-layout { gap: 1.25rem; }
+
+  /* Favorites grid — ensure 2 cols fit */
+  .favorites-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.6rem;
+    padding: 0.75rem;
+  }
+}
+
+/* ============================================
+   320 – 360 px: very small phones
+   (Note: html font-size is 18px so all rem values
+    are 12.5% larger than typical — compensate here)
+   ============================================ */
+@media (max-width: 360px) {
+
+  /* --- Home: reduce vertical breathing room --- */
+  .home-products { padding: 1.25rem 0.5rem; }
+  .home-search    { padding: 0.5rem 0.75rem; gap: 0.35rem; }
+  .home-search__btn { padding: 0.45rem 0.65rem; font-size: 0.62rem; letter-spacing: 0.04em; }
+  .home-search__input { font-size: 0.75rem; padding: 0.45rem 0.65rem; }
+
+  /* Pause button */
+  .home-products__pause-btn {
+    width: 2rem; height: 2rem; font-size: 0.9rem;
+  }
+
+  /* Arrow buttons */
+  .home-products__arrow {
+    font-size: 1.1rem; padding: 0.25rem 0.1rem;
+  }
+
+  /* Product card footer — ultra compact */
+  .home-product-card__footer {
+    padding: 0.2rem 0.25rem 0.2rem; gap: 0;
+  }
+  .home-product-card__title { font-size: 0.55rem; }
+  .home-product-card__price { font-size: 0.65rem; }
+  .home-product-card__fav-btn {
+    min-width: 1.4rem; min-height: 1.4rem; padding: 0.15rem;
+  }
+  .home-product-card__fav-btn img,
+  .home-product-card__cart img {
+    width: 0.78rem; height: 0.78rem;
+  }
+  .home-product-card__actions {
+    margin: -0.15rem -0.15rem -0.15rem 0;
+    padding: 0.15rem 0.15rem 0.15rem 0;
+  }
+
+  /* Shelf cards — 2 cols still, tighter body */
+  .home-shelf__row {
+    gap: 0.3rem; padding: 0 0.5rem 0.75rem;
+  }
+  .home-shelf-card__body { padding: 0.35rem 0.4rem 0.4rem; }
+  .home-shelf-card__name { font-size: 0.58rem; }
+  .home-shelf-card__price,
+  .home-shelf-card__price--sale { font-size: 0.68rem; }
+  .home-shelf-card__cart { font-size: 0.5rem; padding: 0.25rem 0; }
+
+  /* Breadcrumb — allow wrap, shrink font */
+  .flow-breadcrumb {
+    font-size: 0.55rem; gap: 0.2rem;
+    flex-wrap: wrap; padding: 0.5rem 0 0.75rem;
+  }
+
+  /* Cart */
+  .cart-layout { padding: 0.5rem; gap: 0.75rem; }
+  .cart-item {
+    grid-template-columns: 62px 1fr;
+    padding: 0.5rem; gap: 0.5rem;
+  }
+  .cart-item__image { width: 62px; height: 62px; }
+  .cart-item__name  { font-size: 0.7rem; }
+  .cart-header      { padding: 0.4rem 0.75rem 0.65rem; }
+  .cart-header h1   { font-size: 1rem; }
+  .cart-summary-card { padding: 1rem; }
+
+  /* Cart checkout button */
+  .cart-checkout-btn { font-size: 0.8rem; padding: 0.75rem; }
+
+  /* Checkout */
+  .checkout-page   { padding: 0.4rem 0.5rem 2rem; }
+  .checkout-layout { gap: 1rem; }
+  .checkout-trust  { flex-direction: column; gap: 0.35rem; font-size: 0.7rem; margin: 0.75rem 0; }
+  .checkout-submit { font-size: 0.8rem; padding: 0.85rem; }
+  .shipping-option { padding: 0.45rem 0.65rem; font-size: 0.68rem; }
+  .payment-method  { padding: 0.45rem 0.65rem; font-size: 0.65rem; }
+
+  /* Klarna / payment modal */
+  .klarna-modal { padding: 1.25rem 1rem 1rem; }
+  .klarna-modal__title { font-size: 0.95rem; }
+  .klarna-modal__option { padding: 0.5rem 0.7rem; }
+  .klarna-modal__option-name { font-size: 0.78rem; }
+  .klarna-modal__pay-btn { font-size: 0.8rem; padding: 0.75rem; }
+
+  /* Confirmation */
+  .confirmation-page   { padding: 1rem 0.5rem; }
+  .confirmation-layout { gap: 0.75rem; }
+
+  /* Cart toast */
+  .cart-toast {
+    width: calc(100vw - 1rem);
+    padding: 0.75rem 1rem;
+    bottom: 1rem;
+    font-size: 0.75rem;
+  }
+  .cart-toast__text  { font-size: 0.72rem; }
+  .cart-toast__link  { font-size: 0.72rem; }
+
+  /* Footer */
+  .footer { padding: 1.5rem 0.75rem 1rem; }
+  .footer__inner { grid-template-columns: 1fr; gap: 0.75rem; }
+
+  /* Product grid (catalog page) */
+  .products-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem; padding: 0.5rem 0.5rem 2rem;
+  }
+  .product-card__name  { font-size: 0.58rem; }
+  .product-card__price { font-size: 0.72rem; }
+
+  /* Favorites */
+  .favorites-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem; padding: 0.5rem;
+  }
+
+  /* My pages sidebar */
+  .mp-content { padding: 0.75rem; }
+}
+
+/* ============================================================
+   FULL-SITE MOBILE AUDIT FIXES
+   Covers: product detail, articles, auth, contact, info,
+           my pages order cards, article detail, page-nav
+   Root: html { font-size: 18px } — all rem = 18px-based
+   ============================================================ */
+
+/* ─── Product Detail ─── */
+@media (max-width: 480px) {
+  .product-detail__name            { font-size: 1rem; }
+  .product-detail__price           { font-size: 1.2rem; }
+  .product-detail__price-original  { font-size: 0.8rem; }
+  .product-detail__add-cart,
+  .product-detail__buy             { font-size: 0.82rem; padding: 0.7rem 0.5rem; letter-spacing: 0.06em; }
+  .product-detail__trust-row       { flex-wrap: wrap; gap: 0.5rem; padding: 0.5rem 0; }
+  .product-detail__cta-row         { gap: 0.35rem; }
+  .product-detail__desc            { font-size: 0.8rem; }
+}
+@media (max-width: 360px) {
+  .product-detail__name            { font-size: 0.88rem; }
+  .product-detail__price           { font-size: 1rem; }
+  .product-detail__add-cart,
+  .product-detail__buy             { font-size: 0.75rem; padding: 0.6rem 0.4rem; }
+}
+
+/* ─── Article detail page ─── */
+@media (max-width: 768px) {
+  .article-page__hero-overlay { padding: 1.5rem 1.25rem; }
+  .article-page__title        { font-size: 1.5rem; }
+  .article-page__body         { padding: 1.5rem 1.25rem 2.5rem; }
+}
+@media (max-width: 480px) {
+  .article-page__hero-overlay { padding: 1rem 0.85rem; }
+  .article-page__title        { font-size: 1.1rem; }
+  .article-page__body         { padding: 1.25rem 0.85rem 2rem; }
+  .article-page__excerpt      { font-size: 0.88rem; padding-left: 0.75rem; margin-bottom: 1.25rem; }
+  .article-page__content p    { font-size: 0.85rem; }
+}
+@media (max-width: 360px) {
+  .article-page__title        { font-size: 0.95rem; }
+  .article-page__body         { padding: 1rem 0.65rem 1.5rem; }
+}
+
+/* ─── Articles list page ─── */
+@media (max-width: 480px) {
+  .articles-grid              { grid-template-columns: 1fr; gap: 0.75rem; padding: 0.75rem; }
+  .article-list-card__body    { padding: 0.65rem 0.75rem 0.8rem; }
+  .article-list-card__title   { font-size: 0.75rem; }
+}
+@media (max-width: 360px) {
+  .articles-grid              { padding: 0.5rem; gap: 0.5rem; }
+}
+
+/* ─── Auth pages ─── */
+@media (max-width: 480px) {
+  .auth-page    { padding: 1.5rem 0.75rem; }
+  .auth-card    { padding: 1.75rem 1.25rem 1.5rem; max-width: 100%; }
+  .auth-page h1 { font-size: 1.4rem; }
+  .auth-tagline { margin-bottom: 1.25rem; }
+  .auth-btn-primary,
+  .auth-btn-secondary { font-size: 0.82rem; padding: 0.7rem 1rem; }
+}
+@media (max-width: 360px) {
+  .auth-card    { padding: 1.25rem 0.85rem 1.25rem; }
+  .auth-page h1 { font-size: 1.1rem; }
+}
+
+/* ─── Contact page ─── */
+@media (max-width: 480px) {
+  .contact-hero           { padding: 1.25rem 0.75rem 1rem; }
+  .contact-hero__heading  { font-size: 1.3rem; }
+  .contact-hero__sub      { font-size: 0.8rem; }
+  .contact-form-wrap      { padding: 1.25rem 0.85rem; }
+  .contact-input,
+  .contact-textarea       { padding: 0.6rem 0.75rem; font-size: 0.82rem; }
+  .contact-label          { font-size: 0.65rem; }
+}
+@media (max-width: 360px) {
+  .contact-hero__heading  { font-size: 1rem; }
+  .contact-form-wrap      { padding: 1rem 0.65rem; }
+}
+
+/* ─── Info page ─── */
+@media (max-width: 480px) {
+  .info-page__header         { padding: 1rem; }
+  .info-page__header h1      { font-size: 1.3rem; }
+  .info-page__body           { padding: 1.25rem 0.85rem 2rem; }
+  .info-page__section        { margin-bottom: 1.25rem; padding-bottom: 1.25rem; }
+}
+@media (max-width: 360px) {
+  .info-page__header         { padding: 0.75rem; }
+  .info-page__body           { padding: 1rem 0.6rem 1.5rem; }
+}
+
+/* ─── My Pages: order card items ─── */
+@media (max-width: 600px) {
+  .mp-order-card__item            {
+    grid-template-columns: 40px 1fr auto;
+    gap: 0.5rem;
+    padding: 0.5rem 0.75rem;
+  }
+  .mp-order-card__item-unitprice  { display: none; }
+  .mp-order-card__item-qty        { display: none; }
+  .mp-order-card__item-img        { width: 40px; height: 40px; }
+  .mp-order-card__item-name       { font-size: 0.78rem; }
+  .mp-order-card__item-line       { min-width: 48px; font-size: 0.78rem; }
+  .mp-order-card__header          { padding: 0.6rem 0.75rem; gap: 0.5rem; }
+  .mp-order-card__footer          { padding: 0.5rem 0.75rem; }
+}
+@media (max-width: 360px) {
+  .mp-order-card__item            { padding: 0.4rem 0.5rem; }
+}
+
+/* ─── Page-nav bar ─── */
+@media (max-width: 480px) {
+  .page-nav         { padding: 0.6rem 0.85rem; }
+  .page-nav__back   { padding: 0.35rem 0.75rem; font-size: 0.65rem; }
+}
+
+/* ============================================================
+   CHECKOUT: targeted readability fixes
+   Core problem: auth-btn-secondary uses color:var(--color-light)
+   but checkout-page has background:var(--color-light)
+   → invisible buttons. Also font sizes were being reduced too
+     aggressively — checkout text needs to be bigger, not smaller.
+   ============================================================ */
+
+/* ─── Fix invisible back-buttons on light checkout background ─── */
+.checkout-page .auth-btn-secondary {
+  color: var(--color-dark);
+  border-color: rgba(28, 20, 16, 0.35);
+}
+.checkout-page .auth-btn-secondary:hover {
+  background: rgba(28, 20, 16, 0.05);
+  border-color: rgba(28, 20, 16, 0.6);
+  color: var(--color-dark);
+}
+
+/* ─── Mobile readability: bump up text, don't shrink it ─── */
+@media (max-width: 768px) {
+  .checkout-section-title {
+    font-size: 0.8rem;
+    margin-top: 1.25rem;
+    margin-bottom: 0.5rem;
+    letter-spacing: 0.08em;
+  }
+  .checkout-form { gap: 0.5rem; }
+  .shipping-option      { font-size: 0.85rem; }
+  .shipping-option__meta{ font-size: 0.8rem;  }
+  .payment-method       { font-size: 0.82rem; }
+  .checkout-summary__item-name { font-size: 0.85rem; }
+  .checkout-summary__item-row  { font-size: 0.8rem;  }
+  .checkout-summary__subtotal  { font-size: 0.9rem;  }
+  .checkout-redirect-note {
+    font-size: 0.78rem;
+    color: rgba(28, 20, 16, 0.55);
+  }
+}
+
+@media (max-width: 480px) {
+  .checkout-section-title { font-size: 0.75rem; }
+  .shipping-option        { font-size: 0.82rem; padding: 0.5rem 0.75rem; }
+  .shipping-option__meta  { font-size: 0.75rem; }
+  .payment-method         { font-size: 0.78rem; padding: 0.5rem 0.85rem; }
+}
+
+/* At 360px: override the earlier blocks that shrunk things too far */
+@media (max-width: 360px) {
+  .checkout-section-title { font-size: 0.72rem; letter-spacing: 0.06em; }
+  /* These override the 0.68/0.65rem values set in the earlier 360px block */
+  .shipping-option        { font-size: 0.75rem; padding: 0.5rem 0.6rem; }
+  .shipping-option__meta  { font-size: 0.7rem;  }
+  .payment-method         { font-size: 0.72rem; padding: 0.45rem 0.6rem; }
+  .checkout-summary__item-name { font-size: 0.78rem; }
+  .checkout-summary__item-row  { font-size: 0.72rem; }
+  /* breadcrumb: 0.55rem (9.9px) is too small — keep it 0.65rem */
+  .flow-breadcrumb        { font-size: 0.65rem; gap: 0.2rem; }
+  .checkout-redirect-note { font-size: 0.72rem; }
+  .checkout-page .auth-btn-secondary { font-size: 0.75rem; padding: 0.6rem 0.85rem; }
 }

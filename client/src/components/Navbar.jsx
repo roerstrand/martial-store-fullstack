@@ -35,8 +35,8 @@ function Navbar({ isOpen, onToggleMenu }) {
     return () => document.removeEventListener("mousedown", handler);
   }, []);
 
-  const handleLogout = () => { logout(); navigate("/login"); };
-  const handleCategory = (value) => { setCatOpen(false); navigate(`/?category=${value}`); };
+  const handleLogout = () => { logout(); navigate("/login"); onToggleMenu?.(); };
+  const handleCategory = (value) => { setCatOpen(false); navigate(`/products?category=${value}`); onToggleMenu?.(); };
 
   return (
     <>
@@ -76,7 +76,7 @@ function Navbar({ isOpen, onToggleMenu }) {
               {user.role === "admin" && (
                 <Link to="/admin" className="apex-nav-link apex-nav-link--sale">Admin Page</Link>
               )}
-              <button onClick={handleMyPages} className="apex-nav-link">My Pages</button>
+              <button onClick={handleMyPages} className="apex-nav-link">Profile</button>
               <button onClick={handleLogout} className="apex-nav-btn-ghost">Log out</button>
             </>
           ) : (
@@ -86,31 +86,33 @@ function Navbar({ isOpen, onToggleMenu }) {
             </>
           )}
           {loginNotice && (
-            <div className="apex-login-notice">Please log in to view My Pages</div>
+            <div className="apex-login-notice">Please log in to view Profile</div>
           )}
         </div>
       </nav>
 
       {/* Mobile drawer */}
       <div className={`apex-mobile-nav ${isOpen ? "open" : ""}`}>
-        <Link to="/products" className="apex-nav-link">All Products</Link>
+        <Link to="/products" className="apex-nav-link" onClick={onToggleMenu}>All Products</Link>
         <button
           className={`apex-nav-link apex-nav-link--sale${saleActive ? " apex-nav-link--active" : ""}`}
-          onClick={() => navigate(saleActive ? "/" : "/?sale=true")}
+          onClick={() => { navigate(saleActive ? "/" : "/?sale=true"); onToggleMenu?.(); }}
         >Sale</button>
         {CATEGORIES.map((c) => (
           <button key={c.value} className="apex-nav-link" onClick={() => handleCategory(c.value)}>{c.label}</button>
         ))}
         <div className="apex-cat-divider" style={{ margin: "0.25rem 0" }} />
+        <Link to="/favorites" className="apex-nav-link" onClick={onToggleMenu}>Favorites</Link>
+        <Link to="/cart" className="apex-nav-link" onClick={onToggleMenu}>Cart</Link>
         {user ? (
           <>
-            <Link to="/my-pages" className="apex-nav-link">My Pages</Link>
+            <Link to="/my-pages" className="apex-nav-link" onClick={onToggleMenu}>Profile</Link>
             <button onClick={handleLogout} className="apex-nav-link">Log out</button>
           </>
         ) : (
           <>
-            <Link to="/login" className="apex-nav-link">Log in</Link>
-            <Link to="/register" className="apex-nav-link">Create account</Link>
+            <Link to="/login" className="apex-nav-link" onClick={onToggleMenu}>Log in</Link>
+            <Link to="/register" className="apex-nav-link" onClick={onToggleMenu}>Create account</Link>
           </>
         )}
       </div>

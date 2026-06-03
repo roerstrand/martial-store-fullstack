@@ -3,6 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { useCart } from "../../context/CartContext";
 import PaymentForm from "../../components/cart/PaymentForm";
 import KlarnaModal from "../../components/cart/KlarnaModal";
+import SwishModal from "../../components/cart/SwishModal";
+import CardModal from "../../components/cart/CardModal";
 import { createOrder } from "../../services/orderService";
 import "../Pages.css";
 import PageNav from "../../components/PageNav";
@@ -20,26 +22,26 @@ function CheckoutPage() {
     0,
   );
 
-  const handleFormSubmit = ({ shipping, ...shippingInfo }) => {
+  const handleFormSubmit = ({ shipping, payment, carrier, ...shippingInfo }) => {
     const shippingCost = SHIPPING_COSTS[shipping] ?? 5;
-    setPendingData({ shipping, shippingCost, shippingInfo, totalPrice: subtotal + shippingCost });
+    setPendingData({ shipping, payment, carrier, shippingCost, shippingInfo, totalPrice: subtotal + shippingCost });
   };
 
   const handleConfirmPayment = async () => {
     if (!pendingData) return;
-    const { shipping, shippingCost, shippingInfo, totalPrice } = pendingData;
+    const { shipping, carrier, shippingCost, shippingInfo, totalPrice } = pendingData;
     const products = cart.map((item) => ({
       product_id: item.product._id,
       price: item.product.price,
       size: item.size,
       quantity: item.quantity,
     }));
-    const order = await createOrder(products, totalPrice);
+    const order = await createOrder(products, totalPrice, shipping, carrier);
     const cartSnapshot = [...cart];
     await clearCart();
     setPendingData(null);
     navigate("/confirmation", {
-      state: { order, shippingInfo, shipping, shippingCost, cartSnapshot },
+      state: { order, shippingInfo, shipping, carrier, shippingCost, cartSnapshot },
     });
   };
 
@@ -54,12 +56,14 @@ function CheckoutPage() {
         <span>CONFIRMATION</span>
       </div>
 
-      {pendingData && (
-        <KlarnaModal
-          total={pendingData.totalPrice}
-          onConfirm={handleConfirmPayment}
-          onClose={() => setPendingData(null)}
-        />
+      {pendingData && pendingData.payment === "klarna" && (
+        <KlarnaModal total={pendingData.totalPrice} onConfirm={handleConfirmPayment} onClose={() => setPendingData(null)} />
+      )}
+      {pendingData && pendingData.payment === "swish" && (
+        <SwishModal total={pendingData.totalPrice} onConfirm={handleConfirmPayment} onClose={() => setPendingData(null)} />
+      )}
+      {pendingData && pendingData.payment === "card" && (
+        <CardModal total={pendingData.totalPrice} onConfirm={handleConfirmPayment} onClose={() => setPendingData(null)} />
       )}
 
       <div className="checkout-layout">

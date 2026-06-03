@@ -40,7 +40,7 @@ const getMyOrders = asyncHandler(async (req, res) => {
 // @route   POST /api/orders
 // @access  private
 const createOrder = asyncHandler(async (req, res) => {
-  const { products, totalPrice } = req.body;
+  const { products, totalPrice, shippingMethod, carrier } = req.body;
   if (!products || !totalPrice) {
     res.status(400);
     throw new Error("products and totalPrice are required");
@@ -49,6 +49,8 @@ const createOrder = asyncHandler(async (req, res) => {
     user_id: req.user.id,
     products,
     totalPrice,
+    shippingMethod,
+    carrier,
   });
   res.status(201).json(order);
 });

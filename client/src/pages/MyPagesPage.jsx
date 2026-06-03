@@ -62,18 +62,40 @@ function OrderHistory({ orders, loading }) {
   return (
     <div>
       <p className="mp-section-title">Order History</p>
-      <div className="mp-table">
-        <div className="mp-table__head">
-          <span>Order</span><span>Status</span><span>Total</span><span />
-        </div>
+      <div className="mp-orders">
         {orders.map((order) => (
-          <div key={order._id} className="mp-table__row">
-            <span className="mp-table__id">#{order._id.slice(-8).toUpperCase()}</span>
-            <span className={`mp-table__status mp-table__status--${order.status}`}>
-              {STATUS_LABELS[order.status] ?? order.status}
-            </span>
-            <span className="mp-table__total">{order.totalPrice} EUR</span>
-            <Link to={`/orders/${order._id}`} className="mp-table__link">Track ›</Link>
+          <div key={order._id} className="mp-order-card">
+            <div className="mp-order-card__header">
+              <span className="mp-order-card__id">#{order._id.slice(-8).toUpperCase()}</span>
+              <span className="mp-order-card__date">
+                {new Date(order.createdAt).toLocaleDateString("sv-SE")}
+              </span>
+              <span className={`mp-table__status mp-table__status--${order.status}`}>
+                {STATUS_LABELS[order.status] ?? order.status}
+              </span>
+            </div>
+            <div className="mp-order-card__items">
+              {order.products.map((item, i) => {
+                const p = item.product_id;
+                return (
+                  <div key={i} className="mp-order-card__item">
+                    {p?.image ? (
+                      <img src={`/images/products/${p.image}`} alt={p.title} className="mp-order-card__item-img" />
+                    ) : (
+                      <div className="mp-order-card__item-img" />
+                    )}
+                    <span className="mp-order-card__item-name">{p?.title ?? "Product"}</span>
+                    <span className="mp-order-card__item-qty">×{item.quantity}</span>
+                    <span className="mp-order-card__item-unitprice">{item.price} EUR/st</span>
+                    <span className="mp-order-card__item-line">{(item.price * item.quantity).toFixed(2)} EUR</span>
+                  </div>
+                );
+              })}
+            </div>
+            <div className="mp-order-card__footer">
+              <span className="mp-order-card__total">Total: <strong>{order.totalPrice} EUR</strong></span>
+              <Link to={`/orders/${order._id}`} className="mp-table__link">Track order ›</Link>
+            </div>
           </div>
         ))}
       </div>

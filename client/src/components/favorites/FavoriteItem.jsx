@@ -1,8 +1,12 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useFavorites } from "../../context/FavoriteContext";
+import { useCart } from "../../context/CartContext";
 
 function FavoriteItem({ product }) {
   const [toggleFavorites] = useFavorites();
+  const [, addToCart] = useCart();
+  const [selectedSize, setSelectedSize] = useState(null);
 
   return (
     <div className="fav-card">
@@ -22,6 +26,26 @@ function FavoriteItem({ product }) {
           title="Remove from favorites"
         >
           <img src="/icons/FavoritesFilled.png" alt="Remove" />
+        </button>
+      </div>
+      <div className="fav-card__actions">
+        <div className="fav-card__sizes">
+          {["S", "M", "L"].map(size => (
+            <button
+              key={size}
+              className={`fav-card__size-btn ${selectedSize === size ? "fav-card__size-btn--active" : ""}`}
+              onClick={() => setSelectedSize(size)}
+            >
+              {size}
+            </button>
+          ))}
+        </div>
+        <button
+          className="fav-card__add-btn"
+          onClick={() => selectedSize && addToCart(product, selectedSize)}
+          disabled={!selectedSize}
+        >
+          ADD TO CART
         </button>
       </div>
     </div>

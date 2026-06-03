@@ -20,8 +20,95 @@ const CATEGORY_TILES = [
   { value: "karate",   label: "Karate",                img: "/images/misc/karate_sunset.jpg" },
 ];
 
-function ProductShelf({ title, subtitle, products, loading, linkTo, onNavigate, onAddToCart, variant }) {
+function ProductShelf({ title, subtitle, products, loading, linkTo, onNavigate, onAddToCart, onToggleFavorite, favorites, variant, heroImage }) {
   if (!loading && (!products || products.length === 0)) return null;
+
+  if (heroImage) {
+    return (
+      <section className={`home-shelf home-shelf--${variant || "default"} home-shelf--editorial`}>
+        <div className="home-shelf__editorial">
+          <div
+            className="home-shelf__editorial-hero"
+            onClick={() => onNavigate(linkTo)}
+            role="link"
+            tabIndex={0}
+            onKeyDown={(e) => e.key === "Enter" && onNavigate(linkTo)}
+          >
+            <img src={heroImage} alt={title} />
+            <div className="home-shelf__editorial-overlay">
+              {variant === "sale" && <span className="home-shelf__tag home-shelf__tag--sale">Sale</span>}
+              {variant === "new" && <span className="home-shelf__tag home-shelf__tag--new">New</span>}
+              <h2 className="home-shelf__editorial-title">{title}</h2>
+              {subtitle && <p className="home-shelf__editorial-sub">{subtitle}</p>}
+              <span className="home-shelf__editorial-cta">View All ›</span>
+            </div>
+          </div>
+          <div className="home-shelf__editorial-list">
+            {loading && [0, 1, 2].map((i) => (
+              <div key={i} className="home-shelf-row-card">
+                <div className="skeleton" style={{ width: 110, height: 110, borderRadius: 6, flexShrink: 0 }} />
+                <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: "0.5rem" }}>
+                  <div className="skeleton" style={{ height: "0.7rem", width: "70%", borderRadius: 4 }} />
+                  <div className="skeleton" style={{ height: "0.9rem", width: "35%", borderRadius: 4 }} />
+                </div>
+              </div>
+            ))}
+            {!loading && products.slice(0, 3).map((product) => {
+              const isFav = favorites?.some((f) => f._id === product._id);
+              const salePrice = product.sale > 0
+                ? Math.round(product.price * (1 - product.sale / 100))
+                : null;
+              return (
+                <div
+                  key={product._id}
+                  className="home-shelf-row-card"
+                  onClick={() => onNavigate(`/products/${product._id}`)}
+                  role="link"
+                  tabIndex={0}
+                  onKeyDown={(e) => e.key === "Enter" && onNavigate(`/products/${product._id}`)}
+                >
+                  <div className="home-shelf-row-card__img">
+                    <img src={`/images/products/${product.image}`} alt={product.title} loading="lazy" />
+                    {variant === "sale" && product.sale > 0 && (
+                      <span className="home-shelf-card__sale-badge">−{product.sale}%</span>
+                    )}
+                  </div>
+                  <div className="home-shelf-row-card__info">
+                    <p className="home-shelf-row-card__name">{product.title}</p>
+                    <div className="home-shelf-row-card__price-row">
+                      {salePrice ? (
+                        <>
+                          <span className="home-shelf-card__price--original">{product.price} EUR</span>
+                          <span className="home-shelf-card__price--sale">{salePrice} EUR</span>
+                        </>
+                      ) : (
+                        <span className="home-shelf-row-card__price">{product.price} EUR</span>
+                      )}
+                    </div>
+                  </div>
+                  <div className="home-shelf-row-card__actions">
+                    <button
+                      className={`home-shelf-row-card__fav${isFav ? " active" : ""}`}
+                      onClick={(e) => { e.stopPropagation(); onToggleFavorite?.(product); }}
+                    >
+                      <img src={isFav ? "/icons/FavoritesFilled.png" : "/icons/Favorites.png"} alt="Favorite" />
+                    </button>
+                    <button
+                      className="home-shelf-row-card__cart"
+                      onClick={(e) => { e.stopPropagation(); onAddToCart(product, null); }}
+                    >
+                      <img src="/icons/Cart add.svg" alt="Add to cart" />
+                    </button>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section className={`home-shelf home-shelf--${variant || "default"}`}>
       <div className="home-shelf__header">
@@ -265,9 +352,9 @@ function HomePage() {
 
       {/* PRODUCT SHELVES */}
       <div className="home-shelves">
-        <ProductShelf title="New Arrivals" subtitle="Just dropped" products={newArrivalsData || []} loading={newArrivalsLoading} linkTo="/products?newArrival=true" onNavigate={navigate} onAddToCart={addToCart} variant="new" />
+        <ProductShelf title="New Arrivals" subtitle="Just dropped" products={newArrivalsData || []} loading={newArrivalsLoading} linkTo="/products?newArrival=true" onNavigate={navigate} onAddToCart={addToCart} onToggleFavorite={toggleFavorites} favorites={favorites} variant="new" heroImage="/images/misc/muaythai_fight.jpg" />
         {(limitedSaleLoading || (limitedSaleData || []).length > 0) && (
-          <ProductShelf title="Limited Sale" subtitle="While stocks last" products={limitedSaleData || []} loading={limitedSaleLoading} linkTo="/products?limitedSale=true" onNavigate={navigate} onAddToCart={addToCart} variant="sale" />
+          <ProductShelf title="Limited Sale" subtitle="While stocks last" products={limitedSaleData || []} loading={limitedSaleLoading} linkTo="/products?limitedSale=true" onNavigate={navigate} onAddToCart={addToCart} onToggleFavorite={toggleFavorites} favorites={favorites} variant="sale" heroImage="/images/misc/grappling_ground.jpg" />
         )}
       </div>
 

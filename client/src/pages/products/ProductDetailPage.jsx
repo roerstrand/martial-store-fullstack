@@ -1,8 +1,8 @@
-﻿import { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import "../Pages.css";
 import useFetch from "../../hooks/useFetch.jsx";
-import { getProduct } from "../../services/productService";
+import { getProduct, getProducts } from "../../services/productService";
 import { useCart } from "../../context/CartContext";
 import { REVIEWS } from "../../data/testimonials";
 import PageNav from "../../components/PageNav";
@@ -22,11 +22,17 @@ function Stars({ rating }) {
 function ProductDetailPage() {
   const { productId } = useParams();
   const [selectedSize, setSelectedSize] = useState(null);
+  const [activeThumb, setActiveThumb] = useState(0);
   const [, addToCart] = useCart();
   const navigate = useNavigate();
   const { items: recentItems, addProduct } = useRecentlyViewed();
 
   const { data: product, loading, error } = useFetch(() => getProduct(productId));
+
+  const { data: relatedData } = useFetch(
+    () => product?.category ? getProducts({ category: product.category }) : Promise.resolve([]),
+    [product?.category]
+  );
 
   useEffect(() => {
     if (product?._id) addProduct(product);
@@ -37,6 +43,18 @@ function ProductDetailPage() {
   if (!product || !product._id) return <p className="loading">Product not found.</p>;
 
   const reviews = REVIEWS[product.category] ?? [];
+  const related = (relatedData || []).filter(p => p._id !== productId).slice(0, 4);
+
+  const discountedPrice = product.sale > 0
+    ? (product.price * (1 - product.sale / 100)).toFixed(2)
+    : null;
+
+  const thumbPositions = ["top center", "center center"];
+
+  const handleAddToCart = async () => {
+    if (!selectedSize) return;
+    await addToCart(product, selectedSize);
+  };
 
   const handleBuyNow = async () => {
     if (!selectedSize) return;
@@ -48,25 +66,76 @@ function ProductDetailPage() {
     <div className="product-detail-page">
       <PageNav back="/products" backLabel="All Products" />
       <div className="product-detail__layout">
+
+        {/* Image column */}
         <div className="product-detail__image">
-          <img src={`/images/products/${product.image}`} alt={product.title} loading="lazy" />
+          <div className="product-detail__image-main">
+            <img
+              src={`/images/products/${product.image}`}
+              alt={product.title}
+              loading="lazy"
+              style={{ objectPosition: thumbPositions[activeThumb] }}
+            />
+          </div>
+          <div className="product-detail__thumbnails">
+            {thumbPositions.map((pos, i) => (
+              <button
+                key={i}
+                className={`product-detail__thumb ${activeThumb === i ? "product-detail__thumb--active" : ""}`}
+                onClick={() => setActiveThumb(i)}
+              >
+                <img
+                  src={`/images/products/${product.image}`}
+                  alt={`${product.title} view ${i + 1}`}
+                  style={{ objectPosition: pos }}
+                />
+              </button>
+            ))}
+          </div>
         </div>
 
+        {/* Info column */}
         <div className="product-detail__info">
+
+          {(product.isNewArrival || product.isLimitedSale || product.sale > 0) && (
+            <div className="product-detail__badge-row">
+              {product.isNewArrival && <span className="product-badge product-badge--new">NEW</span>}
+              {product.isLimitedSale && <span className="product-badge product-badge--limited">LIMITED</span>}
+              {product.sale > 0 && <span className="product-badge product-badge--sale">-{product.sale}%</span>}
+            </div>
+          )}
+
           <p className="product-detail__name">{product.title}</p>
 
           <div className="product-detail__social-row">
             <Stars rating={product.rating} />
-            <span className="product-detail__rating-num">
-              {product.rating}.0
-            </span>
+            <span className="product-detail__rating-num">{product.rating}.0</span>
             {product.sold > 0 && (
               <span className="product-detail__sold">{product.sold} sold</span>
             )}
           </div>
 
-          <p className="product-detail__availability">AVAILABLE</p>
-          <p className="product-detail__price">{product.price} EUR</p>
+          <div className="product-detail__price-row">
+            {discountedPrice ? (
+              <>
+                <span className="product-detail__price">{discountedPrice} EUR</span>
+                <span className="product-detail__price-original">{product.price} EUR</span>
+              </>
+            ) : (
+              <span className="product-detail__price">{product.price} EUR</span>
+            )}
+          </div>
+
+          <p className="product-detail__delivery">
+            <span className="product-detail__delivery-icon">🚚</span>
+            Free shipping on orders over 500 EUR
+          </p>
+
+          <p className="product-detail__availability">
+            <span className="product-detail__stock-dot"></span>
+            IN STOCK
+          </p>
+
           <p className="product-detail__desc">{product.description}</p>
 
           <p className="product-detail__size-label">SIZE</p>
@@ -82,9 +151,29 @@ function ProductDetailPage() {
             ))}
           </div>
 
-          <button className="product-detail__buy" onClick={handleBuyNow}>
-            BUY NOW
-          </button>
+          <div className="product-detail__cta-row">
+            <button className="product-detail__add-cart" onClick={handleAddToCart}>
+              ADD TO CART
+            </button>
+            <button className="product-detail__buy" onClick={handleBuyNow}>
+              BUY NOW
+            </button>
+          </div>
+
+          <div className="product-detail__trust-row">
+            <div className="trust-item">
+              <span className="trust-item__icon">🚚</span>
+              <span>Free shipping</span>
+            </div>
+            <div className="trust-item">
+              <span className="trust-item__icon">↩</span>
+              <span>Easy returns</span>
+            </div>
+            <div className="trust-item">
+              <span className="trust-item__icon">🔒</span>
+              <span>Secure payment</span>
+            </div>
+          </div>
 
           {product.details && (
             <>
@@ -108,6 +197,23 @@ function ProductDetailPage() {
                 </div>
                 <p className="product-review__text">"{r.text}"</p>
               </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {related.length > 0 && (
+        <div className="product-detail__related">
+          <p className="product-detail__related-title">YOU MAY ALSO LIKE</p>
+          <div className="product-detail__related-grid">
+            {related.map(p => (
+              <Link key={p._id} to={`/products/${p._id}`} className="product-detail__related-card">
+                <div className="product-detail__related-img">
+                  <img src={`/images/products/${p.image}`} alt={p.title} loading="lazy" />
+                </div>
+                <p className="product-detail__related-name">{p.title}</p>
+                <p className="product-detail__related-price">{p.price} EUR</p>
+              </Link>
             ))}
           </div>
         </div>

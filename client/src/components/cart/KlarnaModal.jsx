@@ -2,6 +2,7 @@ import { useState } from "react";
 
 function KlarnaModal({ total, onConfirm, onClose }) {
   const [step, setStep] = useState("review"); // "review" | "processing"
+  const [selectedOption, setSelectedOption] = useState("now");
 
   const handlePay = () => {
     setStep("processing");
@@ -40,15 +41,24 @@ function KlarnaModal({ total, onConfirm, onClose }) {
             </div>
 
             <div className="klarna-modal__options">
-              <div className="klarna-modal__option klarna-modal__option--active">
+              <div
+                className={`klarna-modal__option${selectedOption === "now" ? " klarna-modal__option--active" : ""}`}
+                onClick={() => setSelectedOption("now")}
+              >
                 <span className="klarna-modal__option-name">Pay now</span>
                 <span className="klarna-modal__option-desc">Full amount charged today</span>
               </div>
-              <div className="klarna-modal__option">
+              <div
+                className={`klarna-modal__option${selectedOption === "30days" ? " klarna-modal__option--active" : ""}`}
+                onClick={() => setSelectedOption("30days")}
+              >
                 <span className="klarna-modal__option-name">Pay in 30 days</span>
                 <span className="klarna-modal__option-desc">Interest-free, no fees</span>
               </div>
-              <div className="klarna-modal__option">
+              <div
+                className={`klarna-modal__option${selectedOption === "installments" ? " klarna-modal__option--active" : ""}`}
+                onClick={() => setSelectedOption("installments")}
+              >
                 <span className="klarna-modal__option-name">3 interest-free payments</span>
                 <span className="klarna-modal__option-desc">{Math.round(total / 3)} EUR / month</span>
               </div>

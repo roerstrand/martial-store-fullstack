@@ -24,8 +24,11 @@ function Hero({ onToggleMenu }) {
         <span className="apex-hero__brand-name">APEX CORE</span>
       </Link>
 
-      <p className="apex-hero__tagline">Fight Gear For Winners</p>
-      <p className="apex-hero__subtitle">Premium Equipment For Martial Arts</p>
+      <p className="apex-hero__tagline">
+        <span className="apex-hero__tagline-main">Fight Gear</span>
+        <span className="apex-hero__tagline-sub">For Winners</span>
+      </p>
+      <p className="apex-hero__subtitle">Premium Equipment · Martial Arts</p>
 
       <div className="apex-hero__icons">
         <Link to="/favorites" className="apex-hero__icon">

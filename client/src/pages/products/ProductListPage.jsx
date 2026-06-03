@@ -9,16 +9,32 @@ import "../Pages.css";
 
 const CATEGORIES = ["all", "bjj", "boxing", "muaythai", "karate"];
 
+const SYNONYMS = {
+  shoes:    ["boots", "footwear"],
+  boots:    ["shoes", "footwear"],
+  gloves:   ["mitts", "mittens"],
+  shorts:   ["pants", "trunks"],
+  headgear: ["helmet", "head guard"],
+};
+
+function expandQuery(q) {
+  const extras = SYNONYMS[q] ?? [];
+  return [q, ...extras];
+}
+
 function applyFilters(products, category, filters, search) {
   let result = category === "all"
     ? [...products]
     : products.filter((p) => p.category === category);
 
   if (search.trim()) {
-    const q = search.trim().toLowerCase();
+    const queries = expandQuery(search.trim().toLowerCase());
     result = result.filter((p) =>
-      p.title.toLowerCase().includes(q) ||
-      p.category.toLowerCase().includes(q)
+      queries.some(q =>
+        p.title.toLowerCase().includes(q) ||
+        p.category.toLowerCase().includes(q) ||
+        (p.description && p.description.toLowerCase().includes(q))
+      )
     );
   }
 
@@ -52,7 +68,7 @@ function ProductListPage() {
   const [urlParams] = useSearchParams();
   const limitedSaleParam = urlParams.get("limitedSale") === "true";
   const newArrivalParam  = urlParams.get("newArrival")  === "true";
-  const [category, setCategory] = useState("all");
+  const [category, setCategory] = useState(urlParams.get("category") || "all");
   const [showFilter, setShowFilter] = useState(false);
   const [filters, setFilters] = useState(DEFAULT_FILTERS);
   const [search, setSearch] = useState(urlParams.get("q") || "");

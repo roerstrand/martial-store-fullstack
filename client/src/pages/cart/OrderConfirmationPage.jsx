@@ -2,10 +2,15 @@
 import "../Pages.css";
 import PageNav from "../../components/PageNav";
 
+const CARRIER_URLS = {
+  PostNord: "https://www.postnord.se/en/our-tools/track-trace",
+  DHL: "https://www.dhl.com/gb-en/home/tracking.html",
+};
+
 function OrderConfirmationPage() {
   const { state } = useLocation();
   const navigate = useNavigate();
-  const { order, shippingInfo, shipping, shippingCost, cartSnapshot } = state;
+  const { order, shippingInfo, shipping, carrier, shippingCost, cartSnapshot } = state;
 
   const subtotal = cartSnapshot.reduce(
     (sum, item) => sum + item.product.price * item.quantity,
@@ -38,8 +43,16 @@ function OrderConfirmationPage() {
           </div>
           <div className="confirmation-row">
             <span className="confirmation-row__label">Shipping method</span>
-            <span>{shipping}</span>
+            <span>{shipping}{carrier ? ` · ${carrier}` : ""}</span>
           </div>
+          {carrier && CARRIER_URLS[carrier] && (
+            <div className="confirmation-row">
+              <span className="confirmation-row__label">Track shipment</span>
+              <a href={CARRIER_URLS[carrier]} target="_blank" rel="noreferrer" className="confirmation-track-link">
+                Track at {carrier} →
+              </a>
+            </div>
+          )}
 
           <p
             className="confirmation-section-title"

@@ -67,7 +67,7 @@ function MinimalLayout() {
                   <button className="ml-cat-option" onClick={() => { setCatOpen(false); navigate("/"); }}>All disciplines</button>
                   <div className="ml-cat-divider" />
                   {CATEGORIES.map((c) => (
-                    <button key={c.value} className="ml-cat-option" onClick={() => { setCatOpen(false); navigate(`/?category=${c.value}`); }}>
+                    <button key={c.value} className="ml-cat-option" onClick={() => { setCatOpen(false); navigate(`/products?category=${c.value}`); }}>
                       {c.label}
                     </button>
                   ))}
@@ -79,16 +79,22 @@ function MinimalLayout() {
 
           <div className="ml-header__right">
             <Link to="/favorites" className="ml-icon">
-              <img src="/icons/Favorites.png" alt="Favorites" />
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" width="20" height="20">
+                <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/>
+              </svg>
               {favCount > 0 && <span className="ml-icon__badge">{favCount}</span>}
             </Link>
             <Link to="/cart" className="ml-icon">
-              <img src="/icons/Cart.svg" alt="Cart" />
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" width="20" height="20">
+                <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
+                <line x1="3" y1="6" x2="21" y2="6"/>
+                <path d="M16 10a4 4 0 01-8 0"/>
+              </svg>
               {cartCount > 0 && <span className="ml-icon__badge">{cartCount}</span>}
             </Link>
             {user ? (
               <>
-                <Link to="/my-pages" className="ml-auth-link">My Pages</Link>
+                <Link to="/my-pages" className="ml-auth-link">Profile</Link>
                 <button onClick={handleLogout} className="ml-auth-btn">Log out</button>
               </>
             ) : (
@@ -98,7 +104,7 @@ function MinimalLayout() {
               </>
             )}
             <button className="ml-burger" onClick={() => setMenuOpen((o) => !o)} aria-label="Menu">
-              <span /><span /><span />
+              <img src="/icons/Burger.svg" alt="" />
             </button>
           </div>
         </div>
@@ -108,13 +114,13 @@ function MinimalLayout() {
             <Link to="/products" className="ml-mobile-link" onClick={() => setMenuOpen(false)}>All Products</Link>
             <button className="ml-mobile-link ml-nav-link--sale" onClick={() => { navigate("/?sale=true"); setMenuOpen(false); }}>Sale</button>
             {CATEGORIES.map((c) => (
-              <button key={c.value} className="ml-mobile-link" onClick={() => { navigate(`/?category=${c.value}`); setMenuOpen(false); }}>{c.label}</button>
+              <button key={c.value} className="ml-mobile-link" onClick={() => { navigate(`/products?category=${c.value}`); setMenuOpen(false); }}>{c.label}</button>
             ))}
             <Link to="/articles" className="ml-mobile-link" onClick={() => setMenuOpen(false)}>Stories</Link>
             <div className="ml-cat-divider" style={{ margin: "0.25rem 0" }} />
             {user ? (
               <>
-                <Link to="/my-pages" className="ml-mobile-link" onClick={() => setMenuOpen(false)}>My Pages</Link>
+                <Link to="/my-pages" className="ml-mobile-link" onClick={() => setMenuOpen(false)}>Profile</Link>
                 <button className="ml-mobile-link" onClick={() => { handleLogout(); setMenuOpen(false); }}>Log out</button>
               </>
             ) : (

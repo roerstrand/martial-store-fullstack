@@ -15,13 +15,14 @@ function PaymentForm({ onSubmit }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSubmit({ ...form, shipping, payment });
+    const selectedOption = shippingOptions.find((o) => o.value === shipping);
+    onSubmit({ ...form, shipping, payment, carrier: selectedOption?.carrier ?? null });
   };
 
   const shippingOptions = [
-    { value: "standard", label: "Standard", meta: "3–5 days — 5 EUR" },
-    { value: "express",  label: "Express",  meta: "1–2 days — 19 EUR" },
-    { value: "pickup",   label: "Pickup",   meta: "In store — Free" },
+    { value: "standard", label: "Standard", meta: "3–5 days · 5 EUR", carrier: "PostNord" },
+    { value: "express",  label: "Express",  meta: "1–2 days · 19 EUR", carrier: "DHL" },
+    { value: "pickup",   label: "Pickup",   meta: "In store · Free",   carrier: null },
   ];
 
   return (
@@ -48,7 +49,7 @@ function PaymentForm({ onSubmit }) {
             className={`shipping-option${shipping === opt.value ? " shipping-option--active" : ""}`}
             onClick={() => setShipping(opt.value)}
           >
-            <span>{opt.label}</span>
+            <span>{opt.label}{opt.carrier ? ` · ${opt.carrier}` : ""}</span>
             <span className="shipping-option__meta">{opt.meta}</span>
           </button>
         ))}
