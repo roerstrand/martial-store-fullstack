@@ -1,12 +1,21 @@
-import { createContext, useContext, useState } from "react";
-import { logout as logoutService } from "../services/authService";
+import { createContext, useContext, useState, useEffect } from "react";
+import { logout as logoutService, getCurrentUser } from "../services/authService";
 
-//Skapa en react context som senare i filen fylls med bärden med provider
 const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(localStorage.getItem("token"));
+
+  useEffect(() => {
+    if (!token) return;
+    getCurrentUser()
+      .then((userData) => setUser(userData))
+      .catch(() => {
+        localStorage.removeItem("token");
+        setToken(null);
+      });
+  }, []);
 
   const login = (userData, token) => {
     setUser(userData);

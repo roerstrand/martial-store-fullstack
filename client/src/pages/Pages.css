@@ -3,13 +3,112 @@
    ============================================ */
 
 .page-container {
-  animation: fadeIn 0.3s ease-in;
+  animation: fadeIn 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
+
+/* ============================================
+   SKELETON LOADERS
+   ============================================ */
+
+@keyframes shimmer {
+  0%   { background-position: -600px 0; }
+  100% { background-position:  600px 0; }
+}
+
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    rgba(255,255,255,0.05) 25%,
+    rgba(255,255,255,0.12) 50%,
+    rgba(255,255,255,0.05) 75%
+  );
+  background-size: 1200px 100%;
+  animation: shimmer 1.4s infinite linear;
+  border-radius: 0.3rem;
+}
+
+/* Product card skeleton — matches home-product-card */
+.skeleton-product-card {
+  border-radius: 0.5rem;
+  overflow: hidden;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.06);
+}
+
+.skeleton-product-card__img {
+  width: 100%;
+  aspect-ratio: 1;
+}
+
+.skeleton-product-card__body {
+  padding: 0.5rem 0.6rem 0.45rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.skeleton-product-card__title {
+  height: 0.65rem;
+  width: 70%;
+}
+
+.skeleton-product-card__price {
+  height: 0.8rem;
+  width: 40%;
+}
+
+/* Grid card skeleton — matches product-card on products page */
+.skeleton-grid-card {
+  border-radius: 0.5rem;
+  overflow: hidden;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.06);
+}
+
+.skeleton-grid-card__img {
+  width: 100%;
+  aspect-ratio: 1;
+}
+
+.skeleton-grid-card__body {
+  padding: 0.65rem 0.7rem 0.6rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.skeleton-grid-card__name  { height: 0.65rem; width: 75%; }
+.skeleton-grid-card__price { height: 0.85rem; width: 35%; }
+.skeleton-grid-card__stars { height: 0.55rem; width: 50%; }
+
+/* Category tile skeleton */
+.skeleton-cat-tile {
+  aspect-ratio: 3/2;
+  border-radius: 0.4rem;
+}
+
+/* Article card skeleton */
+.skeleton-article-card {
+  border-radius: 0.5rem;
+  overflow: hidden;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.06);
+}
+
+.skeleton-article-card__img  { width: 100%; height: 8rem; }
+.skeleton-article-card__body {
+  padding: 0.75rem 0.85rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+.skeleton-article-card__title  { height: 0.7rem; width: 80%; }
+.skeleton-article-card__author { height: 0.55rem; width: 45%; }
 
 /* ============================================
    PAGE NAV — top navigation bar on all pages
@@ -38,7 +137,7 @@
   padding: 0.45rem 1rem;
   border: 1.5px solid rgba(247,243,227,0.55);
   border-radius: 0.25rem;
-  transition: background 0.18s, border-color 0.18s;
+  transition: background 0.18s ease, border-color 0.18s ease;
 }
 
 .page-nav__back:hover {
@@ -58,25 +157,26 @@
 .apex-input {
   display: block;
   width: 100%;
-  background: rgba(0, 0, 0, 0.35);
+  background: rgba(0, 0, 0, 0.55);
   color: var(--color-light);
   font-family: var(--font-ui);
   font-size: 0.9rem;
   padding: 0.8rem 1rem;
-  border: 1px solid rgba(247, 243, 227, 0.14);
+  border: 1px solid rgba(247, 243, 227, 0.1);
   border-radius: 0.35rem;
   outline: none;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  transition: border-color 0.18s ease, box-shadow 0.18s ease;
 }
 
 .apex-input::placeholder {
-  color: rgba(247, 243, 227, 0.35);
+  color: rgba(247, 243, 227, 0.28);
   font-family: var(--font-ui);
 }
 
 .apex-input:focus {
-  border-color: rgba(214, 40, 57, 0.5);
-  box-shadow: 0 0 0 3px rgba(214, 40, 57, 0.1);
+  border-color: rgba(214, 40, 57, 0.6);
+  box-shadow: 0 0 0 3px rgba(214, 40, 57, 0.12);
+  background: rgba(0, 0, 0, 0.65);
 }
 
 /* ============================================
@@ -146,7 +246,7 @@
   border-radius: 0.3rem;
   cursor: pointer;
   white-space: nowrap;
-  transition: background 0.2s;
+  transition: background 0.18s ease;
 }
 
 .home-search__btn:hover { background: #c0192a; }
@@ -190,7 +290,7 @@
   justify-content: center;
   cursor: pointer;
   flex-shrink: 0;
-  transition: color 0.2s, border-color 0.2s, background 0.2s;
+  transition: color 0.18s ease, border-color 0.18s ease, background 0.18s ease;
 }
 
 .home-products__pause-btn:hover {
@@ -225,9 +325,9 @@
   overflow: hidden;
   background: #fff;
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18), 0 2px 6px rgba(0,0,0,0.1);
-  transition: transform 0.22s ease, box-shadow 0.22s ease;
-  animation: slideIn 0.4s ease;
+  transition: transform 0.22s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   will-change: transform;
+  animation: slideIn 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .home-product-card:hover {
@@ -316,20 +416,22 @@ img[src*="ancle_guards"] {
 .home-product-card__fav-btn {
   background: none;
   border: none;
-  padding: 0.4rem;
+  padding: 0.65rem;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  min-width: 2.4rem;
+  min-height: 2.4rem;
 }
 
 .home-product-card__fav-btn img {
-  width: 1.4rem;
-  height: 1.4rem;
+  width: 1.5rem;
+  height: 1.5rem;
   object-fit: contain;
   filter: brightness(0);
-  transition: transform 0.15s;
+  transition: transform 0.22s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .home-product-card__fav-btn:hover img { transform: scale(1.15); }
@@ -354,7 +456,7 @@ img[src*="ancle_guards"] {
   height: 1.4rem;
   object-fit: contain;
   filter: brightness(0);
-  transition: transform 0.15s;
+  transition: transform 0.22s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .home-product-card__cart:hover img { transform: scale(1.15); }
@@ -408,7 +510,7 @@ img[src*="ancle_guards"] {
   background: var(--color-secondary);
   cursor: pointer;
   padding: 0;
-  transition: background 0.2s;
+  transition: background 0.18s ease;
 }
 
 .home-products__dot--active {
@@ -447,7 +549,7 @@ img[src*="ancle_guards"] {
   padding: 0.5rem 0.25rem;
   flex-shrink: 0;
   opacity: 0.5;
-  transition: opacity 0.2s;
+  transition: opacity 0.18s ease;
 }
 
 .home-products__arrow:hover { opacity: 1; }
@@ -500,7 +602,7 @@ img[src*="ancle_guards"] {
   padding: 0.75rem 2.5rem;
   border: 1.5px solid rgba(247, 243, 227, 0.45);
   border-radius: 0.3rem;
-  transition: background 0.2s, border-color 0.2s;
+  transition: background 0.18s ease, border-color 0.18s ease;
   white-space: nowrap;
 }
 
@@ -524,7 +626,8 @@ img[src*="ancle_guards"] {
   background: rgba(0, 0, 0, 0.3);
   border: 1px solid rgba(255,255,255,0.08);
   box-shadow: 0 6px 20px rgba(0,0,0,0.4);
-  transition: transform 0.22s ease, box-shadow 0.22s ease;
+  transition: transform 0.22s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  will-change: transform;
 }
 
 .home-article-card:hover {
@@ -675,7 +778,7 @@ img[src*="ancle_guards"] {
   color: var(--color-accent);
   text-decoration: none;
   white-space: nowrap;
-  transition: opacity 0.2s;
+  transition: opacity 0.18s ease;
 }
 
 .home-shelf--sale .home-shelf__link { color: rgba(247,243,227,0.6); }
@@ -698,7 +801,8 @@ img[src*="ancle_guards"] {
   background: #fff;
   border: 1px solid rgba(63, 42, 43, 0.09);
   box-shadow: 0 4px 14px rgba(0,0,0,0.09);
-  transition: transform 0.22s ease, box-shadow 0.22s ease;
+  transition: transform 0.22s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  will-change: transform;
 }
 
 .home-shelf-card:hover {
@@ -739,7 +843,7 @@ img[src*="ancle_guards"] {
   aspect-ratio: 1;
   object-fit: cover;
   display: block;
-  transition: transform 0.4s ease;
+  transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .home-shelf-card:hover .home-shelf-card__img-wrap img {
@@ -846,7 +950,7 @@ img[src*="ancle_guards"] {
   border-radius: 0.2rem;
   cursor: pointer;
   width: 100%;
-  transition: opacity 0.2s;
+  transition: opacity 0.18s ease;
   opacity: 0;
 }
 
@@ -862,7 +966,7 @@ img[src*="ancle_guards"] {
 
 .home-categories {
   background: var(--color-primary);
-  padding: 1.5rem 1.25rem 0;
+  padding: 1.5rem 1.25rem 1.75rem;
   border-top: 1px solid rgba(247,243,227,0.06);
 }
 
@@ -889,7 +993,7 @@ img[src*="ancle_guards"] {
   height: 100%;
   object-fit: cover;
   display: block;
-  transition: transform 0.45s ease;
+  transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .home-cat-tile:hover .home-cat-tile__img { transform: scale(1.08); }
@@ -1030,7 +1134,7 @@ img[src*="ancle_guards"] {
   font-size: 0.85rem;
   padding: 0.7rem 1rem;
   outline: none;
-  transition: border-color 0.2s;
+  transition: border-color 0.18s ease;
 }
 
 .home-newsletter__input::placeholder {
@@ -1130,7 +1234,7 @@ img[src*="ancle_guards"] {
   justify-content: center;
   gap: 0.4rem;
   box-shadow: 0 5px 18px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.2);
-  transition: filter 0.15s, transform 0.15s, box-shadow 0.15s;
+  transition: filter 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .auth-btn-primary:hover {
@@ -1140,9 +1244,10 @@ img[src*="ancle_guards"] {
 }
 
 .auth-btn-primary:active {
-  transform: translateY(0);
+  transform: scale(0.97);
   filter: brightness(0.95);
   box-shadow: 0 2px 8px rgba(0,0,0,0.4), inset 0 2px 4px rgba(0,0,0,0.2);
+  transition-duration: 0.1s;
 }
 
 .auth-btn-primary:disabled {
@@ -1168,7 +1273,7 @@ img[src*="ancle_guards"] {
   gap: 0.3rem;
   text-decoration: none;
   white-space: nowrap;
-  transition: border-color 0.2s, background 0.2s, color 0.2s;
+  transition: border-color 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), background 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), color 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .auth-btn-secondary:hover {
@@ -1248,7 +1353,7 @@ img[src*="ancle_guards"] {
   padding: 0.45rem 1rem;
   border-radius: 0.2rem;
   cursor: pointer;
-  transition: background 0.2s, transform 0.15s;
+  transition: background 0.18s ease, transform 0.22s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .products-toolbar-btn:hover {
@@ -1281,7 +1386,7 @@ img[src*="ancle_guards"] {
   text-align: left;
   cursor: pointer;
   color: rgba(247, 243, 227, 0.75);
-  transition: background 0.15s, color 0.15s;
+  transition: background 0.18s ease, color 0.18s ease;
 }
 
 .products-dropdown__item:hover {
@@ -1318,7 +1423,7 @@ img[src*="ancle_guards"] {
   border-radius: 2rem;
   cursor: pointer;
   white-space: nowrap;
-  transition: all 0.2s ease;
+  transition: background 0.18s ease, color 0.18s ease, border-color 0.18s ease, transform 0.22s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .category-pill:hover {
@@ -1447,7 +1552,8 @@ img[src*="ancle_guards"] {
     0 10px 32px rgba(0,0,0,0.45),
     0 4px 10px rgba(0,0,0,0.28),
     0 1px 3px rgba(0,0,0,0.2);
-  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+  transition: transform 0.22s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  will-change: transform;
 }
 
 .product-card:hover {
@@ -1469,7 +1575,7 @@ img[src*="ancle_guards"] {
   aspect-ratio: 1;
   object-fit: cover;
   display: block;
-  transition: transform 0.5s ease;
+  transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .product-card:hover .product-card__img-wrap img {
@@ -1500,7 +1606,7 @@ img[src*="ancle_guards"] {
   cursor: pointer;
   display: flex;
   z-index: 3;
-  transition: background 0.2s, transform 0.2s;
+  transition: background 0.18s ease, transform 0.22s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .product-card__cart-btn:hover {
@@ -1568,7 +1674,7 @@ img[src*="ancle_guards"] {
 .product-card .home-product-card__fav-btn img {
   filter: brightness(0) invert(1);
   opacity: 0.5;
-  transition: opacity 0.2s, transform 0.2s;
+  transition: opacity 0.18s ease, transform 0.22s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .product-card .home-product-card__fav-btn:hover img {
@@ -1763,7 +1869,7 @@ img[src*="ancle_guards"] {
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background 0.15s;
+  transition: background 0.18s ease;
 }
 
 .size-btn--active,
@@ -1786,7 +1892,7 @@ img[src*="ancle_guards"] {
   text-shadow: 0 0 10px rgba(57, 214, 0, 0.6);
   box-shadow: 0 0 14px rgba(57, 214, 0, 0.25);
   margin-bottom: 1.5rem;
-  transition: opacity 0.2s, box-shadow 0.2s;
+  transition: opacity 0.18s ease, box-shadow 0.18s ease;
 }
 
 .product-detail__buy:hover { opacity: 0.9; box-shadow: 0 0 22px rgba(57, 214, 0, 0.45); }
@@ -2008,7 +2114,7 @@ img[src*="ancle_guards"] {
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background 0.15s;
+  transition: background 0.18s ease;
   border-radius: 0.2rem;
 }
 
@@ -2035,7 +2141,7 @@ img[src*="ancle_guards"] {
   border-radius: 0.2rem;
   cursor: pointer;
   margin-left: auto;
-  transition: background 0.2s;
+  transition: background 0.18s ease;
 }
 
 .cart-item__remove:hover { background: rgba(214, 40, 57, 0.28); }
@@ -2114,7 +2220,7 @@ img[src*="ancle_guards"] {
   box-shadow: 0 0 14px rgba(57, 214, 0, 0.25);
   display: block;
   margin-top: 1rem;
-  transition: opacity 0.2s, box-shadow 0.2s;
+  transition: opacity 0.18s ease, box-shadow 0.18s ease;
 }
 
 .cart-checkout-btn:hover { opacity: 0.9; box-shadow: 0 0 22px rgba(57, 214, 0, 0.4); }
@@ -2134,6 +2240,8 @@ img[src*="ancle_guards"] {
 .checkout-page {
   padding: 1rem 1.25rem 2rem;
   text-align: left;
+  background: var(--color-dark);
+  min-height: 80vh;
 }
 
 .checkout-layout {
@@ -2151,6 +2259,7 @@ img[src*="ancle_guards"] {
   font-weight: 700;
   margin-top: 1.25rem;
   margin-bottom: 0.4rem;
+  color: rgba(247, 243, 227, 0.55);
 }
 
 .checkout-section-title:first-child {
@@ -2187,7 +2296,11 @@ img[src*="ancle_guards"] {
   border-radius: 0.2rem;
   cursor: pointer;
   text-align: left;
-  transition: background 0.15s;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  transition: background 0.18s ease;
 }
 
 .shipping-option--active {
@@ -2229,7 +2342,7 @@ img[src*="ancle_guards"] {
   text-transform: uppercase;
   letter-spacing: 0.06em;
   text-align: left;
-  transition: border-color 0.2s, background 0.2s, color 0.2s;
+  transition: border-color 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), background 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), color 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .payment-method:hover {
@@ -2252,8 +2365,9 @@ img[src*="ancle_guards"] {
 
 /* order summary (right column) */
 .checkout-summary {
-  border-top: 1px solid var(--color-dark);
+  border-top: 1px solid rgba(247, 243, 227, 0.1);
   padding-top: 0.75rem;
+  color: var(--color-light);
 }
 
 .checkout-summary__item {
@@ -2283,9 +2397,10 @@ img[src*="ancle_guards"] {
   font-weight: 700;
   text-transform: uppercase;
   text-align: right;
-  border-top: 1px solid var(--color-dark);
+  border-top: 1px solid rgba(247, 243, 227, 0.1);
   padding-top: 0.5rem;
   margin-top: 0.5rem;
+  color: var(--color-light);
 }
 
 .checkout-trust {
@@ -2311,10 +2426,20 @@ img[src*="ancle_guards"] {
   width: 100%;
   text-shadow: 0 0 10px rgba(57, 214, 0, 0.6);
   box-shadow: 0 0 14px rgba(57, 214, 0, 0.25);
-  transition: opacity 0.2s, box-shadow 0.2s;
+  transition: opacity 0.18s ease, box-shadow 0.18s ease;
 }
 
 .checkout-submit:hover { opacity: 0.9; box-shadow: 0 0 22px rgba(57, 214, 0, 0.4); }
+
+.checkout-redirect-note {
+  font-family: var(--font-italic);
+  font-style: italic;
+  font-size: 0.72rem;
+  color: rgba(247, 243, 227, 0.35);
+  text-align: center;
+  line-height: 1.5;
+  margin-top: 0.6rem;
+}
 
 @media (max-width: 768px) {
   .checkout-layout {
@@ -2425,7 +2550,7 @@ img[src*="ancle_guards"] {
   text-decoration: none;
   text-align: center;
   display: block;
-  transition: opacity 0.2s, box-shadow 0.2s;
+  transition: opacity 0.18s ease, box-shadow 0.18s ease;
 }
 
 .confirmation-btn--secondary {
@@ -2521,7 +2646,8 @@ img[src*="ancle_guards"] {
   background: #160f08;
   border: 1px solid rgba(214, 40, 57, 0);
   box-shadow: 0 10px 32px rgba(0,0,0,0.45), 0 4px 10px rgba(0,0,0,0.28);
-  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+  transition: transform 0.22s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  will-change: transform;
 }
 
 .fav-card:hover {
@@ -2605,7 +2731,7 @@ img[src*="ancle_guards"] {
   align-items: center;
   flex-shrink: 0;
   opacity: 0.8;
-  transition: opacity 0.2s, transform 0.2s;
+  transition: opacity 0.18s ease, transform 0.22s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .fav-card__remove:hover { opacity: 0.4; transform: scale(0.88); }
@@ -2709,7 +2835,7 @@ img[src*="ancle_guards"] {
   padding: 0.55rem 0.75rem;
   border-radius: 0.3rem;
   cursor: pointer;
-  transition: background 0.15s, color 0.15s;
+  transition: background 0.18s ease, color 0.18s ease;
 }
 
 .mp-sidebar__link:hover {
@@ -2735,7 +2861,7 @@ img[src*="ancle_guards"] {
   display: flex;
   align-items: center;
   gap: 0.4rem;
-  transition: color 0.2s, border-color 0.2s, background 0.2s;
+  transition: color 0.18s ease, border-color 0.18s ease, background 0.18s ease;
 }
 
 .mp-sidebar__back:hover {
@@ -2856,7 +2982,7 @@ img[src*="ancle_guards"] {
   font-family: var(--font-ui);
   font-size: 0.82rem;
   background: #fff;
-  transition: background 0.15s;
+  transition: background 0.18s ease;
 }
 
 .mp-table__row:hover { background: #faf9f6; }
@@ -2911,7 +3037,8 @@ img[src*="ancle_guards"] {
   border-radius: 0.4rem;
   overflow: hidden;
   background: #fff;
-  transition: box-shadow 0.2s, transform 0.2s;
+  transition: transform 0.22s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  will-change: transform;
 }
 
 .mp-fav-card:hover {
@@ -2978,7 +3105,7 @@ img[src*="ancle_guards"] {
   color: var(--color-dark);
   background: #fff;
   outline: none;
-  transition: border-color 0.2s;
+  transition: border-color 0.18s ease;
 }
 
 .mp-input:focus { border-color: var(--color-dark); }
@@ -3006,7 +3133,7 @@ img[src*="ancle_guards"] {
   border: none;
   border-radius: 0.3rem;
   cursor: pointer;
-  transition: opacity 0.2s;
+  transition: opacity 0.18s ease;
 }
 
 .mp-btn-primary:hover { opacity: 0.85; }
@@ -3212,7 +3339,7 @@ img[src*="ancle_guards"] {
   padding: 0.9rem 0;
   border-bottom: 1px solid rgba(247,243,227,0.06);
   gap: 1rem;
-  transition: background 0.15s;
+  transition: background 0.18s ease;
 }
 
 .my-pages-table__row:hover {
@@ -3258,7 +3385,7 @@ img[src*="ancle_guards"] {
   color: var(--color-accent);
   text-decoration: none;
   white-space: nowrap;
-  transition: opacity 0.2s;
+  transition: opacity 0.18s ease;
 }
 
 .my-pages-table__link:hover { opacity: 0.75; }
@@ -3377,6 +3504,7 @@ img[src*="ancle_guards"] {
 /* Reviews section */
 .product-reviews {
   padding: 1.75rem 1.5rem 0.5rem;
+  background: var(--color-dark);
   border-top: 1px solid rgba(247,243,227,0.08);
   margin-top: 1rem;
 }
@@ -3521,7 +3649,7 @@ img[src*="ancle_guards"] {
   font-size: 0.82rem;
   color: rgba(247,243,227,0.5);
   text-decoration: none;
-  transition: color 0.2s;
+  transition: color 0.18s ease;
 }
 .contact-social-link:hover { color: var(--color-light); }
 
@@ -3554,7 +3682,7 @@ img[src*="ancle_guards"] {
   color: var(--color-dark);
   background: #fff;
   outline: none;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  transition: border-color 0.18s ease, box-shadow 0.18s ease;
   resize: none;
 }
 .contact-input::placeholder { color: rgba(63,42,43,0.3); }
@@ -3576,7 +3704,7 @@ img[src*="ancle_guards"] {
   border-radius: 0.3rem;
   cursor: pointer;
   align-self: flex-start;
-  transition: background 0.2s, transform 0.15s;
+  transition: background 0.18s ease, transform 0.22s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 .contact-submit:hover { background: var(--color-accent); transform: translateY(-1px); }
 
@@ -3723,7 +3851,7 @@ img[src*="ancle_guards"] {
   border: 1px solid rgba(247, 243, 227, 0.12);
   border-radius: 2rem;
   cursor: pointer;
-  transition: all 0.18s ease;
+  transition: background 0.18s ease, color 0.18s ease, border-color 0.18s ease;
   white-space: nowrap;
 }
 
@@ -3756,7 +3884,7 @@ img[src*="ancle_guards"] {
   background: rgba(0,0,0,0.35);
   color: var(--color-light);
   outline: none;
-  transition: border-color 0.2s;
+  transition: border-color 0.18s ease;
 }
 
 .filter-price-input:focus {
@@ -3783,7 +3911,7 @@ img[src*="ancle_guards"] {
   color: rgba(247, 243, 227, 0.2);
   padding: 0;
   line-height: 1;
-  transition: color 0.15s, transform 0.15s;
+  transition: color 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .filter-rating-btn:hover { transform: scale(1.15); }
@@ -3830,7 +3958,7 @@ img[src*="ancle_guards"] {
   border-radius: 0.2rem;
   cursor: pointer;
   white-space: nowrap;
-  transition: background 0.2s, transform 0.15s;
+  transition: background 0.18s ease, transform 0.22s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .filter-apply-btn:hover {
@@ -3850,7 +3978,7 @@ img[src*="ancle_guards"] {
   border-radius: 0.2rem;
   cursor: pointer;
   white-space: nowrap;
-  transition: color 0.2s, border-color 0.2s;
+  transition: color 0.18s ease, border-color 0.18s ease;
 }
 
 .filter-reset-btn:hover {
@@ -3884,7 +4012,7 @@ img[src*="ancle_guards"] {
   text-shadow: none !important;
   box-shadow: 0 5px 18px rgba(0,0,0,0.5), inset 0 1px 0 rgba(57,214,0,0.12) !important;
   filter: none !important;
-  transition: filter 0.15s, transform 0.15s, box-shadow 0.15s !important;
+  transition: filter 0.18s ease, transform 0.22s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.18s ease !important;
 }
 
 .cart-checkout-btn:hover,
@@ -3900,8 +4028,22 @@ img[src*="ancle_guards"] {
 .cart-checkout-btn:active,
 .checkout-submit:active,
 .product-detail__buy:active {
-  transform: translateY(0) !important;
+  transform: scale(0.97) !important;
   filter: brightness(0.95) !important;
+  transition-duration: 0.1s !important;
+}
+
+.auth-btn-secondary:active,
+.mp-btn-primary:active,
+.mp-btn-secondary:active,
+.contact-submit:active,
+.products-toolbar-btn:active,
+.filter-apply-btn:active,
+.filter-reset-btn:active,
+.mp-quick-link:active,
+.size-btn:active {
+  transform: scale(0.97);
+  transition-duration: 0.1s;
 }
 
 /* ============================================
@@ -3923,12 +4065,11 @@ img[src*="ancle_guards"] {
 }
 
 .home-products__grid--exit {
-  animation: slideOutLeft 0.28s ease forwards;
-  pointer-events: none;
+  animation: slideOutLeft 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
 }
 
 .home-products__grid--enter {
-  animation: slideInRight 0.38s ease forwards;
+  animation: slideInRight 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
 }
 
 /* ============================================
@@ -4091,7 +4232,8 @@ img[src*="ancle_guards"] {
   background: #160f08;
   border: 1px solid rgba(214, 40, 57, 0);
   box-shadow: 0 10px 32px rgba(0,0,0,0.45), 0 4px 10px rgba(0,0,0,0.28);
-  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+  transition: transform 0.22s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  will-change: transform;
 }
 
 .article-list-card:hover {
@@ -4375,7 +4517,7 @@ img[src*="ancle_guards"] {
   font-size: 0.85rem;
   padding: 0.65rem 1rem;
   outline: none;
-  transition: border-color 0.2s;
+  transition: border-color 0.18s ease;
 }
 
 .home-newsletter__input::placeholder {
@@ -4399,11 +4541,17 @@ img[src*="ancle_guards"] {
   cursor: pointer;
   white-space: nowrap;
   box-shadow: 0 4px 14px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.18);
-  transition: filter 0.15s;
+  transition: filter 0.18s ease, transform 0.22s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .home-newsletter__btn:hover {
   filter: brightness(1.1);
+  transform: translateY(-1px);
+}
+
+.home-newsletter__btn:active {
+  transform: scale(0.97);
+  transition-duration: 0.1s;
 }
 
 .home-newsletter__success {
@@ -4427,41 +4575,12 @@ img[src*="ancle_guards"] {
    ============================================ */
 
 /* New Arrivals: starkare visuell identitet */
-.home-shelf--new .home-shelf__header {
-  border-bottom: 1px solid rgba(63, 42, 43, 0.1);
-  margin-bottom: 0;
-}
-
 .home-shelf--new .home-shelf__title {
   font-size: 1.05rem;
 }
 
-/* New Arrivals → Limited Sale: mjuk övergång */
-.home-shelf--new {
-  padding-bottom: 0;
-  position: relative;
-}
-
-.home-shelf--new::after {
-  content: '';
-  display: block;
-  height: 2.5rem;
-  background: linear-gradient(to bottom, #f0ebe0 0%, #220e0e 100%);
-  pointer-events: none;
-}
-
-/* Limited Sale → nästa: bottom fade */
-.home-shelf--sale {
-  position: relative;
-}
-
-.home-shelf--sale::after {
-  content: '';
-  display: block;
-  height: 2rem;
-  background: linear-gradient(to bottom, #130808 0%, var(--color-light) 100%);
-  pointer-events: none;
-}
+.home-shelf--new::after  { display: none; }
+.home-shelf--sale::after { display: none; }
 
 /* Testimonials (dark) → Articles (dark primary): slight separation */
 .home-testimonials {
@@ -4670,4 +4789,367 @@ img[src*="ancle_guards"] {
     left: auto;
     right: 0;
   }
+}
+
+/* ============================================
+   RECENTLY VIEWED
+   ============================================ */
+
+.recently-viewed {
+  padding: 2rem 1.25rem 1.5rem;
+  border-top: 1px solid rgba(247, 243, 227, 0.07);
+  background: var(--color-dark);
+}
+
+.recently-viewed__title {
+  font-family: var(--font-heading);
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: rgba(247, 243, 227, 0.45);
+  margin: 0 0 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.recently-viewed__title::before,
+.recently-viewed__title::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: rgba(247, 243, 227, 0.1);
+}
+
+.recently-viewed__row {
+  display: flex;
+  gap: 0.75rem;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding-bottom: 0.25rem;
+}
+
+.recently-viewed__row::-webkit-scrollbar { display: none; }
+
+.recently-viewed__card {
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  flex-shrink: 0;
+  width: 120px;
+  border-radius: 0.4rem;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(247, 243, 227, 0.07);
+  transition: transform 0.22s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  will-change: transform;
+}
+
+.recently-viewed__card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(247, 243, 227, 0.18);
+}
+
+.recently-viewed__img-wrap img {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  display: block;
+}
+
+.recently-viewed__info {
+  padding: 0.4rem 0.5rem 0.45rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.recently-viewed__name {
+  font-family: var(--font-heading);
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: rgba(247, 243, 227, 0.7);
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.recently-viewed__price {
+  font-family: var(--font-heading);
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--color-light);
+  margin: 0;
+}
+
+@media (max-width: 480px) {
+  .recently-viewed__card { width: 100px; }
+}
+
+/* ============================================
+   CART TOAST
+   ============================================ */
+
+@keyframes toastSlideUp {
+  from { transform: translateY(120%); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+
+.cart-toast {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: #1a1108;
+  border: 1px solid rgba(247, 243, 227, 0.18);
+  border-radius: 0.45rem;
+  padding: 0.75rem 1.1rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.55);
+  animation: toastSlideUp 0.28s ease;
+  min-width: 220px;
+  max-width: 320px;
+}
+
+.cart-toast__text {
+  font-family: var(--font-heading);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: rgba(247, 243, 227, 0.75);
+  flex: 1;
+}
+
+.cart-toast__link {
+  font-family: var(--font-heading);
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-green);
+  text-decoration: none;
+  white-space: nowrap;
+  text-shadow: 0 0 8px rgba(57, 214, 0, 0.5);
+  transition: opacity 0.15s;
+}
+
+.cart-toast__link:hover { opacity: 0.8; }
+
+/* ============================================
+   CART BAR (MinimalLayout — visible when cart has items)
+   ============================================ */
+
+.ml-cart-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  background: #0e0904;
+  border-top: 1px solid rgba(247, 243, 227, 0.07);
+  padding: 0.5rem 1.25rem;
+}
+
+.ml-cart-bar__text {
+  font-family: var(--font-heading);
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: rgba(247, 243, 227, 0.5);
+}
+
+.ml-cart-bar__btn {
+  font-family: var(--font-heading);
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--color-green);
+  text-decoration: none;
+  padding: 0.35rem 1rem;
+  border: 1px solid rgba(57, 214, 0, 0.4);
+  border-radius: 0.25rem;
+  text-shadow: 0 0 8px rgba(57, 214, 0, 0.4);
+  box-shadow: 0 0 10px rgba(57, 214, 0, 0.12);
+  transition: box-shadow 0.2s, border-color 0.2s;
+}
+
+.ml-cart-bar__btn:hover {
+  border-color: rgba(57, 214, 0, 0.7);
+  box-shadow: 0 0 16px rgba(57, 214, 0, 0.25);
+}
+
+/* ============================================
+   KLARNA MODAL
+   ============================================ */
+
+.klarna-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.2s ease;
+}
+
+.klarna-modal {
+  background: #fff;
+  border-radius: 0.75rem;
+  width: min(420px, 92vw);
+  padding: 1.75rem 1.75rem 1.5rem;
+  box-shadow: 0 24px 64px rgba(0,0,0,0.35);
+  color: #1a1a1a;
+  position: relative;
+}
+
+.klarna-modal__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.25rem;
+}
+
+.klarna-modal__logo {
+  height: 1.75rem;
+  object-fit: contain;
+}
+
+.klarna-modal__close {
+  background: none;
+  border: none;
+  font-size: 1rem;
+  color: #888;
+  cursor: pointer;
+  padding: 0.25rem 0.5rem;
+  line-height: 1;
+  border-radius: 0.25rem;
+  transition: color 0.15s, background 0.15s;
+}
+
+.klarna-modal__close:hover { color: #333; background: #f5f5f5; }
+
+.klarna-modal__title {
+  font-family: var(--font-heading);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 0.25rem;
+}
+
+.klarna-modal__sub {
+  font-size: 0.82rem;
+  color: #888;
+  margin-bottom: 1.25rem;
+}
+
+.klarna-modal__amount {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  background: #f7f7f7;
+  border-radius: 0.4rem;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1.1rem;
+}
+
+.klarna-modal__amount-label {
+  font-size: 0.8rem;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.klarna-modal__amount-value {
+  font-family: var(--font-heading);
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #1a1a1a;
+}
+
+.klarna-modal__options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.klarna-modal__option {
+  border: 1.5px solid #e0e0e0;
+  border-radius: 0.4rem;
+  padding: 0.65rem 0.9rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+}
+
+.klarna-modal__option--active {
+  border-color: #ffb3c7;
+  background: #fff5f8;
+}
+
+.klarna-modal__option-name {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.klarna-modal__option-desc {
+  font-size: 0.75rem;
+  color: #888;
+}
+
+.klarna-modal__pay-btn {
+  width: 100%;
+  background: #ffb3c7;
+  color: #1a1a1a;
+  font-family: var(--font-heading);
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  border: none;
+  border-radius: 0.4rem;
+  padding: 0.85rem;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.1s;
+  margin-bottom: 0.75rem;
+}
+
+.klarna-modal__pay-btn:hover {
+  background: #ff8fab;
+  transform: translateY(-1px);
+}
+
+.klarna-modal__secure {
+  text-align: center;
+  font-size: 0.72rem;
+  color: #aaa;
+}
+
+.klarna-modal__processing {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+  padding: 2rem 0 1rem;
+  color: #555;
+  font-size: 0.9rem;
+}
+
+.klarna-spinner {
+  width: 2.5rem;
+  height: 2.5rem;
+  border: 3px solid #f0f0f0;
+  border-top-color: #ffb3c7;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
 }

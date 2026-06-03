@@ -11,10 +11,10 @@ html {
 }
 
 :root {
-  --color-light: #f7f3e3;
-  --color-dark: #3f2a2b;
-  --color-secondary: #b3b6b7;
-  --color-primary: #4b4139;
+  --color-light: #f5f0e8;
+  --color-dark: #100c0c;
+  --color-secondary: #8a8a8a;
+  --color-primary: #1c1410;
   --color-accent: #d62839;
   --color-green: #39d600;
   --font-display: 'Sekuya', system-ui, sans-serif;

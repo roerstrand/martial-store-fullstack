@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useContext, useState, useEffect, useCallback } from "react";
 import { useAuth } from "./AuthContext";
 import {
   getCart,
@@ -12,20 +12,31 @@ import {
 
 const CartContext = createContext(null);
 
+const normalize = (items) =>
+  (items || []).map((item) => ({
+    ...item,
+    product: item.product ?? item.product_id ?? null,
+  }));
+
 export function CartProvider({ children }) {
   const [, token] = useAuth();
   const [cart, setCart] = useState([]);
   const [cartId, setCartId] = useState(null);
+  const [toast, setToast] = useState(null); // { title }
+
+  const showToast = useCallback((title) => {
+    setToast({ title });
+    setTimeout(() => setToast(null), 3000);
+  }, []);
 
   useEffect(() => {
     if (token) {
       getCart()
         .then((data) => {
-          setCart(data.products || []);
+          setCart(normalize(data.products));
           setCartId(data._id);
         })
         .catch(async () => {
-          // No cart exists yet — create one automatically
           try {
             const newCart = await createCart();
             setCart([]);
@@ -40,8 +51,13 @@ export function CartProvider({ children }) {
 
   const addToCart = async (product, size) => {
     if (token) {
-      const data = await addCartItem(cartId, product._id, size);
-      setCart(data.products || []);
+      if (!cartId) return;
+      try {
+        const data = await addCartItem(cartId, product._id, size);
+        setCart(normalize(data.products));
+      } catch {
+        return;
+      }
     } else {
       setCart((prev) => {
         const existing = prev.find(
@@ -61,12 +77,13 @@ export function CartProvider({ children }) {
         return updated;
       });
     }
+    showToast(product.title);
   };
 
   const removeFromCart = async (productId) => {
     if (token) {
       const data = await removeCartItem(cartId, productId);
-      setCart(data.products || []);
+      setCart(normalize(data.products));
     } else {
       setCart((prev) => {
         const updated = prev.filter((i) => i.product._id !== productId);
@@ -79,7 +96,7 @@ export function CartProvider({ children }) {
   const increaseItem = async (productId) => {
     if (token) {
       const data = await increaseQuantity(cartId, productId);
-      setCart(data.products || []);
+      setCart(normalize(data.products));
     } else {
       setCart((prev) => {
         const updated = prev.map((i) =>
@@ -94,7 +111,7 @@ export function CartProvider({ children }) {
   const decreaseItem = async (productId) => {
     if (token) {
       const data = await decreaseQuantity(cartId, productId);
-      setCart(data.products || []);
+      setCart(normalize(data.products));
     } else {
       setCart((prev) => {
         const updated = prev
@@ -115,7 +132,7 @@ export function CartProvider({ children }) {
   };
 
   return (
-    <CartContext.Provider value={[cart, addToCart, removeFromCart, clearCart, cartId, increaseItem, decreaseItem]}>
+    <CartContext.Provider value={[cart, addToCart, removeFromCart, clearCart, cartId, increaseItem, decreaseItem, toast]}>
       {children}
     </CartContext.Provider>
   );

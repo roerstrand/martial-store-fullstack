@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+﻿import { Link } from "react-router-dom";
 import { useFavorites } from "../context/FavoriteContext";
 import "./Pages.css";
 import FavoriteItem from "../components/favorites/FavoriteItem";
@@ -9,7 +9,7 @@ function FavoritesPage() {
 
   return (
     <div className="favorites-page">
-      <PageNav back="/" backLabel="Home" />
+      <PageNav back="/" backLabel="Back to Home" />
       <div className="favorites-header">
         <h1>Favorites</h1>
         {favorites.length > 0 && (

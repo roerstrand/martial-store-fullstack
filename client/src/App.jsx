@@ -1,5 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./App.css";
+import ErrorBoundary from "./components/ErrorBoundary";
+import CartToast from "./components/CartToast";
 
 import MainLayout from "./layouts/MainLayout";
 import MinimalLayout from "./layouts/MinimalLayout";
@@ -32,28 +34,29 @@ function App() {
         </Route>
 
         <Route element={<MinimalLayout />}>
-          <Route path="/products" element={<ProductListPage />} />
-          <Route path="/products/:productId" element={<ProductDetailPage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/register" element={<RegisterPage />} />
-          <Route path="/cart" element={<CartPage />} />
-          <Route path="/contact" element={<ContactPage />} />
-          <Route path="/articles" element={<ArticleListPage />} />
-          <Route path="/articles/:id" element={<ArticlePage />} />
-          <Route path="/favorites" element={<FavoritesPage />} />
-          <Route path="/info/:slug" element={<InfoPage />} />
+          <Route path="/products" element={<ErrorBoundary><ProductListPage /></ErrorBoundary>} />
+          <Route path="/products/:productId" element={<ErrorBoundary><ProductDetailPage /></ErrorBoundary>} />
+          <Route path="/login" element={<ErrorBoundary><LoginPage /></ErrorBoundary>} />
+          <Route path="/register" element={<ErrorBoundary><RegisterPage /></ErrorBoundary>} />
+          <Route path="/cart" element={<ErrorBoundary><CartPage /></ErrorBoundary>} />
+          <Route path="/contact" element={<ErrorBoundary><ContactPage /></ErrorBoundary>} />
+          <Route path="/articles" element={<ErrorBoundary><ArticleListPage /></ErrorBoundary>} />
+          <Route path="/articles/:id" element={<ErrorBoundary><ArticlePage /></ErrorBoundary>} />
+          <Route path="/favorites" element={<ErrorBoundary><FavoritesPage /></ErrorBoundary>} />
+          <Route path="/info/:slug" element={<ErrorBoundary><InfoPage /></ErrorBoundary>} />
 
           <Route element={<PrivateRoute />}>
-            <Route path="/checkout" element={<CheckoutPage />} />
-            <Route path="/confirmation" element={<OrderConfirmationPage />} />
-            <Route path="/orders/:orderId" element={<OrderPage />} />
-            <Route path="/my-pages" element={<MyPagesPage />} />
-            <Route path="/admin" element={<AdminPage />} />
+            <Route path="/checkout" element={<ErrorBoundary><CheckoutPage /></ErrorBoundary>} />
+            <Route path="/confirmation" element={<ErrorBoundary><OrderConfirmationPage /></ErrorBoundary>} />
+            <Route path="/orders/:orderId" element={<ErrorBoundary><OrderPage /></ErrorBoundary>} />
+            <Route path="/my-pages" element={<ErrorBoundary><MyPagesPage /></ErrorBoundary>} />
+            <Route path="/admin" element={<ErrorBoundary><AdminPage /></ErrorBoundary>} />
           </Route>
         </Route>
 
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
+      <CartToast />
     </Router>
   );
 }

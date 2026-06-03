@@ -26,7 +26,7 @@ const addProductToCart = async (cartId, product) => {
 
   cart.products.push(product);
   await cart.save();
-  return cart;
+  return await Cart.findById(cart._id).populate("products.product_id");
 };
 
 const removeProductFromCart = async (cartId, productId) => {
@@ -40,7 +40,7 @@ const removeProductFromCart = async (cartId, productId) => {
 
   cart.products.pull(cartItem);
   await cart.save();
-  return cart;
+  return await Cart.findById(cart._id).populate("products.product_id");
 };
 
 const increaseQuantity = async (cartId, productId) => {
@@ -54,7 +54,7 @@ const increaseQuantity = async (cartId, productId) => {
 
   cartItem.quantity += 1;
   await cart.save();
-  return cart;
+  return await Cart.findById(cart._id).populate("products.product_id");
 };
 
 const decreaseQuantity = async (cartId, productId) => {
@@ -68,7 +68,7 @@ const decreaseQuantity = async (cartId, productId) => {
 
   cartItem.quantity -= 1;
   await cart.save();
-  return cart;
+  return await Cart.findById(cart._id).populate("products.product_id");
 };
 
 const resetCart = async (id) => {

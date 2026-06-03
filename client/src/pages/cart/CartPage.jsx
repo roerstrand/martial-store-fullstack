@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+﻿import { Link, useNavigate } from "react-router-dom";
 import { useCart } from "../../context/CartContext";
 import CartItem from "../../components/cart/CartItem";
 import "../Pages.css";
@@ -17,7 +17,7 @@ function CartPage() {
 
   return (
     <div className="cart-page">
-      <PageNav back="/" backLabel="Home" />
+      <PageNav back="/products" backLabel="All Products" />
       <div className="cart-header">
         <div className="flow-breadcrumb">
           <span className="flow-breadcrumb__step--active">CART</span>
@@ -36,7 +36,6 @@ function CartPage() {
 
       {cart.length === 0 ? (
         <div className="cart-empty">
-          <span className="cart-empty__icon">🛒</span>
           <p>Your cart is empty</p>
           <Link to="/products" className="auth-btn-secondary">BROWSE PRODUCTS ›</Link>
         </div>

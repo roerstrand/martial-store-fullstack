@@ -1,4 +1,4 @@
-import { useParams, Link } from "react-router-dom";
+﻿import { useParams, Link } from "react-router-dom";
 import useFetch from "../../hooks/useFetch.jsx";
 import { getOrder } from "../../services/orderService";
 import "../Pages.css";
@@ -22,7 +22,7 @@ function OrderPage() {
 
   return (
     <div className="confirmation-page">
-      <PageNav back="/my-pages" backLabel="My Pages" />
+      <PageNav back="/my-pages" backLabel="Back to My Pages" />
       <p className="confirmation-section-title">Order tracking</p>
 
       <div className="confirmation-row">

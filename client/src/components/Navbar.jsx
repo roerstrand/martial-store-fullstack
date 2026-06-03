@@ -66,21 +66,23 @@ function Navbar({ isOpen, onToggleMenu }) {
               </div>
             )}
           </div>
+          <Link to="/articles" className="apex-nav-link">Stories</Link>
         </div>
 
         <div className="apex-navbar__right" style={{ position: "relative" }}>
+          <div className="apex-nav-separator" />
           {user ? (
             <>
               {user.role === "admin" && (
-                <Link to="/admin" className="apex-nav-link apex-nav-link--sale">Admin</Link>
+                <Link to="/admin" className="apex-nav-link apex-nav-link--sale">Admin Page</Link>
               )}
               <button onClick={handleMyPages} className="apex-nav-link">My Pages</button>
               <button onClick={handleLogout} className="apex-nav-btn-ghost">Log out</button>
             </>
           ) : (
             <>
-              <Link to="/login" className="apex-nav-link">Log in</Link>
-              <Link to="/register" className="apex-nav-btn-primary">Create account</Link>
+              <Link to="/login" className="apex-nav-link apex-nav-link--muted">Log in</Link>
+              <Link to="/register" className="apex-nav-btn-outline">Create account</Link>
             </>
           )}
           {loginNotice && (

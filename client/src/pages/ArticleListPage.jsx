@@ -39,6 +39,7 @@ function ArticleListPage() {
                 <img
                   src={`/images/articles/${article.image}`}
                   alt={article.title}
+                  loading="lazy"
                 />
               ) : (
                 <div className="article-list-card__no-img" />

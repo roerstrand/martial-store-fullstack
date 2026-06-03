@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { Outlet, Link, useNavigate, useLocation } from "react-router-dom";
+import { Outlet, Link, useNavigate, useLocation, useMatch } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 import { useFavorites } from "../context/FavoriteContext";
 import { useAuth } from "../context/AuthContext";
@@ -24,7 +24,9 @@ function MinimalLayout() {
   const [menuOpen, setMenuOpen] = useState(false);
   const catRef = useRef(null);
 
-  const saleActive = new URLSearchParams(location.search).get("sale") === "true";
+  const saleActive  = new URLSearchParams(location.search).get("sale") === "true";
+  const onCartPage  = !!useMatch("/cart");
+  const onCheckout  = !!useMatch("/checkout");
 
   useEffect(() => {
     const handler = (e) => {
@@ -124,6 +126,14 @@ function MinimalLayout() {
           </nav>
         )}
       </header>
+
+      {cartCount > 0 && !onCartPage && !onCheckout && (
+        <div className="ml-cart-bar">
+          <span className="ml-cart-bar__text">{cartCount} {cartCount === 1 ? "item" : "items"} in cart</span>
+          <Link to="/cart" className="ml-cart-bar__btn">View Cart ›</Link>
+          <Link to="/checkout" className="ml-cart-bar__btn">Checkout ›</Link>
+        </div>
+      )}
 
       <main className="content">
         <Outlet />

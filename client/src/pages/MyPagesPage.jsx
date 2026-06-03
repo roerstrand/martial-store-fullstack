@@ -1,4 +1,4 @@
-import { useState } from "react";
+﻿import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import PageNav from "../components/PageNav";
@@ -233,7 +233,7 @@ function MyPagesPage() {
 
   return (
     <div className="mp-page">
-      <PageNav back="/" backLabel="Home" />
+      <PageNav back="/" backLabel="Back to Home" />
       <aside className="mp-sidebar">
         <div className="mp-sidebar__user">
           <div className="mp-sidebar__avatar">{user.name?.charAt(0).toUpperCase()}</div>

@@ -1,7 +1,8 @@
-import { useState } from "react";
+﻿import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useCart } from "../../context/CartContext";
 import PaymentForm from "../../components/cart/PaymentForm";
+import KlarnaModal from "../../components/cart/KlarnaModal";
 import { createOrder } from "../../services/orderService";
 import "../Pages.css";
 import PageNav from "../../components/PageNav";
@@ -12,39 +13,39 @@ function CheckoutPage() {
   const [cart, , , clearCart] = useCart();
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
+  const [pendingData, setPendingData] = useState(null);
 
   const subtotal = cart.reduce(
     (sum, item) => sum + item.product.price * item.quantity,
     0,
   );
 
-  const handleOrder = async ({ shipping, ...shippingInfo }) => {
+  const handleFormSubmit = ({ shipping, ...shippingInfo }) => {
     const shippingCost = SHIPPING_COSTS[shipping] ?? 5;
-    const totalPrice = subtotal + shippingCost;
+    setPendingData({ shipping, shippingCost, shippingInfo, totalPrice: subtotal + shippingCost });
+  };
+
+  const handleConfirmPayment = async () => {
+    if (!pendingData) return;
+    const { shipping, shippingCost, shippingInfo, totalPrice } = pendingData;
     const products = cart.map((item) => ({
       product_id: item.product._id,
+      price: item.product.price,
       size: item.size,
       quantity: item.quantity,
     }));
-
-    setIsLoading(true);
-    try {
-      const order = await createOrder(products, totalPrice);
-      const cartSnapshot = [...cart];
-      await clearCart();
-      navigate("/confirmation", {
-        state: { order, shippingInfo, shipping, shippingCost, cartSnapshot },
-      });
-    } catch (err) {
-      console.error(err);
-    } finally {
-      setIsLoading(false);
-    }
+    const order = await createOrder(products, totalPrice);
+    const cartSnapshot = [...cart];
+    await clearCart();
+    setPendingData(null);
+    navigate("/confirmation", {
+      state: { order, shippingInfo, shipping, shippingCost, cartSnapshot },
+    });
   };
 
   return (
     <div className="checkout-page">
-      <PageNav back="/cart" backLabel="Cart" />
+      <PageNav back="/cart" backLabel="Back to Cart" />
       <div className="flow-breadcrumb">
         <span>CART</span>
         <span>=›</span>
@@ -53,8 +54,16 @@ function CheckoutPage() {
         <span>CONFIRMATION</span>
       </div>
 
+      {pendingData && (
+        <KlarnaModal
+          total={pendingData.totalPrice}
+          onConfirm={handleConfirmPayment}
+          onClose={() => setPendingData(null)}
+        />
+      )}
+
       <div className="checkout-layout">
-        <PaymentForm onSubmit={handleOrder} />
+        <PaymentForm onSubmit={handleFormSubmit} />
 
         <div className="checkout-summary">
           <p className="checkout-section-title">Your order</p>
@@ -64,7 +73,7 @@ function CheckoutPage() {
               className="checkout-summary__item"
             >
               <p className="checkout-summary__item-name">
-                {item.product.title} ({item.size})
+                {item.product.title}{item.size ? ` (${item.size})` : ""}
               </p>
               <div className="checkout-summary__item-row">
                 <span>Quantity: {item.quantity}</span>
@@ -85,8 +94,12 @@ function CheckoutPage() {
             className="checkout-submit"
             disabled={isLoading}
           >
-            {isLoading ? "Processing..." : "Complete purchase"}
+            {isLoading ? "Processing..." : "Complete Order"}
           </button>
+
+          <p className="checkout-redirect-note">
+            You will be redirected to your payment provider — Stripe, Klarna or Swish — to complete your purchase securely.
+          </p>
 
           <Link to="/cart" className="auth-btn-secondary">
             BACK TO CART ›

@@ -5,6 +5,8 @@ import { getProducts, getNewArrivals, getLimitedSale } from "../services/product
 import { getArticles } from "../services/articleService";
 import { useFavorites } from "../context/FavoriteContext";
 import { useCart } from "../context/CartContext";
+import { useRecentlyViewed } from "../hooks/useRecentlyViewed";
+import RecentlyViewed from "../components/products/RecentlyViewed";
 import "./Pages.css";
 
 const SLIDE_INTERVAL = 3500;
@@ -18,8 +20,8 @@ const CATEGORY_TILES = [
   { value: "karate",   label: "Karate",                img: "/images/misc/karate_sunset.jpg" },
 ];
 
-function ProductShelf({ title, subtitle, products, linkTo, onNavigate, onAddToCart, variant }) {
-  if (!products || products.length === 0) return null;
+function ProductShelf({ title, subtitle, products, loading, linkTo, onNavigate, onAddToCart, variant }) {
+  if (!loading && (!products || products.length === 0)) return null;
   return (
     <section className={`home-shelf home-shelf--${variant || "default"}`}>
       <div className="home-shelf__header">
@@ -34,7 +36,17 @@ function ProductShelf({ title, subtitle, products, linkTo, onNavigate, onAddToCa
         <Link to={linkTo} className="home-shelf__link">View All ›</Link>
       </div>
       <div className="home-shelf__row">
-        {products.slice(0, 4).map((product) => {
+        {loading && Array.from({ length: 4 }).map((_, i) => (
+          <div key={i} className="skeleton-grid-card">
+            <div className="skeleton-grid-card__img skeleton" />
+            <div className="skeleton-grid-card__body">
+              <div className="skeleton-grid-card__name skeleton" />
+              <div className="skeleton-grid-card__price skeleton" />
+              <div className="skeleton-grid-card__stars skeleton" />
+            </div>
+          </div>
+        ))}
+        {!loading && products.slice(0, 4).map((product) => {
           const salePrice = product.sale > 0
             ? Math.round(product.price * (1 - product.sale / 100))
             : null;
@@ -48,7 +60,7 @@ function ProductShelf({ title, subtitle, products, linkTo, onNavigate, onAddToCa
               onKeyDown={(e) => e.key === "Enter" && onNavigate(`/products/${product._id}`)}
             >
               <div className="home-shelf-card__img-wrap">
-                <img src={`/images/products/${product.image}`} alt={product.title} />
+                <img src={`/images/products/${product.image}`} alt={product.title} loading="lazy" />
                 {variant === "sale" && product.sale > 0 && (
                   <span className="home-shelf-card__sale-badge">−{product.sale}%</span>
                 )}
@@ -61,11 +73,11 @@ function ProductShelf({ title, subtitle, products, linkTo, onNavigate, onAddToCa
                 <div className="home-shelf-card__price-row">
                   {salePrice ? (
                     <>
-                      <span className="home-shelf-card__price--original">{product.price}€</span>
-                      <span className="home-shelf-card__price--sale">{salePrice}€</span>
+                      <span className="home-shelf-card__price--original">{product.price} EUR</span>
+                      <span className="home-shelf-card__price--sale">{salePrice} EUR</span>
                     </>
                   ) : (
-                    <span className="home-shelf-card__price">{product.price}€</span>
+                    <span className="home-shelf-card__price">{product.price} EUR</span>
                   )}
                 </div>
                 <button
@@ -86,6 +98,7 @@ function ProductShelf({ title, subtitle, products, linkTo, onNavigate, onAddToCa
 function HomePage() {
   const [toggleFavorites, favorites] = useFavorites();
   const [, addToCart] = useCart();
+  const { items: recentItems } = useRecentlyViewed();
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const category = searchParams.get("category");
@@ -105,8 +118,8 @@ function HomePage() {
 
   const { data: allProducts, loading } = useFetch(getProducts);
   const { data: allArticles } = useFetch(() => getArticles({ random: "true", limit: 3 }));
-  const { data: newArrivalsData } = useFetch(getNewArrivals);
-  const { data: limitedSaleData } = useFetch(getLimitedSale);
+  const { data: newArrivalsData, loading: newArrivalsLoading } = useFetch(getNewArrivals);
+  const { data: limitedSaleData, loading: limitedSaleLoading } = useFetch(getLimitedSale);
 
   const products = useMemo(() => {
     if (!allProducts) return [];
@@ -124,6 +137,7 @@ function HomePage() {
   const [isPaused, setIsPaused] = useState(false);
   const intervalRef = useRef(null);
   const pausedRef = useRef(false);
+  const manuallyPausedRef = useRef(false);
   const interactedRef = useRef(false);
 
   useEffect(() => {
@@ -137,7 +151,7 @@ function HomePage() {
 
   const startSlide = (delay = SLIDE_INTERVAL) => {
     clearInterval(intervalRef.current);
-    if (products.length <= VISIBLE) return;
+    if (products.length <= VISIBLE || pausedRef.current) return;
     intervalRef.current = setInterval(() => {
       setPhase("exit");
       setTimeout(() => {
@@ -148,13 +162,16 @@ function HomePage() {
     }, delay);
   };
 
-  const pauseSlide  = () => { clearInterval(intervalRef.current); pausedRef.current = true;  setIsPaused(true); };
+  const pauseSlide  = () => { clearInterval(intervalRef.current); pausedRef.current = true; setIsPaused(true); };
   const resumeSlide = () => {
     pausedRef.current = false; setIsPaused(false);
     startSlide(interactedRef.current ? SLIDE_INTERVAL_AFTER_INTERACTION : SLIDE_INTERVAL);
     interactedRef.current = false;
   };
-  const togglePause    = () => isPaused ? resumeSlide() : pauseSlide();
+  const togglePause = () => {
+    if (isPaused) { manuallyPausedRef.current = false; resumeSlide(); }
+    else          { manuallyPausedRef.current = true;  pauseSlide();  }
+  };
   const handleInteraction = () => { interactedRef.current = true; if (!pausedRef.current) startSlide(SLIDE_INTERVAL_AFTER_INTERACTION); };
 
   useEffect(() => { startSlide(); return () => clearInterval(intervalRef.current); }, [products.length]);
@@ -188,9 +205,17 @@ function HomePage() {
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: "0.25rem" }}>
           <button className="home-products__arrow" onClick={() => { setDisplayIndex((p) => (p - 1 + products.length) % products.length); startSlide(); }} disabled={products.length <= VISIBLE}>‹</button>
-          <div className="home-slideshow-wrapper" style={{ flex: 1 }} onMouseEnter={pauseSlide} onMouseLeave={resumeSlide}>
+          <div className="home-slideshow-wrapper" style={{ flex: 1 }} onMouseEnter={pauseSlide} onMouseLeave={() => { if (!manuallyPausedRef.current) resumeSlide(); }}>
             <div className={`home-products__grid home-products__grid--${phase}`}>
-              {loading && <p className="loading" style={{ gridColumn: "1/-1" }}>Loading...</p>}
+              {loading && Array.from({ length: VISIBLE }).map((_, i) => (
+                <div key={i} className="skeleton-product-card">
+                  <div className="skeleton-product-card__img skeleton" />
+                  <div className="skeleton-product-card__body">
+                    <div className="skeleton-product-card__title skeleton" />
+                    <div className="skeleton-product-card__price skeleton" />
+                  </div>
+                </div>
+              ))}
               {visibleProducts.map((product, i) => (
                 <div
                   key={`${product._id}-${displayIndex}-${i}`}
@@ -206,16 +231,16 @@ function HomePage() {
                   <div className="home-product-card__footer">
                     <div className="home-product-card__text">
                       <span className="home-product-card__title">{product.title}</span>
-                      <span className="home-product-card__price">{product.price}€</span>
+                      <span className="home-product-card__price">{product.price} EUR</span>
                     </div>
-                    <div className="home-product-card__actions" onClick={(e) => e.stopPropagation()}>
+                    <div className="home-product-card__actions">
                       <button
                         className={`home-product-card__fav-btn${favorites.some(f => f._id === product._id) ? " active" : ""}`}
-                        onClick={() => { toggleFavorites(product); handleInteraction(); }}
+                        onClick={(e) => { e.stopPropagation(); toggleFavorites(product); handleInteraction(); }}
                       >
                         <img src={favorites.some(f => f._id === product._id) ? "/icons/FavoritesFilled.png" : "/icons/Favorites.png"} alt="Favorite" />
                       </button>
-                      <button className="home-product-card__cart" onClick={() => { addToCart(product, null); handleInteraction(); }}>
+                      <button className="home-product-card__cart" onClick={(e) => { e.stopPropagation(); addToCart(product, null); handleInteraction(); }}>
                         <img src="/icons/Cart add.svg" alt="Add to cart" />
                       </button>
                     </div>
@@ -240,9 +265,9 @@ function HomePage() {
 
       {/* PRODUCT SHELVES */}
       <div className="home-shelves">
-        <ProductShelf title="New Arrivals" subtitle="Just dropped" products={newArrivalsData || []} linkTo="/products" onNavigate={navigate} onAddToCart={addToCart} variant="new" />
-        {(limitedSaleData || []).length > 0 && (
-          <ProductShelf title="Limited Sale" subtitle="While stocks last" products={limitedSaleData || []} linkTo="/products" onNavigate={navigate} onAddToCart={addToCart} variant="sale" />
+        <ProductShelf title="New Arrivals" subtitle="Just dropped" products={newArrivalsData || []} loading={newArrivalsLoading} linkTo="/products?newArrival=true" onNavigate={navigate} onAddToCart={addToCart} variant="new" />
+        {(limitedSaleLoading || (limitedSaleData || []).length > 0) && (
+          <ProductShelf title="Limited Sale" subtitle="While stocks last" products={limitedSaleData || []} loading={limitedSaleLoading} linkTo="/products?limitedSale=true" onNavigate={navigate} onAddToCart={addToCart} variant="sale" />
         )}
       </div>
 
@@ -260,7 +285,7 @@ function HomePage() {
               role="link" tabIndex={0}
               onKeyDown={(e) => e.key === "Enter" && navigate(`/?category=${cat.value}`)}
             >
-              <img src={cat.img} alt={cat.label} className="home-cat-tile__img" />
+              <img src={cat.img} alt={cat.label} className="home-cat-tile__img" loading="lazy" />
               <div className="home-cat-tile__overlay" />
               <span className="home-cat-tile__label">{cat.label}</span>
             </div>
@@ -276,7 +301,7 @@ function HomePage() {
         <div className="home-articles__grid">
           {featuredArticles.map((article) => (
             <Link key={article._id} to={`/articles/${article._id}`} className="home-article-card">
-              <img src={`/images/articles/${article.image}`} alt={article.title} />
+              <img src={`/images/articles/${article.image}`} alt={article.title} loading="lazy" />
               <div className="home-article-card__text">
                 <p className="home-article-card__title">{article.title}</p>
                 <p className="home-article-card__author">by {article.author}</p>
@@ -288,6 +313,9 @@ function HomePage() {
           <Link to="/articles" className="home-articles__more-btn">More Stories ›</Link>
         </div>
       </section>
+
+      {/* RECENTLY VIEWED */}
+      <RecentlyViewed items={recentItems} />
 
       {/* NEWSLETTER */}
       <section className="home-newsletter">

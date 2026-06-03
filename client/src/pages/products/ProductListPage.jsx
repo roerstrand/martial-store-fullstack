@@ -22,7 +22,7 @@ function applyFilters(products, category, filters, search) {
     );
   }
 
-  if (filters.onSale)          result = result.filter((p) => p.sale > 0);
+  if (filters.onSale)     result = result.filter((p) => p.sale > 0);
   if (filters.minPrice !== "") result = result.filter((p) => p.price >= Number(filters.minPrice));
   if (filters.maxPrice !== "") result = result.filter((p) => p.price <= Number(filters.maxPrice));
   if (filters.minRating > 0)  result = result.filter((p) => p.rating >= filters.minRating);
@@ -49,29 +49,49 @@ function ProductListPage() {
   const [toggleFavorites, favorites] = useFavorites();
   const [, addToCart] = useCart();
   const { data: products, loading, error } = useFetch(getProducts);
+  const [urlParams] = useSearchParams();
+  const limitedSaleParam = urlParams.get("limitedSale") === "true";
+  const newArrivalParam  = urlParams.get("newArrival")  === "true";
   const [category, setCategory] = useState("all");
   const [showFilter, setShowFilter] = useState(false);
   const [filters, setFilters] = useState(DEFAULT_FILTERS);
-  const [urlParams] = useSearchParams();
   const [search, setSearch] = useState(urlParams.get("q") || "");
 
-  if (loading) return <p className="loading">Loading products...</p>;
-  if (error)   return <p className="loading">Could not load products</p>;
+  if (error) return <p className="loading">Could not load products</p>;
 
-  const displayed = applyFilters(products, category, filters, search);
+  let displayed = loading ? [] : applyFilters(products, category, filters, search);
+  if (!loading && limitedSaleParam) displayed = displayed.filter((p) => p.isLimitedSale);
+  if (!loading && newArrivalParam)  displayed = displayed.filter((p) => p.isNewArrival);
+
+  const isFiltered =
+    category !== "all" ||
+    filters.sort !== "default" ||
+    filters.minPrice !== "" ||
+    filters.maxPrice !== "" ||
+    filters.onSale ||
+    filters.minRating > 0 ||
+    limitedSaleParam ||
+    newArrivalParam;
+
+  const clearFilters = () => { setCategory("all"); setFilters(DEFAULT_FILTERS); };
 
   return (
     <div className="products-page">
 
       <div className="products-toolbar">
-        <Link to="/" className="auth-btn-secondary">‹ HOME</Link>
+        <Link to="/" className="auth-btn-secondary">‹ Back to Home</Link>
         <h1>Our Fight Gear</h1>
-        <button
-          className="products-toolbar-btn"
-          onClick={() => setShowFilter((prev) => !prev)}
-        >
-          {showFilter ? "CLOSE ✕" : "FILTER ›"}
-        </button>
+        <div style={{ display: "flex", gap: "0.5rem", alignItems: "center" }}>
+          {isFiltered && (
+            <button className="filter-reset-btn" onClick={clearFilters}>CLEAR ✕</button>
+          )}
+          <button
+            className="products-toolbar-btn"
+            onClick={() => setShowFilter((prev) => !prev)}
+          >
+            {showFilter ? "CLOSE ✕" : "FILTER ›"}
+          </button>
+        </div>
       </div>
 
       <div className="products-search">
@@ -120,6 +140,16 @@ function ProductListPage() {
       )}
 
       <div className="products-grid">
+        {loading && Array.from({ length: 8 }).map((_, i) => (
+          <div key={i} className="skeleton-grid-card">
+            <div className="skeleton-grid-card__img skeleton" />
+            <div className="skeleton-grid-card__body">
+              <div className="skeleton-grid-card__name skeleton" />
+              <div className="skeleton-grid-card__price skeleton" />
+              <div className="skeleton-grid-card__stars skeleton" />
+            </div>
+          </div>
+        ))}
         {displayed.map((product) => {
           const isFav = favorites.some((f) => f._id === product._id);
           const discountedPrice = product.sale > 0
@@ -129,7 +159,7 @@ function ProductListPage() {
           return (
             <Link to={`/products/${product._id}`} key={product._id} className="product-card">
               <div className="product-card__img-wrap">
-                <img src={`/images/products/${product.image}`} alt={product.title} />
+                <img src={`/images/products/${product.image}`} alt={product.title} loading="lazy" />
 
                 {product.sale > 0 && (
                   <span className="product-card__sale-badge">−{product.sale}%</span>
@@ -186,9 +216,6 @@ function ProductListPage() {
         })}
       </div>
 
-      <div className="products-back">
-        <Link to="/" className="auth-btn-secondary">BACK TO HOME ›</Link>
-      </div>
     </div>
   );
 }

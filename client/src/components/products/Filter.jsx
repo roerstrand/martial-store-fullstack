@@ -14,6 +14,7 @@ const DEFAULT_FILTERS = {
   minPrice: "",
   maxPrice: "",
   onSale: false,
+  newArrival: false,
   minRating: 0,
 };
 

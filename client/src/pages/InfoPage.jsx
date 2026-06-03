@@ -1,4 +1,4 @@
-import { useParams, Link } from "react-router-dom";
+﻿import { useParams, Link } from "react-router-dom";
 import "./Pages.css";
 import PageNav from "../components/PageNav";
 
@@ -29,7 +29,7 @@ const INFO_CONTENT = {
       },
       {
         heading: "Shipping rates",
-        body: "Free shipping on orders over €99. Below that: €4.99 standard, €9.99 express. We ship across Europe.",
+        body: "Free shipping on orders over  EUR99. Below that:  EUR4.99 standard,  EUR9.99 express. We ship across Europe.",
       },
       {
         heading: "Tracking",
@@ -118,7 +118,7 @@ function InfoPage() {
 
   return (
     <div className="info-page">
-      <PageNav back="/" backLabel="Home" />
+      <PageNav back="/" backLabel="Back to Home" />
       <div className="info-page__header">
         <h1>{page.title}</h1>
       </div>

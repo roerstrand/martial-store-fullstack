@@ -1,4 +1,4 @@
-import { useState } from "react";
+﻿import { useState } from "react";
 import useInput from "../hooks/useInput.jsx";
 import "./Pages.css";
 import PageNav from "../components/PageNav";
@@ -27,7 +27,7 @@ function ContactPage() {
 
   return (
     <div className="contact-page">
-      <PageNav back="/" backLabel="Home" />
+      <PageNav back="/" backLabel="Back to Home" />
       <div className="contact-hero">
         <p className="contact-hero__eyebrow">Get in touch</p>
         <h1 className="contact-hero__heading">Contact Us</h1>

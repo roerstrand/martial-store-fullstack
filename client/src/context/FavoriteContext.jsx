@@ -14,7 +14,10 @@ export function FavoriteProvider({ children }) {
 
   useEffect(() => {
     if (user) {
-      getMyFavorites().then((data) => setFavorites(data.products));
+      localStorage.removeItem("favorites");
+      getMyFavorites()
+        .then((data) => setFavorites(data.products ?? []))
+        .catch(() => setFavorites([]));
     } else {
       const stored = JSON.parse(localStorage.getItem("favorites") || "[]");
       setFavorites(stored);
@@ -37,11 +40,11 @@ export function FavoriteProvider({ children }) {
     const exists = favorites.some((fav) => fav._id === product._id);
 
     if (exists) {
-      await removeProductFromFavorites(product._id);
       setFavorites(favorites.filter((fav) => fav._id !== product._id));
+      try { await removeProductFromFavorites(product._id); } catch {}
     } else {
-      await addProductToFavorites(product._id);
       setFavorites([...favorites, product]);
+      try { await addProductToFavorites(product._id); } catch {}
     }
   }
 

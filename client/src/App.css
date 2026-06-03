@@ -102,15 +102,15 @@
 /* === HERO === */
 .apex-hero {
   position: relative;
-  height: 384px;
-  overflow: hidden;
+  height: 400px;
 }
 
 .apex-hero__img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: 45% 62%;
+  object-position: 45% 95%;
+  display: block;
   display: block;
 }
 
@@ -156,7 +156,7 @@
 
 .apex-hero__tagline {
   position: absolute;
-  bottom: 4.5rem;
+  bottom: 7.5rem;
   left: 50%;
   transform: translateX(-50%);
   color: var(--color-light);
@@ -171,7 +171,7 @@
 
 .apex-hero__subtitle {
   position: absolute;
-  bottom: 1.25rem;
+  bottom: 4.5rem;
   left: 50%;
   transform: translateX(-50%);
   color: var(--color-light);
@@ -268,16 +268,17 @@
 
 /* === NAVBAR === */
 .apex-navbar {
-  background: var(--color-primary);
-  padding: 0 1.75rem;
-  height: 3rem;
+  background: rgba(25, 14, 14, 0.88);
+  padding: 0 2rem;
+  height: 3.25rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid rgba(255,255,255,0.07);
-  box-shadow: 0 2px 16px rgba(0,0,0,0.3);
+  border-top: 1px solid rgba(255,255,255,0.08);
+  border-bottom: 1px solid rgba(0,0,0,0.4);
   position: relative;
   z-index: 10;
+  margin-top: -3.25rem;
 }
 
 .apex-navbar__left,
@@ -292,13 +293,14 @@
   position: relative;
   background: none;
   border: none;
-  color: rgba(247, 243, 227, 0.9);
+  color: rgba(247, 243, 227, 0.65);
   font-family: var(--font-ui);
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   font-weight: 500;
-  letter-spacing: 0.02em;
-  padding: 0 1rem;
-  height: 3rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 0 0.9rem;
+  height: 3.25rem;
   display: inline-flex;
   align-items: center;
   gap: 0.3rem;
@@ -312,11 +314,11 @@
   content: '';
   position: absolute;
   bottom: 0;
-  left: 1rem;
-  right: 1rem;
+  left: 0.9rem;
+  right: 0.9rem;
   height: 2px;
   background: var(--color-accent);
-  border-radius: 1px;
+  border-radius: 1px 1px 0 0;
   transform: scaleX(0);
   transition: transform 0.2s ease;
 }
@@ -334,24 +336,31 @@
   color: var(--color-light);
 }
 
+/* Muted variant for Log in */
+.apex-nav-link--muted {
+  color: rgba(247, 243, 227, 0.45);
+  font-weight: 400;
+  text-transform: none;
+  font-size: 0.8rem;
+  letter-spacing: 0.01em;
+}
+
+.apex-nav-link--muted:hover { color: var(--color-light); }
+.apex-nav-link--muted::after { display: none; }
+
 /* Sale link — always red */
 .apex-nav-link--sale {
   color: var(--color-accent);
   font-weight: 700;
 }
 
-.apex-nav-link--sale:hover {
-  color: var(--color-accent);
-}
-
-.apex-nav-link--sale::after {
-  background: var(--color-accent);
-}
+.apex-nav-link--sale:hover { color: var(--color-accent); }
+.apex-nav-link--sale::after { background: var(--color-accent); }
 
 /* Chevron */
 .apex-nav-chevron {
-  font-size: 0.6rem;
-  opacity: 0.6;
+  font-size: 0.55rem;
+  opacity: 0.5;
   transition: transform 0.2s;
 }
 
@@ -359,18 +368,27 @@
   transform: rotate(180deg);
 }
 
-/* Ghost / primary auth buttons */
+/* Separator between nav and auth */
+.apex-nav-separator {
+  width: 1px;
+  height: 1.1rem;
+  background: rgba(247, 243, 227, 0.12);
+  margin: 0 0.75rem;
+  flex-shrink: 0;
+}
+
+/* Auth buttons */
 .apex-nav-btn-ghost {
   background: none;
-  border: 1px solid rgba(247, 243, 227, 0.25);
-  color: rgba(247, 243, 227, 0.7);
+  border: 1px solid rgba(247, 243, 227, 0.2);
+  color: rgba(247, 243, 227, 0.65);
   font-family: var(--font-ui);
-  font-size: 0.78rem;
+  font-size: 0.75rem;
   font-weight: 500;
-  padding: 0.35rem 0.9rem;
-  border-radius: 0.25rem;
+  padding: 0.3rem 0.85rem;
+  border-radius: 0.2rem;
   cursor: pointer;
-  margin-left: 0.5rem;
+  margin-left: 0.4rem;
   white-space: nowrap;
   text-decoration: none;
   display: inline-flex;
@@ -379,6 +397,32 @@
 }
 
 .apex-nav-btn-ghost:hover {
+  border-color: rgba(247, 243, 227, 0.45);
+  color: var(--color-light);
+}
+
+.apex-nav-btn-outline {
+  background: none;
+  border: 1px solid rgba(247, 243, 227, 0.28);
+  color: rgba(247, 243, 227, 0.85);
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 0.32rem 1rem;
+  border-radius: 0.2rem;
+  cursor: pointer;
+  margin-left: 0.4rem;
+  white-space: nowrap;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  transition: background 0.18s, border-color 0.18s, color 0.18s;
+}
+
+.apex-nav-btn-outline:hover {
+  background: rgba(247, 243, 227, 0.08);
   border-color: rgba(247, 243, 227, 0.55);
   color: var(--color-light);
 }
@@ -388,12 +432,12 @@
   border: none;
   color: var(--color-light);
   font-family: var(--font-ui);
-  font-size: 0.78rem;
+  font-size: 0.75rem;
   font-weight: 600;
-  padding: 0.35rem 1rem;
-  border-radius: 0.25rem;
+  padding: 0.32rem 1rem;
+  border-radius: 0.2rem;
   cursor: pointer;
-  margin-left: 0.5rem;
+  margin-left: 0.4rem;
   white-space: nowrap;
   text-decoration: none;
   display: inline-flex;
@@ -674,8 +718,8 @@
 
 .ml-icon {
   position: relative;
-  width: 2.25rem;
-  height: 2.25rem;
+  width: 2.75rem;
+  height: 2.75rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -689,10 +733,10 @@
 }
 
 .ml-icon img {
-  width: 1.25rem;
-  height: 1.25rem;
+  width: 1.5rem;
+  height: 1.5rem;
   object-fit: contain;
-  filter: brightness(0) opacity(0.7);
+  filter: brightness(0) opacity(0.85);
   transition: filter 0.2s;
 }
 
@@ -911,6 +955,61 @@
 
 .apex-cat-option:hover {
   background: #5a4d43;
+}
+
+/* ============================================
+   CART TOAST
+   ============================================ */
+
+.cart-toast {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  z-index: 9999;
+  background: var(--color-dark);
+  border: 1px solid rgba(247,243,227,0.15);
+  border-left: 3px solid var(--color-accent);
+  border-radius: 0.4rem;
+  padding: 0.75rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+  animation: slideUpIn 0.25s ease;
+  min-width: 220px;
+}
+
+@keyframes slideUpIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.cart-toast__text {
+  font-family: var(--font-heading);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-light);
+  flex: 1;
+}
+
+.cart-toast__link {
+  font-family: var(--font-heading);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-accent);
+  text-decoration: none;
+  white-space: nowrap;
+  font-weight: 700;
+  padding: 0.3rem 0.75rem;
+  border: 1px solid rgba(214,40,57,0.4);
+  border-radius: 0.2rem;
+  transition: background 0.15s;
+}
+
+.cart-toast__link:hover {
+  background: rgba(214,40,57,0.1);
 }
 
 .apex-nav-btn--admin {
@@ -1215,6 +1314,107 @@
   outline: none;
 }
 .admin-status-select option { background: var(--color-primary); }
+
+.admin-stats-row {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.admin-stat-card {
+  flex: 1;
+  background: var(--color-primary);
+  border: 1px solid rgba(247,243,227,0.08);
+  border-radius: 0.35rem;
+  padding: 0.9rem 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.admin-stat-card__label {
+  font-family: var(--font-heading);
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: rgba(247,243,227,0.4);
+}
+
+.admin-stat-card__value {
+  font-family: var(--font-heading);
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--color-light);
+}
+
+.admin-chart {
+  background: var(--color-primary);
+  border: 1px solid rgba(247,243,227,0.08);
+  border-radius: 0.35rem;
+  padding: 1rem 1rem 0.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.admin-chart__title {
+  font-family: var(--font-heading);
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: rgba(247,243,227,0.4);
+  margin-bottom: 0.75rem;
+}
+
+.admin-chart__bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.5rem;
+  height: 160px;
+}
+
+.admin-chart__col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+}
+
+.admin-chart__val {
+  font-family: var(--font-heading);
+  font-size: 0.65rem;
+  color: rgba(247,243,227,0.5);
+  margin-bottom: 0.2rem;
+  min-height: 1rem;
+}
+
+.admin-chart__bar-wrap {
+  flex: 1;
+  width: 100%;
+  display: flex;
+  align-items: flex-end;
+}
+
+.admin-chart__bar {
+  width: 100%;
+  background: rgba(214,40,57,0.45);
+  border-radius: 3px 3px 0 0;
+  transition: background 0.2s;
+  min-height: 3px;
+}
+
+.admin-chart__bar--top { background: #d62839; }
+
+.admin-chart__label {
+  font-family: var(--font-ui);
+  font-size: 0.6rem;
+  color: rgba(247,243,227,0.4);
+  margin-top: 0.35rem;
+  text-align: center;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 
 /* === RESPONSIVE === */
 @media (max-width: 768px) {

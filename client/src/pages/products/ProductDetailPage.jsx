@@ -1,4 +1,4 @@
-import { useState } from "react";
+﻿import { useState, useEffect } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import "../Pages.css";
 import useFetch from "../../hooks/useFetch.jsx";
@@ -6,12 +6,14 @@ import { getProduct } from "../../services/productService";
 import { useCart } from "../../context/CartContext";
 import { REVIEWS } from "../../data/testimonials";
 import PageNav from "../../components/PageNav";
+import { useRecentlyViewed } from "../../hooks/useRecentlyViewed";
+import RecentlyViewed from "../../components/products/RecentlyViewed";
 
 function Stars({ rating }) {
   return (
     <span className="detail-stars">
       {[1,2,3,4,5].map(s => (
-        <span key={s} className={s <= rating ? "star star--filled" : "star"}>★</span>
+        <span key={s} className={s <= rating ? "star star--filled" : "star"}>{'★'}</span>
       ))}
     </span>
   );
@@ -22,8 +24,13 @@ function ProductDetailPage() {
   const [selectedSize, setSelectedSize] = useState(null);
   const [, addToCart] = useCart();
   const navigate = useNavigate();
+  const { items: recentItems, addProduct } = useRecentlyViewed();
 
   const { data: product, loading, error } = useFetch(() => getProduct(productId));
+
+  useEffect(() => {
+    if (product?._id) addProduct(product);
+  }, [product?._id]);
 
   if (loading) return <p className="loading">Loading product...</p>;
   if (error)   return <p className="loading">Something went wrong.</p>;
@@ -39,10 +46,10 @@ function ProductDetailPage() {
 
   return (
     <div className="product-detail-page">
-      <PageNav back="/" backLabel="Home" />
+      <PageNav back="/products" backLabel="All Products" />
       <div className="product-detail__layout">
         <div className="product-detail__image">
-          <img src={`/images/products/${product.image}`} alt={product.title} />
+          <img src={`/images/products/${product.image}`} alt={product.title} loading="lazy" />
         </div>
 
         <div className="product-detail__info">
@@ -79,8 +86,12 @@ function ProductDetailPage() {
             BUY NOW
           </button>
 
-          <p className="product-detail__materials-title">MATERIALS / DETAILS</p>
-          <p className="product-detail__materials-text">{product.details}</p>
+          {product.details && (
+            <>
+              <p className="product-detail__materials-title">MATERIALS / DETAILS</p>
+              <p className="product-detail__materials-text">{product.details}</p>
+            </>
+          )}
         </div>
       </div>
 
@@ -105,6 +116,8 @@ function ProductDetailPage() {
       <Link to="/" className="auth-btn-secondary" style={{ margin: "0 1.5rem 2rem" }}>
         BACK TO HOME ›
       </Link>
+
+      <RecentlyViewed items={recentItems} currentId={productId} />
     </div>
   );
 }

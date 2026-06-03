@@ -226,6 +226,61 @@ function AdminPage() {
               </form>
             )}
 
+            {!loading && products.length > 0 && (() => {
+              const totalSold    = products.reduce((s, p) => s + (p.sold || 0), 0);
+              const totalRevenue = products.reduce((s, p) => s + (p.sold || 0) * p.price, 0);
+              const chartData    = [...products]
+                .filter(p => (p.sold || 0) > 0)
+                .sort((a, b) => b.sold - a.sold)
+                .map(p => ({
+                  name: p.title.length > 16 ? p.title.slice(0, 15) + "…" : p.title,
+                  sold: p.sold,
+                  revenue: p.sold * p.price,
+                }));
+
+              return (
+                <>
+                  <div className="admin-stats-row">
+                    <div className="admin-stat-card">
+                      <span className="admin-stat-card__label">Products</span>
+                      <strong className="admin-stat-card__value">{products.length}</strong>
+                    </div>
+                    <div className="admin-stat-card">
+                      <span className="admin-stat-card__label">Units sold</span>
+                      <strong className="admin-stat-card__value">{totalSold}</strong>
+                    </div>
+                    <div className="admin-stat-card">
+                      <span className="admin-stat-card__label">Est. revenue</span>
+                      <strong className="admin-stat-card__value">{totalRevenue.toLocaleString("sv-SE")} EUR</strong>
+                    </div>
+                  </div>
+
+                  {chartData.length > 0 && (() => {
+                    const max = Math.max(...chartData.map(d => d.sold));
+                    return (
+                      <div className="admin-chart">
+                        <p className="admin-chart__title">Units sold per product</p>
+                        <div className="admin-chart__bars">
+                          {chartData.map((d, i) => (
+                            <div key={i} className="admin-chart__col">
+                              <span className="admin-chart__val">{d.sold}</span>
+                              <div className="admin-chart__bar-wrap">
+                                <div
+                                  className={`admin-chart__bar${i === 0 ? " admin-chart__bar--top" : ""}`}
+                                  style={{ height: `${Math.round((d.sold / max) * 100)}%` }}
+                                />
+                              </div>
+                              <span className="admin-chart__label">{d.name}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    );
+                  })()}
+                </>
+              );
+            })()}
+
             {loading ? <p className="loading">Loading...</p> : (
               <div className="admin-table">
                 <div className="admin-table__head admin-table__head--products">
@@ -235,7 +290,7 @@ function AdminPage() {
                   <div key={p._id} className="admin-table__row admin-table__row--products">
                     <span className="admin-table__name">{p.title}</span>
                     <span className="admin-table__badge">{p.category}</span>
-                    <span>{p.price} €</span>
+                    <span>{p.price}  EUR</span>
                     <span>{p.sale > 0 ? `-${p.sale}%` : "—"}</span>
                     <span>{p.rating}</span>
                     <span>{p.sold ?? 0}</span>
