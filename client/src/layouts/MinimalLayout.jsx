@@ -25,8 +25,9 @@ function MinimalLayout() {
   const catRef = useRef(null);
 
   const saleActive  = new URLSearchParams(location.search).get("sale") === "true";
-  const onCartPage  = !!useMatch("/cart");
-  const onCheckout  = !!useMatch("/checkout");
+  const onProductsPage   = !!useMatch("/products");
+  const onProductDetail  = !!useMatch("/products/:productId");
+  const showCartBar = cartCount > 0 && (onProductsPage || onProductDetail);
 
   useEffect(() => {
     const handler = (e) => {
@@ -133,7 +134,7 @@ function MinimalLayout() {
         )}
       </header>
 
-      {cartCount > 0 && !onCartPage && !onCheckout && (
+      {showCartBar && (
         <div className="ml-cart-bar">
           <span className="ml-cart-bar__text">{cartCount} {cartCount === 1 ? "item" : "items"} in cart</span>
           <Link to="/cart" className="ml-cart-bar__btn">View Cart ›</Link>

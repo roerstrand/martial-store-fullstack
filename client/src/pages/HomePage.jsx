@@ -13,12 +13,57 @@ const SLIDE_INTERVAL = 3500;
 const SLIDE_INTERVAL_AFTER_INTERACTION = 7000;
 const VISIBLE = 4;
 
+const TESTIMONIALS = [
+  {
+    id: 1,
+    quote: "Best BJJ gear I've trained in. The quality is on par with brands costing twice the price.",
+    name: "Marcus T.",
+    discipline: "Brazilian Jiu-Jitsu · Black Belt",
+    rating: 5,
+  },
+  {
+    id: 2,
+    quote: "My Muay Thai gloves have taken thousands of rounds. Still holding up perfectly after 18 months.",
+    name: "Sara K.",
+    discipline: "Muay Thai · National competitor",
+    rating: 5,
+  },
+  {
+    id: 3,
+    quote: "I equip my entire boxing gym with Apex Core gear. The club pricing and fast delivery is unbeatable.",
+    name: "Coach Dimitri P.",
+    discipline: "Boxing · Head coach, 12 years",
+    rating: 5,
+  },
+];
+
 const CATEGORY_TILES = [
   { value: "bjj",      label: "Brazilian Jiu-Jitsu", img: "/images/misc/bjj_triangle.jpg" },
   { value: "boxing",   label: "Boxing",               img: "/images/misc/woman_headkick.jpg" },
   { value: "muaythai", label: "Muay Thai",             img: "/images/misc/muaythai_fight.jpg" },
   { value: "karate",   label: "Karate",                img: "/images/misc/karate_sunset.jpg" },
 ];
+
+function Stars({ rating, count, dark }) {
+  const full = Math.round(rating || 0);
+  return (
+    <span className={`shelf-stars${dark ? " shelf-stars--dark" : ""}`}>
+      <span className="shelf-stars__icons">
+        {[1,2,3,4,5].map(s => (
+          <span key={s} className={s <= full ? "shelf-star shelf-star--on" : "shelf-star"}>★</span>
+        ))}
+      </span>
+      {count > 0 && <span className="shelf-stars__count">({count})</span>}
+    </span>
+  );
+}
+
+function StockLabel({ stock, dark }) {
+  const s = stock ?? 99;
+  if (s === 0) return <span className={`shelf-stock shelf-stock--out${dark ? " shelf-stock--dark" : ""}`}>✕ Out of stock</span>;
+  if (s < 10)  return <span className={`shelf-stock shelf-stock--low${dark ? " shelf-stock--dark" : ""}`}>⚡ {s} left</span>;
+  return <span className={`shelf-stock shelf-stock--in${dark ? " shelf-stock--dark" : ""}`}>✓ In stock</span>;
+}
 
 function ProductShelf({ title, subtitle, products, loading, linkTo, onNavigate, onAddToCart, onToggleFavorite, favorites, variant, heroImage }) {
   if (!loading && (!products || products.length === 0)) return null;
@@ -74,7 +119,12 @@ function ProductShelf({ title, subtitle, products, loading, linkTo, onNavigate, 
                     )}
                   </div>
                   <div className="home-shelf-row-card__info">
+                    <div className="home-shelf-row-card__badges">
+                      {product.isBestseller && <span className="shelf-badge shelf-badge--best">Bestseller</span>}
+                      {product.isNewArrival && <span className="shelf-badge shelf-badge--new">New</span>}
+                    </div>
                     <p className="home-shelf-row-card__name">{product.title}</p>
+                    <Stars rating={product.rating} count={product.numReviews} />
                     <div className="home-shelf-row-card__price-row">
                       {salePrice ? (
                         <>
@@ -85,6 +135,7 @@ function ProductShelf({ title, subtitle, products, loading, linkTo, onNavigate, 
                         <span className="home-shelf-row-card__price">{product.price} EUR</span>
                       )}
                     </div>
+                    <StockLabel stock={product.stock} />
                   </div>
                   <div className="home-shelf-row-card__actions">
                     <button
@@ -134,6 +185,7 @@ function ProductShelf({ title, subtitle, products, loading, linkTo, onNavigate, 
           </div>
         ))}
         {!loading && products.slice(0, 4).map((product) => {
+          const isFav = favorites?.some((f) => f._id === product._id);
           const salePrice = product.sale > 0
             ? Math.round(product.price * (1 - product.sale / 100))
             : null;
@@ -154,9 +206,18 @@ function ProductShelf({ title, subtitle, products, loading, linkTo, onNavigate, 
                 {variant === "new" && (
                   <span className="home-shelf-card__new-badge">New</span>
                 )}
+                <button
+                  className={`home-shelf-card__fav${isFav ? " active" : ""}`}
+                  onClick={(e) => { e.stopPropagation(); onToggleFavorite?.(product); }}
+                  aria-label={isFav ? "Remove from favorites" : "Add to favorites"}
+                >
+                  <img src={isFav ? "/icons/FavoritesFilled.png" : "/icons/Favorites.png"} alt="" />
+                </button>
               </div>
               <div className="home-shelf-card__body">
+                {product.isBestseller && <span className="shelf-badge shelf-badge--best">Bestseller</span>}
                 <p className="home-shelf-card__name">{product.title}</p>
+                <Stars rating={product.rating} count={product.numReviews} dark={variant === "sale"} />
                 <div className="home-shelf-card__price-row">
                   {salePrice ? (
                     <>
@@ -167,6 +228,7 @@ function ProductShelf({ title, subtitle, products, loading, linkTo, onNavigate, 
                     <span className="home-shelf-card__price">{product.price} EUR</span>
                   )}
                 </div>
+                <StockLabel stock={product.stock} dark={variant === "sale"} />
                 <button
                   className="home-shelf-card__cart"
                   onClick={(e) => { e.stopPropagation(); onAddToCart(product, null); }}
@@ -184,7 +246,8 @@ function ProductShelf({ title, subtitle, products, loading, linkTo, onNavigate, 
 
 function HomePage() {
   const [toggleFavorites, favorites] = useFavorites();
-  const [, addToCart] = useCart();
+  const [cart, addToCart] = useCart();
+  const cartCount = cart.reduce((sum, item) => sum + item.quantity, 0);
   const { items: recentItems } = useRecentlyViewed();
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
@@ -271,18 +334,47 @@ function HomePage() {
   return (
     <div className="home-page">
 
-      {/* SEARCH */}
-      <form className="home-search" onSubmit={handleSearch}>
-        <input
-          className="home-search__input"
-          type="text"
-          placeholder="Search products..."
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          autoComplete="off"
-        />
-        <button type="submit" className="home-search__btn">Search ›</button>
-      </form>
+      {/* SEARCH + CART BAR */}
+      <div className="home-topbar">
+        <form className="home-search" onSubmit={handleSearch}>
+          <input
+            className="home-search__input"
+            type="text"
+            placeholder="Search products..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            autoComplete="off"
+          />
+          <button type="submit" className="home-search__btn">Search ›</button>
+        </form>
+        {cartCount > 0 && (
+          <div className="home-topbar__cart">
+            <span className="ml-cart-bar__text">{cartCount} {cartCount === 1 ? "item" : "items"} in cart</span>
+            <Link to="/cart" className="ml-cart-bar__btn">View Cart ›</Link>
+            <Link to="/checkout" className="ml-cart-bar__btn">Checkout ›</Link>
+          </div>
+        )}
+      </div>
+
+      {/* USP STRIP */}
+      <div className="home-usp">
+        <div className="home-usp__item">
+          <span className="home-usp__icon">✓</span>
+          <span className="home-usp__text">Free shipping over 100 EUR</span>
+        </div>
+        <div className="home-usp__item">
+          <span className="home-usp__icon">✓</span>
+          <span className="home-usp__text">30-day returns</span>
+        </div>
+        <div className="home-usp__item">
+          <span className="home-usp__icon">✓</span>
+          <span className="home-usp__text">Premium quality gear</span>
+        </div>
+        <div className="home-usp__item">
+          <span className="home-usp__icon">✓</span>
+          <span className="home-usp__text">Secure payments</span>
+        </div>
+      </div>
 
       {/* POPULAR GEAR CAROUSEL */}
       <section className="home-products">
@@ -290,9 +382,9 @@ function HomePage() {
           <p className="home-products__label">Popular gear</p>
           <button className="home-products__pause-btn" onClick={togglePause}>{isPaused ? "▶" : "⏸"}</button>
         </div>
-        <div style={{ display: "flex", alignItems: "center", gap: "0.25rem" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "0.25rem" }} onMouseEnter={pauseSlide} onMouseLeave={() => { if (!manuallyPausedRef.current) resumeSlide(); }}>
           <button className="home-products__arrow" onClick={() => { setDisplayIndex((p) => (p - 1 + products.length) % products.length); startSlide(); }} disabled={products.length <= VISIBLE}>‹</button>
-          <div className="home-slideshow-wrapper" style={{ flex: 1 }} onMouseEnter={pauseSlide} onMouseLeave={() => { if (!manuallyPausedRef.current) resumeSlide(); }}>
+          <div className="home-slideshow-wrapper" style={{ flex: 1 }}>
             <div className={`home-products__grid home-products__grid--${phase}`}>
               {loading && Array.from({ length: VISIBLE }).map((_, i) => (
                 <div key={i} className="skeleton-product-card">
@@ -314,11 +406,16 @@ function HomePage() {
                   <div className="home-product-card__img-wrap">
                     <img src={`/images/products/${product.image}`} alt={product.title} />
                     {product.sale > 0 && <span className="home-product-card__sale">-{product.sale}%</span>}
+                    {product.isBestseller && <span className="home-product-card__best">Bestseller</span>}
                   </div>
                   <div className="home-product-card__footer">
                     <div className="home-product-card__text">
                       <span className="home-product-card__title">{product.title}</span>
-                      <span className="home-product-card__price">{product.price} EUR</span>
+                      <Stars rating={product.rating} count={product.numReviews} />
+                      <div className="home-product-card__price-row">
+                        <span className="home-product-card__price">{product.price} EUR</span>
+                        <StockLabel stock={product.stock} />
+                      </div>
                     </div>
                     <div className="home-product-card__actions">
                       <button
@@ -375,6 +472,43 @@ function HomePage() {
               <img src={cat.img} alt={cat.label} className="home-cat-tile__img" loading="lazy" />
               <div className="home-cat-tile__overlay" />
               <span className="home-cat-tile__label">{cat.label}</span>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* SOCIAL PROOF */}
+      <section className="home-social-proof">
+        <div className="home-social-proof__header">
+          <span>Trusted by fighters</span>
+        </div>
+        <div className="home-social-stats">
+          <div className="home-social-stat">
+            <span className="home-social-stat__num">10,000+</span>
+            <span className="home-social-stat__label">Fighters worldwide</span>
+          </div>
+          <div className="home-social-stat home-social-stat--center">
+            <span className="home-social-stat__num">4.8<span className="home-social-stat__denom">/5</span></span>
+            <span className="home-social-stat__label">Average rating</span>
+          </div>
+          <div className="home-social-stat">
+            <span className="home-social-stat__num">Pro</span>
+            <span className="home-social-stat__label">Used by professional athletes</span>
+          </div>
+        </div>
+        <div className="home-testimonials__grid">
+          {TESTIMONIALS.map((t) => (
+            <div key={t.id} className="home-testimonial-card">
+              <div className="home-testimonial-card__stars">
+                {[1,2,3,4,5].map(s => (
+                  <span key={s} className={s <= t.rating ? "home-testimonial-star home-testimonial-star--on" : "home-testimonial-star"}>★</span>
+                ))}
+              </div>
+              <p className="home-testimonial-card__quote">"{t.quote}"</p>
+              <div className="home-testimonial-card__author">
+                <span className="home-testimonial-card__name">{t.name}</span>
+                <span className="home-testimonial-card__discipline">{t.discipline}</span>
+              </div>
             </div>
           ))}
         </div>

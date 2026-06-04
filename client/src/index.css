@@ -46,6 +46,7 @@ body {
   color: var(--color-dark);
   line-height: 1.65;
   letter-spacing: 0.03em;
+  overflow-x: hidden; /* prevent any child overflow creating horizontal whitespace */
 }
 
 h1,

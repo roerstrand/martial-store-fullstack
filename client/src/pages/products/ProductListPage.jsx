@@ -51,27 +51,44 @@ function applyFilters(products, category, filters, search) {
   return result;
 }
 
-function StarRating({ rating }) {
+function StarRating({ rating, count }) {
   return (
     <span className="product-card__stars">
       {[1, 2, 3, 4, 5].map((s) => (
-        <span key={s} className={`star${s <= rating ? " star--filled" : ""}`}>★</span>
+        <span key={s} className={`star${s <= Math.round(rating || 0) ? " star--filled" : ""}`}>★</span>
       ))}
+      {count > 0 && <span className="product-card__review-count">({count})</span>}
     </span>
   );
+}
+
+function StockBadge({ stock }) {
+  const s = stock ?? 99;
+  if (s === 0) return <span className="product-card__stock product-card__stock--out">✕ Out of stock</span>;
+  if (s < 10)  return <span className="product-card__stock product-card__stock--low">⚡ {s} left</span>;
+  return <span className="product-card__stock product-card__stock--in">✓ In stock</span>;
 }
 
 function ProductListPage() {
   const [toggleFavorites, favorites] = useFavorites();
   const [, addToCart] = useCart();
   const { data: products, loading, error } = useFetch(getProducts);
-  const [urlParams] = useSearchParams();
+  const [urlParams, setUrlParams] = useSearchParams();
   const limitedSaleParam = urlParams.get("limitedSale") === "true";
   const newArrivalParam  = urlParams.get("newArrival")  === "true";
-  const [category, setCategory] = useState(urlParams.get("category") || "all");
+  const category = urlParams.get("category") || "all";
   const [showFilter, setShowFilter] = useState(false);
   const [filters, setFilters] = useState(DEFAULT_FILTERS);
   const [search, setSearch] = useState(urlParams.get("q") || "");
+
+  const setCategory = (cat) => {
+    setUrlParams((prev) => {
+      const next = new URLSearchParams(prev);
+      if (cat === "all") next.delete("category");
+      else next.set("category", cat);
+      return next;
+    });
+  };
 
   if (error) return <p className="loading">Could not load products</p>;
 
@@ -89,7 +106,16 @@ function ProductListPage() {
     limitedSaleParam ||
     newArrivalParam;
 
-  const clearFilters = () => { setCategory("all"); setFilters(DEFAULT_FILTERS); };
+  const clearFilters = () => {
+    setUrlParams((prev) => {
+      const next = new URLSearchParams(prev);
+      next.delete("category");
+      next.delete("limitedSale");
+      next.delete("newArrival");
+      return next;
+    });
+    setFilters(DEFAULT_FILTERS);
+  };
 
   return (
     <div className="products-page">
@@ -180,6 +206,9 @@ function ProductListPage() {
                 {product.sale > 0 && (
                   <span className="product-card__sale-badge">−{product.sale}%</span>
                 )}
+                {product.isBestseller && (
+                  <span className="product-card__best-badge">Bestseller</span>
+                )}
 
                 <div className="product-card__overlay">
                   <span className="product-card__category-tag">
@@ -214,7 +243,8 @@ function ProductListPage() {
                       </span>
                     )}
                   </div>
-                  <StarRating rating={product.rating} />
+                  <StarRating rating={product.rating} count={product.numReviews} />
+                  <StockBadge stock={product.stock} />
                 </div>
 
                 <button

@@ -42,14 +42,14 @@
   font-size: 1.2rem;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: rgba(247, 243, 227, 0.85);
+  color: rgba(247, 243, 227, 0.92);
 }
 
 .footer__tagline {
   font-family: var(--font-italic);
   font-style: italic;
   font-size: 0.75rem;
-  color: rgba(247, 243, 227, 0.3);
+  color: rgba(247, 243, 227, 0.58);
   margin: 0;
 }
 
@@ -58,14 +58,14 @@
   font-size: 0.62rem;
   text-transform: uppercase;
   letter-spacing: 0.15em;
-  color: rgba(247, 243, 227, 0.45);
+  color: rgba(247, 243, 227, 0.68);
   margin: 0 0 0.25rem;
 }
 
 .footer__link {
   font-family: var(--font-ui);
   font-size: 0.78rem;
-  color: rgba(247, 243, 227, 0.6);
+  color: rgba(247, 243, 227, 0.78);
   text-decoration: none;
   transition: color 0.15s;
 }
@@ -85,7 +85,7 @@
   font-size: 0.62rem;
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  color: rgba(247, 243, 227, 0.5);
+  color: rgba(247, 243, 227, 0.68);
   margin: 0;
 }
 
@@ -1615,8 +1615,15 @@
 /* 320–360px: very small phones */
 @media (max-width: 360px) {
   .apex-hero { height: 54px; }
-  .apex-hero__logo { width: 28px; height: 28px; }
-  .apex-hero__brand-name { font-size: 0.9rem; }
+  .apex-hero__logo { width: 26px; height: 26px; }
+  .apex-hero__brand-name { font-size: 0.8rem; letter-spacing: 0.04em; }
+
+  /* Shrink icons + burger so they don't overlap the store name */
+  .apex-hero__icons { right: 2.75rem; gap: 0.2rem; }
+  .apex-hero__icon  { width: 1.7rem; height: 1.7rem; }
+  .apex-hero__icon img { width: 0.9rem; height: 0.9rem; }
+  .apex-hero__burger { right: 0.5rem; width: 1.7rem; height: 1.7rem; }
+  .apex-hero__burger img { width: 0.9rem; height: 0.9rem; }
 
   .ml-header__top {
     height: 2.6rem;

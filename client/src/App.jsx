@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./App.css";
 import ErrorBoundary from "./components/ErrorBoundary";
 import CartToast from "./components/CartToast";
+import FavoriteToast from "./components/favorites/FavoriteToast";
 
 import MainLayout from "./layouts/MainLayout";
 import MinimalLayout from "./layouts/MinimalLayout";
@@ -57,6 +58,7 @@ function App() {
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
       <CartToast />
+      <FavoriteToast />
     </Router>
   );
 }

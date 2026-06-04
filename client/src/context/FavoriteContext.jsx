@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useContext, useState, useEffect, useCallback } from "react";
 import { useAuth } from "./AuthContext";
 import {
   getMyFavorites,
@@ -11,6 +11,12 @@ const FavoriteContext = createContext(null);
 export function FavoriteProvider({ children }) {
   const [user] = useAuth();
   const [favorites, setFavorites] = useState([]);
+  const [toast, setToast] = useState(null);
+
+  const showToast = useCallback(() => {
+    setToast(true);
+    setTimeout(() => setToast(null), 3000);
+  }, []);
 
   useEffect(() => {
     if (user) {
@@ -34,6 +40,7 @@ export function FavoriteProvider({ children }) {
 
       localStorage.setItem("favorites", JSON.stringify(updated));
       setFavorites(updated);
+      if (!exists) showToast();
       return;
     }
 
@@ -44,12 +51,13 @@ export function FavoriteProvider({ children }) {
       try { await removeProductFromFavorites(product._id); } catch {}
     } else {
       setFavorites([...favorites, product]);
+      showToast();
       try { await addProductToFavorites(product._id); } catch {}
     }
   }
 
   return (
-    <FavoriteContext.Provider value={[toggleFavorites, favorites]}>
+    <FavoriteContext.Provider value={[toggleFavorites, favorites, toast]}>
       {children}
     </FavoriteContext.Provider>
   );

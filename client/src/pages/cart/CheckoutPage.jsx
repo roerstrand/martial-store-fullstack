@@ -95,10 +95,10 @@ function CheckoutPage() {
           <button
             type="submit"
             form="checkout-form"
-            className="checkout-submit"
+            className="checkout-cta-btn"
             disabled={isLoading}
           >
-            {isLoading ? "Processing..." : "Complete Order"}
+            {isLoading ? "Processing..." : "Complete Order →"}
           </button>
 
           <p className="checkout-redirect-note">

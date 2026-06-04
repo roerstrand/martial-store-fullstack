@@ -43,6 +43,18 @@ const productSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  isBestseller: {
+    type: Boolean,
+    default: false,
+  },
+  numReviews: {
+    type: Number,
+    default: 0,
+  },
+  stock: {
+    type: Number,
+    default: 99,
+  },
   category: {
     type: String,
     enum: ["bjj", "boxing", "muaythai", "karate"],

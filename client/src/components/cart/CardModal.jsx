@@ -16,7 +16,7 @@ function CardModal({ total, onConfirm, onClose }) {
 
   return (
     <div className="klarna-overlay" onClick={onClose}>
-      <div className="klarna-modal" onClick={(e) => e.stopPropagation()}>
+      <div className="klarna-modal klarna-modal--card" onClick={(e) => e.stopPropagation()}>
         <div className="klarna-modal__header">
           <img src="/icons/Card payments.png" alt="Card" className="klarna-modal__logo" />
           <button className="klarna-modal__close" onClick={onClose} disabled={step === "processing"}>✕</button>

@@ -81,7 +81,7 @@ function Navbar({ isOpen, onToggleMenu }) {
             </>
           ) : (
             <>
-              <Link to="/login" className="apex-nav-link apex-nav-link--muted">Log in</Link>
+              <Link to="/login" className="apex-nav-btn-outline">Log in</Link>
               <Link to="/register" className="apex-nav-btn-outline">Create account</Link>
             </>
           )}
